@@ -1,0 +1,7 @@
+parameters:
+#    elmet_hello.example.class: Elmet\HelloBundle\Example
+
+services:
+#    elmet_hello.example:
+#        class: %elmet_hello.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

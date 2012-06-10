@@ -1,0 +1,178 @@
+/* CSS Document */
+
+h1{
+	font:1.4em/1.0em Arial, Helvetica, sans-serif;
+	color:#6a791c;
+	margin:1em 1em 1.5em 0;
+	padding:0;
+}
+
+h2{
+	font:0.9em/1.0em Arial, Helvetica, sans-serif;
+	color:#6a791c;
+	font-weight:bold;
+	margin:0 1em 2em 0;
+	padding:0;
+}
+
+.offer h2{
+	font:1.1em/1.0em Arial, Helvetica, sans-serif;
+	color:#333;
+	font-weight:normal;
+	margin:0 1em 10px 0;
+	padding:0;
+}
+
+#feature h2{
+	font:1.1em/1.0em Arial, Helvetica, sans-serif;
+	color:#000;
+	margin:0;
+	padding:1em 0;
+	text-align:center;
+}
+
+#services h2{
+	font:1.1em/1.0em Arial, Helvetica, sans-serif;
+	color:#6a791c;
+	margin:0;
+	padding:10px 15px;
+	text-align:left;
+	border-bottom:1px solid #ccc;
+}
+
+h3{
+	font:0.9em/1.2em Arial, Helvetica, sans-serif;
+	color:#333;
+	font-weight:bold;
+	margin:0 1em 2em 0;
+	padding:0;
+}
+
+p{
+	font:0.8em/1.2em Arial, Helvetica, sans-serif;
+	color:#333;
+	margin:0 1em 2em 0;
+	padding:0;
+}
+
+
+#feature h2, #homefeature h2{
+	font:1.1em/1.0em Arial, Helvetica, sans-serif;
+	color:#000;
+	margin:0;
+	padding:1em 0;
+	text-align:center;
+}
+
+
+#feature p, #homefeature p{
+	font:0.8em/1.2em Arial, Helvetica, sans-serif;
+	color:#333;
+	margin:1em 0 2em 0;
+	padding:0 1em;
+	text-align:center;
+}
+
+#feature .but, #homefeature .but{
+	padding:25px 0 0 0;
+	display:block;
+	margin:0;
+}
+
+#feature .but a, #homefeature .but a{
+	color:#fff;
+	text-decoration:none;
+}
+
+
+
+
+.panel p{
+	font:0.8em/1.2em Arial, Helvetica, sans-serif;
+	color:#333;
+	margin:0 0 1em 0;
+	padding:0;
+}
+
+.colours {
+	font:0.8em/1.2em Arial, Helvetica, sans-serif;
+	color:#333;
+	font-weight:bold;
+	text-align:center;
+}
+
+.sizes {
+	font:1.0em/1.2em Arial, Helvetica, sans-serif;
+	color:#333;
+	font-weight:normal;
+	text-align:center;
+}
+
+
+a{
+	color:#6a791c;
+	font-weight:bold;
+}
+
+	a:hover{
+		color:#000;
+		font-weight:bold;
+	}
+
+#top-quote a{
+	color:#fff;
+	text-decoration:none;
+}
+
+	#top-quote a:hover{
+		color:#fff;
+		text-decoration:underline;
+	}
+
+#content ul{
+	font:0.8em/1.0em Arial, Helvetica, sans-serif;
+	color:#333;
+	margin:1.6em 0;
+	list-style:outside;
+	padding:0 0 0 1.5em;
+}
+
+	#content li{
+		margin:0 0 0.8em 1.5em;
+		list-style:outside;
+		padding:0;
+	}
+
+
+#services ul{
+	font:0.7em/1.0em Arial, Helvetica, sans-serif;
+	color:#333;
+	margin:5px 0;
+	padding:0 0 0 1.5em;
+}
+
+	#services li{
+		list-style:none;
+		border-bottom:1px solid #ccc;
+		padding:5px 0 10px 0;
+		margin:0 0 0 -15px;
+	}
+
+		#services a {
+			padding:0 0 0 15px;
+		}
+	
+#bottom-nav li{
+	font:0.7em/1.0em Arial, Helvetica, sans-serif;
+	color:#333;
+}
+
+#bottom-nav li a{
+	color:#333;
+	text-decoration:none;
+}
+
+.copyright, .pws p{
+	font:0.7em/1.0em Arial, Helvetica, sans-serif;
+	color:#333;
+}

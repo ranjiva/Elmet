@@ -1,0 +1,3 @@
+ElmetSiteBundle_homepage:
+    pattern:  /
+    defaults: { _controller: ElmetSiteBundle:Home:index }

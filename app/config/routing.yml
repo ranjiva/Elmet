@@ -1,0 +1,12 @@
+ElmetHelloBundle:
+    resource: "@ElmetHelloBundle/Resources/config/routing.yml"
+    prefix:   /test
+
+ElmetSiteBundle:
+    resource: "@ElmetSiteBundle/Resources/config/routing.yml"
+    prefix:   /
+
+# Internal routing configuration to handle ESI
+#_internal:
+#   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
+#   prefix:   /_internal

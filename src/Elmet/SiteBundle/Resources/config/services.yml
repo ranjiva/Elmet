@@ -1,0 +1,7 @@
+parameters:
+#    elmet_site.example.class: Elmet\SiteBundle\Example
+
+services:
+#    elmet_site.example:
+#        class: %elmet_site.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
