@@ -1,6 +1,6 @@
 <?php
 
-namespace Elmet\SiteBundle\Tests\Controller;
+namespace Elmet\AdminBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

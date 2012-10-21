@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Elmet</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <!--[if IE]><script src="excanvas.compressed.js"></script><![endif]-->
+    <script src="RGraph.common.core.js" ></script>
+    <script src="RGraph.common.tooltips.js" ></script>
+    <script src="RGraph.bar.js" ></script>
+    <script src="RGraph.scatter.js" ></script>
+  </head>
+
+  <body>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr><td class="title">Elmet</td></tr>
+      <tr><td><div align="center"><p><a href="Elmet.html">Back to Code Coverage report</a></p></div></td></tr>
+      <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
+    </table>
+
+    <br />
+
+    <center>
+      <table width="90%" cellpadding="2" cellspacing="1" border="0">
+        <tr>
+          <td valign="top">
+            <h2>Class Coverage Distribution</h2>
+            <canvas id="classCoverageDistribution" width="475" height="200"></canvas>
+            <script>
+            var ccd = new RGraph.Bar('classCoverageDistribution', [10,0,0,8,4,2,1,0,0,1,2,6]);
+            ccd.Set('chart.background.barcolor1', 'white');
+            ccd.Set('chart.background.barcolor2', 'white');
+            ccd.Set('chart.colors', ['blue']);
+            ccd.Set('chart.shadow', true);
+            ccd.Set('chart.shadow.offsetx', 3);
+            ccd.Set('chart.shadow.offsety', 3);
+            ccd.Set('chart.labels', ['0%','0-10%','10-20%','20-30%','30-40%','40-50%','50-60%','60-70%','70-80%','80-90%','90-100%','100%']);
+            ccd.Set('chart.text.size', 5);
+            ccd.Draw();
+            </script>
+          </td>
+
+          <td valign="top">
+            <h2>Class Complexity</h2>
+            <canvas id="classComplexity" width="475" height="200"></canvas>
+            <script>
+            var cc = new RGraph.Scatter('classComplexity', [[0,1,"blue","HelloController"],[0,1,"blue","Configuration"],[0,1,"blue","ElmetHelloExtension"],[100,0,"blue","ElmetHelloBundle"],[100,5,"blue","BaseController"],[0,1,"blue","BeddingsController"],[100,4,"blue","ContactController"],[40.952380952381,19,"blue","CurtainsController"],[0,1,"blue","CustServicesController"],[0,1,"blue","HomeController"],[41.818181818182,15,"blue","IPNGeneratorController"],[96.969696969697,5,"blue","LandingPageController"],[0,1,"blue","OffersController"],[80,37,"blue","OrderController"],[0,26,"blue","PayPalController"],[33.333333333333,2,"blue","TestimonialController"],[0,1,"blue","ElmetSiteExtension"],[100,0,"blue","ElmetSiteBundle"],[100,8,"blue","Contact"],[34.782608695652,15,"blue","CurtainColour"],[30.232558139535,28,"blue","CurtainDesign"],[25,5,"blue","CurtainEyeletPriceBand"],[25,5,"blue","CurtainFabric"],[27.272727272727,7,"blue","CurtainPelmet"],[21.739130434783,15,"blue","CurtainPrice"],[20,16,"blue","CurtainPriceBand"],[28.571428571429,9,"blue","CurtainTieBack"],[21.428571428571,9,"blue","CushionCover"],[0,34,"blue","InstantPaymentNotification"],[32.584269662921,51,"blue","Order"],[95.121951219512,27,"blue","OrderItem"],[100,4,"blue","Registration"],[27.272727272727,7,"blue","Testimonial"],[50,3,"blue","CurtainColourRepository"]]);
+            cc.Set('chart.xmax', 100);
+            cc.Set('chart.background.barcolor1', 'white');
+            cc.Set('chart.background.barcolor2', 'white');
+            cc.Set('chart.tickmarks', 'plus');
+            cc.Set('chart.ticksize', 5);
+            cc.Set('chart.text.size', 5);
+            cc.Set('chart.ylabels', false);
+            cc.Draw();
+            </script>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">
+            <h2>Top Project Risks</h2>
+            <ul>
+              <li><a href="Elmet_SiteBundle_Entity_Order.php.html#12">Order</a> (847)</li>
+              <li><a href="Elmet_SiteBundle_Controller_PayPalController.php.html#9">PayPalController</a> (702)</li>
+              <li><a href="Elmet_SiteBundle_Controller_CurtainsController.php.html#11">CurtainsController</a> (93)</li>
+              <li><a href="Elmet_SiteBundle_Controller_IPNGeneratorController.php.html#10">IPNGeneratorController</a> (59)</li>
+              <li><a href="Elmet_SiteBundle_Controller_OrderController.php.html#12">OrderController</a> (47)</li>
+              <li><a href="Elmet_SiteBundle_Controller_LandingPageController.php.html#8">LandingPageController</a> (5)</li>
+              <li><a href="Elmet_SiteBundle_Repository_CurtainColourRepository.php.html#13">CurtainColourRepository</a> (4)</li>
+
+            </ul>
+          </td>
+
+          <td valign="top">
+            <h2>Least Tested Methods</h2>
+            <ul>
+              <li><a href="Elmet_SiteBundle_Entity_InstantPaymentNotification.php.html#323">InstantPaymentNotification::setAddressZip</a> (0%)</li>
+              <li><a href="Elmet_SiteBundle_Entity_InstantPaymentNotification.php.html#333">InstantPaymentNotification::getAddressZip</a> (0%)</li>
+              <li><a href="Elmet_SiteBundle_Entity_InstantPaymentNotification.php.html#343">InstantPaymentNotification::setPaymentStatus</a> (0%)</li>
+              <li><a href="Elmet_SiteBundle_Entity_InstantPaymentNotification.php.html#353">InstantPaymentNotification::getPaymentStatus</a> (0%)</li>
+              <li><a href="Elmet_SiteBundle_Entity_InstantPaymentNotification.php.html#313">InstantPaymentNotification::getAddressStreet</a> (0%)</li>
+              <li><a href="Elmet_SiteBundle_Entity_InstantPaymentNotification.php.html#303">InstantPaymentNotification::setAddressStreet</a> (0%)</li>
+              <li><a href="Elmet_SiteBundle_Entity_InstantPaymentNotification.php.html#263">InstantPaymentNotification::setAddressName</a> (0%)</li>
+              <li><a href="Elmet_SiteBundle_Entity_InstantPaymentNotification.php.html#273">InstantPaymentNotification::getAddressName</a> (0%)</li>
+              <li><a href="Elmet_SiteBundle_Entity_InstantPaymentNotification.php.html#283">InstantPaymentNotification::setAddressState</a> (0%)</li>
+              <li><a href="Elmet_SiteBundle_Entity_InstantPaymentNotification.php.html#293">InstantPaymentNotification::getAddressState</a> (0%)</li>
+
+            </ul>
+          </td>
+        </tr>
+      </table>
+    </center>
+
+    <br />
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
+      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.4</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.14 at Sun Sep 16 16:37:52 CEST 2012.</td></tr>
+    </table>
+
+    <br/>
+  </body>
+</html>

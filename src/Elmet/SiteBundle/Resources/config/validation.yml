@@ -1,0 +1,33 @@
+Elmet\SiteBundle\Entity\Contact:
+  properties:
+    name:
+      - NotBlank: 
+          message: Please enter your name
+    enquiry:
+      - NotBlank: 
+          message: Please enter your enquiry
+    email:
+      - NotBlank:
+          message: Please enter an email address
+      - Email:
+          message: Please enter a valid email address
+          checkMX: true
+    tel:
+      - NotBlank:
+          message: Please enter your telephone number
+      - Regex:
+          message: Please enter a valid telephone number
+          pattern: "/\d/"
+          match: true
+          
+Elmet\SiteBundle\Entity\Registration:
+  properties:
+    name:
+      - NotBlank: 
+          message: Please enter your name
+    email:
+      - NotBlank:
+          message: Please enter an email address
+      - Email:
+          message: Please enter a valid email address
+          checkMX: true      

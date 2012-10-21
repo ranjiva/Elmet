@@ -152,19 +152,19 @@ function prevPage() {
 	navigtionsetup();
 	if (pageNumber>1) {
 		pageNumber--;
-		window.location="../Content/"+issueNumber+"../Issue&pageNo="+pageNumber+"";
+		window.location="/Content/"+issueNumber+"/Issue&pageNo="+pageNumber+"";
 	}
 }
 
 function navigateToPage(nr) {
 	navigtionsetup();
-	window.location = "../Content/"+issueNumber+"../Issue&pageNo="+nr+"";
+	window.location = "/Content/"+issueNumber+"/Issue&pageNo="+nr+"";
 }
 
 function nextPage() {
 	navigtionsetup();
 	pageNumber++;
-	window.location= "../Content/"+issueNumber+"../Issue&pageNo="+pageNumber+"";
+	window.location= "/Content/"+issueNumber+"/Issue&pageNo="+pageNumber+"";
 }
 
 function countsImages (element_id) {
@@ -201,7 +201,7 @@ function imageOn(imageName) {
 
 	promoId = promoId.slice(5);
 	imageName.src = imgSrcOn;
-	document.getElementById("promo-text").src = "../images/issues/2008/"+issueNbr[6]+"../cover/promotext"+promoId+"_active.jpg";
+	document.getElementById("promo-text").src = "/images/issues/2008/"+issueNbr[6]+"/cover/promotext"+promoId+"_active.jpg";
 }
 
 function imageOff(imageName) {
@@ -216,7 +216,7 @@ function imageOff(imageName) {
 
 	promoId = promoId.slice(5);
 	imageName.src = imgSrcOn;
-	document.getElementById("promo-text").src = "../images/issues/2008/"+issueNbr[6]+"../cover/promotext_inactive.jpg";
+	document.getElementById("promo-text").src = "/images/issues/2008/"+issueNbr[6]+"/cover/promotext_inactive.jpg";
 }
 ////////////////////////////////////////////////////////////////////////
 
@@ -278,7 +278,7 @@ function showVideo(prodId) {
             flashvars.prodID = prodId;
 
             // Load the video into the swing object & set that is has been
-            swfobject.embedSWF("../images/flash/productVideo.swf", "prod-page-video", "390", "412", "9.0.0", null, flashvars);
+            swfobject.embedSWF("/images/flash/productVideo.swf", "prod-page-video", "390", "412", "9.0.0", null, flashvars);
             videoHasBeenLoaded = true;
         // }
 
@@ -337,13 +337,13 @@ function prepViewLargeImageLink(product_id, image_type, cache_url) {
 
 function loadBig(img, prodId, emptyString, cache_url) {
     if (cache_url == undefined) {
-		cache_url = "../../cache.net-a-porter.com/";
+		cache_url = "http://cache.net-a-porter.com";
 	}
 
     prepViewLargeImageLink(prodId, img, cache_url);
     document.getElementById("medium-image").src =  cache_url + '/images/products/' + prodId + '/' + img + '_l.jpg';
 
-	var str= "../../cachexl.net-a-porter.com/";
+	var str= "http://cachexl.net-a-porter.com";
     loadZoomImage(img,prodId,str);
 	
 	moveUp(this);
@@ -650,7 +650,7 @@ function s(o,f) {
 }
 
 function csoon() {
-	launchNamePopUp('csoon', '../../www.net-a-porter.com/popups/comingsoon.html', 340, 110);
+	launchNamePopUp('csoon', 'http://www.net-a-porter.com/popups/comingsoon.html', 340, 110);
 }
 
 function msg(a) {
@@ -658,7 +658,7 @@ function msg(a) {
 		csoon();
 	}
 	else {
-		launchNamePopUp('soldout', '../../www.net-a-porter.com/popups/soldout.html', 340, 260);
+		launchNamePopUp('soldout', 'http://www.net-a-porter.com/popups/soldout.html', 340, 260);
 	}
 }
 
@@ -740,12 +740,12 @@ function clickOn(sku) {
 
     // Sold out
     } else if (status == 3) {
-		launchNamePopUp('soldout', '/' + channel + '../Content.ice?page=Sold-Out&pgForward=popup',280,210);
+		launchNamePopUp('soldout', '/' + channel + '/Content.ice?page=Sold-Out&pgForward=popup',280,210);
 
     // In stock or prepay
     } else {
         // Go to the product page
-		window.location.href = "../product/" + sku;
+		window.location.href = "/product/" + sku;
 	}
 }
 
@@ -754,9 +754,9 @@ var ri_subdir = "",
 
 function ri(designer,sku) {
 	designer = designer.toLowerCase();
-	var url = '/' + channel + '../Content.ice?page=RegisterInterest&pgForward=popup&designer=' + designer + '&sku=' + sku;
+	var url = '/' + channel + '/Content.ice?page=RegisterInterest&pgForward=popup&designer=' + designer + '&sku=' + sku;
 	if (sku == null) {
-		url = '/' + channel + '../Content.ice?page=RegisterInterest&pgForward=popup&designer=' + designer + '&sku=' + Collection_ID + '&collection=1';
+		url = '/' + channel + '/Content.ice?page=RegisterInterest&pgForward=popup&designer=' + designer + '&sku=' + Collection_ID + '&collection=1';
 	}
 	if (ri_subdir != null && ri_subdir != "") {
 		url += '&subdir='+ri_subdir;
@@ -766,9 +766,9 @@ function ri(designer,sku) {
 
 function designerri(designer,sku) {
 	designer = designer.toLowerCase();
-	var url = '/' + channel + '../Content.ice?page=DesignerRegisterInterest&pgForward=popup&designer=' + designer;
+	var url = '/' + channel + '/Content.ice?page=DesignerRegisterInterest&pgForward=popup&designer=' + designer;
 	if (sku == null) {
-		url = '/' + channel + '../Content.ice?page=DesignerRegisterInterest&pgForward=popup&designer=' + designer;
+		url = '/' + channel + '/Content.ice?page=DesignerRegisterInterest&pgForward=popup&designer=' + designer;
 	}
 	if (ri_subdir != null && ri_subdir != "") {
 		url += "&subdir=" + ri_subdir;
@@ -971,8 +971,8 @@ function GetSwfVer() {
 	var flashVer = -1;
 
 	if (navigator.plugins != null && navigator.plugins.length > 0) {
-		if (navigator.plugins["Shockwave%20Flash%202.0"] || navigator.plugins["Shockwave Flash"]) {
-			var swVer2 = navigator.plugins["Shockwave%20Flash%202.0"] ? "2.0" : "";
+		if (navigator.plugins["Shockwave Flash 2.0"] || navigator.plugins["Shockwave Flash"]) {
+			var swVer2 = navigator.plugins["Shockwave Flash 2.0"] ? " 2.0" : "";
 			var flashDescription = navigator.plugins["Shockwave Flash" + swVer2].description;
 			var descArray = flashDescription.split(" ");
 			var tempArrayMajor = descArray[2].split(".");
@@ -1276,7 +1276,16 @@ goToLocation = function (url) {
 }
 
 /*
- * General method for setting an element's%20visibility,%20targetted%20*%20by%20the%20element%20ID,%20taking%20care%20to%20only%20attempt%20it%20on%20elements%20*%20that%20exist%20on%20the%20page%20*%20@param%20id%20The%20element%20id%20string%20*%20@param%20visibility%20The%20visibility%20flag%20i.e.%200/false=hidden,%201/true=visible%20*/function%20setVisibilityById(id,%20visibility)%20{%20%20%20%20if%20(document.getElementById(id)%20!=%20null)%20{%20%20%20%20%20%20%20%20if%20(visibility)%20{%20%20%20%20%20%20%20%20%20%20%20%20document.getElementById(id).style.visibility%20='visible';
+ * General method for setting an element's visibility, targetted
+ * by the element ID, taking care to only attempt it on elements
+ * that exist on the page
+ * @param id The element id string
+ * @param visibility The visibility flag i.e. 0/false=hidden, 1/true=visible
+ */
+function setVisibilityById(id, visibility) {
+    if (document.getElementById(id) != null) {
+        if (visibility) {
+            document.getElementById(id).style.visibility = 'visible';
         } else {
             document.getElementById(id).style.visibility = 'hidden';
         }
@@ -1331,9 +1340,9 @@ function checkWishListCookie() {
 
   // find the wish list cookie in the document cookie string
   var wishlistCookieValues = {},
-	  wishlistCatUrl = "https://"+subDomain+".net-a-porter.com/"+channel+"../catwishlist.nap",
-	  wishlistGridUrl = "https://"+subDomain+".net-a-porter.com/"+channel+"../gridwishlist.nap",
-	  wishlistLiteUrl = "https://"+subDomain+".net-a-porter.com/"+channel+"../wishlist.nap";
+	  wishlistCatUrl = "https://"+subDomain+".net-a-porter.com/"+channel+"/catwishlist.nap",
+	  wishlistGridUrl = "https://"+subDomain+".net-a-porter.com/"+channel+"/gridwishlist.nap",
+	  wishlistLiteUrl = "https://"+subDomain+".net-a-porter.com/"+channel+"/wishlist.nap";
 
   var _cID1=document.cookie.indexOf("wishlist_settings");
   // return null if it's not there

@@ -1,3 +1,132 @@
 ElmetSiteBundle_homepage:
     pattern:  /
     defaults: { _controller: ElmetSiteBundle:Home:index }
+
+ElmetSiteBundle_curtains_page:
+    pattern:  /curtains/page/{number}
+    defaults: { _controller: ElmetSiteBundle:Curtains:change }
+
+ElmetSiteBundle_curtains_create:
+    pattern:  /curtains/create
+    defaults: { _controller: ElmetSiteBundle:Curtains:create }
+
+ElmetSiteBundle_curtains_fetch:
+    pattern:  /curtains/fetch/{name}
+    defaults: { _controller: ElmetSiteBundle:Curtains:fetch }
+
+ElmetSiteBundle_curtains_select:
+    pattern:  /curtains/select/{urlName}/{colour}
+    defaults: { _controller: ElmetSiteBundle:Curtains:select }
+
+ElmetSiteBundle_curtains_closeup:
+    pattern:  /curtains/closeup/{urlName}/{colour}
+    defaults: { _controller: ElmetSiteBundle:Curtains:closeup }
+
+ElmetSiteBundle_curtains:
+    pattern:  /curtains
+    defaults: { _controller: ElmetSiteBundle:Curtains:index }
+
+
+ElmetSiteBundle_contact:
+    pattern:  /contact
+    defaults: { _controller: ElmetSiteBundle:Contact:index }
+
+ElmetSiteBundle_contact_send:
+    pattern:  /contact/send
+    defaults: { _controller: ElmetSiteBundle:Contact:send }
+
+ElmetSiteBundle_testimonial_fetch:
+    pattern:  /testimonial
+    defaults: { _controller: ElmetSiteBundle:Testimonial:fetch }
+
+ElmetSiteBundle_testimonial_create:
+    pattern:  /testimonial/create
+    defaults: { _controller: ElmetSiteBundle:Testimonial:create }
+
+ElmetSiteBundle_order_create:
+    pattern:  /order/create
+    defaults: { _controller: ElmetSiteBundle:Order:create }
+    
+ElmetSiteBundle_order_view:
+    pattern:  /order/view
+    defaults: { _controller: ElmetSiteBundle:Order:view }
+    
+ElmetSiteBundle_order_empty:
+    pattern:  /order/empty
+    defaults: { _controller: ElmetSiteBundle:Order:empty }
+
+ElmetSiteBundle_order_fetch:
+    pattern:  /order/fetch/{id}
+    defaults: { _controller: ElmetSiteBundle:Order:fetch }
+
+ElmetSiteBundle_order_add:
+    pattern:  /order/add/{urlName}/{colour}
+    defaults: { _controller: ElmetSiteBundle:Order:add }
+
+ElmetSiteBundle_order_submit:
+    pattern:  /order/submit
+    defaults: { _controller: ElmetSiteBundle:Order:submit }
+
+ElmetSiteBundle_order_remove:
+    pattern:  /order/remove/{id}
+    defaults: { _controller: ElmetSiteBundle:Order:remove }
+    
+ElmetSiteBundle_order_paypal:
+    pattern:  /order/paypal
+    defaults: { _controller: ElmetSiteBundle:Order:paypal }
+    
+ElmetSiteBundle_order_card:
+    pattern:  /order/card
+    defaults: { _controller: ElmetSiteBundle:Order:card }
+
+ElmetSiteBundle_order_thankyou:
+    pattern:  /order/thankyou
+    defaults: { _controller: ElmetSiteBundle:Order:thankyou }
+    
+ElmetSiteBundle_custservices:
+    pattern:  /customerservices
+    defaults: { _controller: ElmetSiteBundle:CustServices:index }
+    
+ElmetSiteBundle_offers:
+    pattern:  /offers
+    defaults: { _controller: ElmetSiteBundle:Offers:index }
+    
+ElmetSiteBundle_beddings:
+    pattern:  /beddings
+    defaults: { _controller: ElmetSiteBundle:Beddings:index }
+
+ElmetSiteBundle_landing_page:
+    pattern:  /p
+    defaults: { _controller: ElmetSiteBundle:LandingPage:index }
+
+ElmetSiteBundle_landing_page_1:
+    pattern:  /p/p175
+    defaults: { _controller: ElmetSiteBundle:LandingPage:index }
+
+ElmetSiteBundle_landing_page_2:
+    pattern:  /p/p734
+    defaults: { _controller: ElmetSiteBundle:LandingPage:index }
+
+ElmetSiteBundle_landing_page_bay:
+    pattern:  /p/p832
+    defaults: { _controller: ElmetSiteBundle:LandingPage:bay }
+    
+ElmetSiteBundle_paypal_ipn_process:
+    pattern:  /paypal_ipn/process
+    defaults: { _controller: ElmetSiteBundle:PayPal:process }     
+
+ElmetSiteBundle_paypal_ipn_send:
+    pattern:  /paypal_ipn/send
+    defaults: { _controller: ElmetSiteBundle:PayPal:send }
+
+ElmetSiteBundle_paypal_ipn_generator:
+    pattern:  /generate_ipn/generate/{id}
+    defaults: { _controller: ElmetSiteBundle:IPNGenerator:generate }
+    
+ElmetSiteBundle_paypal_ipn_respond:
+    pattern:  /generate_ipn/respond/{type}
+    defaults: { _controller: ElmetSiteBundle:IPNGenerator:respond }
+    
+ElmetSiteBundle_paypal_ipn_convert:
+    pattern:  /generate_ipn/convert
+    defaults: { _controller: ElmetSiteBundle:IPNGenerator:convert }

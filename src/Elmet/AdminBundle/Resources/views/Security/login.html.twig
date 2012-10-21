@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>Elmet Curtains Administration Page</title>
+        <link href="/css/elmet.css" rel="stylesheet" type="text/css" />
+        <link href="/css/type.css" rel="stylesheet" type="text/css" />
+        <link href="/css/nav.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+
+        <div id="content">
+            <h2>Elmet Curtains Adminstration </h2>
+
+            
+
+            <form action="{{ path('ElmetAdminBundle_login_check_page') }}" method="post">
+                
+                <div class="input text">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="_username" value="{{ last_username }}" />
+                </div>
+                <div class="input text">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="_password" />
+                    {% if error %}
+                        <div class="error-message">{{ error.message }}</div>
+                    {% endif %}
+                </div>
+                 <div class="submit">
+                    <input type="submit" value="login"/>
+                </div>  
+            </form>
+
+        </div>
+    </body>
+</html>

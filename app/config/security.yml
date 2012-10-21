@@ -18,21 +18,24 @@ security:
             security: false
 
         login:
-            pattern:  ^/demo/secured/login$
-            security: false
+            pattern:  ^/admin/login$
+            anonymous: ~
+            #http_basic:
+            #    realm: "Admin Area"
 
         secured_area:
-            pattern:    ^/demo/secured/
+            pattern:    ^/admin
             form_login:
-                check_path: /demo/secured/login_check
-                login_path: /demo/secured/login
+                check_path: /admin/login/check
+                login_path: /admin/login
             logout:
-                path:   /demo/secured/logout
-                target: /demo/
+                path:   /admin/logout
+                target: /admin/
             #anonymous: ~
             #http_basic:
-            #    realm: "Secured Demo Area"
+            #    realm: "Admin Area"
 
     access_control:
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+         - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         #- { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
+         - { path: ^/admin, roles: ROLE_ADMIN }

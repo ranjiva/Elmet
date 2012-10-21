@@ -1,3 +1,7 @@
+ElmetAdminBundle:
+    resource: "@ElmetAdminBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
 ElmetHelloBundle:
     resource: "@ElmetHelloBundle/Resources/config/routing.yml"
     prefix:   /test

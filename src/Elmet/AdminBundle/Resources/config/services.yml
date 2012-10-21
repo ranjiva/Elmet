@@ -1,0 +1,7 @@
+parameters:
+#    elmet_admin.example.class: Elmet\AdminBundle\Example
+
+services:
+#    elmet_admin.example:
+#        class: %elmet_admin.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

@@ -2,15 +2,14 @@
 
 namespace Elmet\SiteBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
+use Elmet\SiteBundle\Controller\BaseController;
 
-class HomeController extends Controller
+class HomeController extends BaseController
 {
     public function indexAction()
-    {
-          return $this->render('ElmetSiteBundle:Home:index.html.php');
-        //return new Response('<html><body>Hello!</body></html>');
+    {         
+          return $this->render('ElmetSiteBundle:Home:index.html.php',array('featured' => $this->getFeaturedTestimonial(),'numBasketItems' => $this->getNumBasketItems()));
+        
     }
 }
 

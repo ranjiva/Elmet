@@ -916,7 +916,30 @@ jQuery.extend({
 			// From the awesome hack by Dean Edwards
 			// http://erik.eae.net/archives/2007/07/27/18.54.15/#comment-102291
 
-			// If we're%20not%20dealing%20with%20a%20regular%20pixel%20number/%20but%20a%20number%20that%20has%20a%20weird%20ending,%20we%20need%20to%20convert%20it%20to%20pixelsif%20(%20!/^/d+(px)?$/i.test(%20ret%20)%20&&%20/^/d/.test(%20ret%20)%20)%20{//%20Remember%20the%20original%20valuesvar%20left%20=%20style.left,%20rsLeft%20=%20elem.runtimeStyle.left;//%20Put%20in%20the%20new%20values%20to%20get%20a%20computed%20value%20outelem.runtimeStyle.left%20=%20elem.currentStyle.left;style.left%20=%20ret%20||%200;ret%20=%20style.pixelLeft%20+%20"px";//%20Revert%20the%20changed%20valuesstyle.left%20=%20left;elem.runtimeStyle.left%20=%20rsLeft;}}return%20ret;},clean:%20function(%20elems,%20context%20)%20{var%20ret%20=%20[];context%20=%20context%20||%20document;//%20!context.createElement%20fails%20in%20IE%20with%20an%20error%20but%20returns%20typeof'object'
+			// If we're not dealing with a regular pixel number
+			// but a number that has a weird ending, we need to convert it to pixels
+			if ( !/^\d+(px)?$/i.test( ret ) && /^\d/.test( ret ) ) {
+				// Remember the original values
+				var left = style.left, rsLeft = elem.runtimeStyle.left;
+
+				// Put in the new values to get a computed value out
+				elem.runtimeStyle.left = elem.currentStyle.left;
+				style.left = ret || 0;
+				ret = style.pixelLeft + "px";
+
+				// Revert the changed values
+				style.left = left;
+				elem.runtimeStyle.left = rsLeft;
+			}
+		}
+
+		return ret;
+	},
+
+	clean: function( elems, context ) {
+		var ret = [];
+		context = context || document;
+		// !context.createElement fails in IE with an error but returns typeof 'object'
 		if (typeof context.createElement == 'undefined')
 			context = context.ownerDocument || context[0] && context[0].ownerDocument || document;
 
@@ -1059,7 +1082,21 @@ jQuery.extend({
 
 			if ( set )
 				// convert the value to a string (all browsers do this but IE) see #1070
-				elem.setAttribute( name, ""+%20value%20);var%20attr%20=%20msie%20&&%20notxml%20&&%20special/%20Some%20attributes%20require%20a%20special%20call%20on%20IE?%20elem.getAttribute(%20name,%202%20):%20elem.getAttribute(%20name%20);//%20Non-existent%20attributes%20return%20null,%20we%20normalize%20to%20undefinedreturn%20attr%20===%20null%20?%20undefined%20:%20attr;}//%20elem%20is%20actually%20elem.style%20...%20set%20the%20style//%20IE%20uses%20filters%20for%20opacityif%20(%20msie%20&&%20name%20=="opacity" ) {
+				elem.setAttribute( name, "" + value );
+
+			var attr = msie && notxml && special
+					// Some attributes require a special call on IE
+					? elem.getAttribute( name, 2 )
+					: elem.getAttribute( name );
+
+			// Non-existent attributes return null, we normalize to undefined
+			return attr === null ? undefined : attr;
+		}
+
+		// elem is actually elem.style ... set the style
+
+		// IE uses filters for opacity
+		if ( msie && name == "opacity" ) {
 			if ( set ) {
 				// IE has trouble with opacity if it does not have layout
 				// Force it by setting the zoom level
@@ -1221,7 +1258,12 @@ jQuery.each({
 	prevAll: function(elem){return jQuery.dir(elem,"previousSibling");},
 	siblings: function(elem){return jQuery.sibling(elem.parentNode.firstChild,elem);},
 	children: function(elem){return jQuery.sibling(elem.firstChild);},
-	contents: function(elem){return jQuery.nodeName(elem,"iframe")?elem.contentDocument||elem.contentWindow.document:jQuery.makeArray(elem.childNodes);}},%20function(name,%20fn){jQuery.fn[%20name%20]%20=%20function(%20selector%20)%20{var%20ret%20=%20jQuery.map(%20this,%20fn%20);if%20(%20selector%20&&%20typeof%20selector%20=="string" )
+	contents: function(elem){return jQuery.nodeName(elem,"iframe")?elem.contentDocument||elem.contentWindow.document:jQuery.makeArray(elem.childNodes);}
+}, function(name, fn){
+	jQuery.fn[ name ] = function( selector ) {
+		var ret = jQuery.map( this, fn );
+
+		if ( selector && typeof selector == "string" )
 			ret = jQuery.multiFilter( selector, ret );
 
 		return this.pushStack( jQuery.unique( ret ) );
@@ -1290,7 +1332,14 @@ jQuery.each({
 	};
 });
 
-jQuery.each([ "Height", "Width"],%20function(i,%20name){var%20type%20=%20name.toLowerCase();jQuery.fn[%20type%20]%20=%20function(%20size%20)%20{/%20Get%20window%20width%20or%20heightreturn%20this[0]%20==%20window%20?//%20Opera%20reports%20document.body.client[Width/Height]%20properly%20in%20both%20quirks%20and%20standardsjQuery.browser.opera%20&&%20document.body["client" + name ] ||
+jQuery.each([ "Height", "Width" ], function(i, name){
+	var type = name.toLowerCase();
+
+	jQuery.fn[ type ] = function( size ) {
+		// Get window width or height
+		return this[0] == window ?
+			// Opera reports document.body.client[Width/Height] properly in both quirks and standards
+			jQuery.browser.opera && document.body[ "client" + name ] ||
 
 			// Safari reports inner[Width/Height] just fine (Mozilla and Opera include scroll bar widths)
 			jQuery.browser.safari && window[ "inner" + name ] ||
@@ -1302,7 +1351,8 @@ jQuery.each([ "Height", "Width"],%20function(i,%20name){var%20type%20=%20name.to
 			this[0] == document ?
 				// Either scroll[Width/Height] or offset[Width/Height], whichever is greater
 				Math.max(
-					Math.max(document.body["scroll" + name], document.documentElement["scroll"+%20name]),Math.max(document.body["offset" + name], document.documentElement["offset" + name])
+					Math.max(document.body["scroll" + name], document.documentElement["scroll" + name]),
+					Math.max(document.body["offset" + name], document.documentElement["offset" + name])
 				) :
 
 				// Get or set width or height on the element
@@ -1371,7 +1421,24 @@ jQuery.extend({
 			submit: function(a){return "submit"==a.type;},
 			image: function(a){return "image"==a.type;},
 			reset: function(a){return "reset"==a.type;},
-			button: function(a){return "button"==a.type||jQuery.nodeName(a,"button");},input:%20function(a){return%20/input|select|textarea|button/i.test(a.nodeName);},/%20:has()has:%20function(a,i,m){return%20jQuery.find(m[3],a).length;},/%20:headerheader:%20function(a){return%20/h/d/i.test(a.nodeName);},/%20:animatedanimated:%20function(a){return%20jQuery.grep(jQuery.timers,function(fn){return%20a==fn.elem;}).length;}}},/%20The%20regular%20expressions%20that%20power%20the%20parsing%20engineparse:%20[/%20Match:%20[@value='test'],%20[@foo]/^(/[)%20*@?([/w-]+)%20*([!*$^~=]*)%20*('?"?)(.*?)\4 *\]/,
+			button: function(a){return "button"==a.type||jQuery.nodeName(a,"button");},
+			input: function(a){return /input|select|textarea|button/i.test(a.nodeName);},
+
+			// :has()
+			has: function(a,i,m){return jQuery.find(m[3],a).length;},
+
+			// :header
+			header: function(a){return /h\d/i.test(a.nodeName);},
+
+			// :animated
+			animated: function(a){return jQuery.grep(jQuery.timers,function(fn){return a==fn.elem;}).length;}
+		}
+	},
+
+	// The regular expressions that power the parsing engine
+	parse: [
+		// Match: [@value='test'], [@foo]
+		/^(\[) *@?([\w-]+) *([!*$^~=]*) *('?"?)(.*?)\4 *\]/,
 
 		// Match: :contains('foo')
 		/^(:)([\w-]+)\("?'?(.*?(\(.*?\))?[^(]*?)"?'?\)/,
@@ -1953,7 +2020,133 @@ jQuery.event = {
 			if ( (!fn || (jQuery.nodeName(elem, 'a') && type == "click")) && elem["on"+type] && elem["on"+type].apply( elem, data ) === false )
 				val = false;
 
-			// Extra functions don't%20get%20the%20custom%20event%20objectif%20(%20event%20)data.shift();/%20Handle%20triggering%20of%20extra%20functionif%20(%20extra%20&&%20jQuery.isFunction(%20extra%20)%20)%20{/%20call%20the%20extra%20function%20and%20tack%20the%20current%20return%20value%20on%20the%20end%20for%20possible%20inspectionret%20=%20extra.apply(%20elem,%20val%20==%20null%20?%20data%20:%20data.concat(%20val%20)%20);//%20if%20anything%20is%20returned,%20give%20it%20precedence%20and%20have%20it%20overwrite%20the%20previous%20valueif%20(ret%20!==%20undefined)val%20=%20ret;}//%20Trigger%20the%20native%20events%20(except%20for%20clicks%20on%20links)if%20(%20fn%20&&%20donative%20!==%20false%20&&%20val%20!==%20false%20&&%20!(jQuery.nodeName(elem,'a')%20&&%20type%20==%20"click")%20)%20{this.triggered%20=%20true;try%20{elem[%20type%20]();/%20prevent%20IE%20from%20throwing%20an%20error%20for%20some%20hidden%20elements}%20catch%20(e)%20{}}this.triggered%20=%20false;}return%20val;},handle:%20function(event)%20{/%20returned%20undefined%20or%20falsevar%20val,%20ret,%20namespace,%20all,%20handlers;event%20=%20arguments[0]%20=%20jQuery.event.fix(%20event%20||%20window.event%20);/%20Namespaced%20event%20handlersnamespace%20=%20event.type.split(".");event.type%20=%20namespace[0];namespace%20=%20namespace[1];/%20Cache%20this%20now,%20all%20=%20true%20means,%20any%20handlerall%20=%20!namespace%20&&%20!event.exclusive;handlers%20=%20(%20jQuery.data(this,%20"events")%20||%20{}%20)[event.type];for%20(%20var%20j%20in%20handlers%20)%20{var%20handler%20=%20handlers[j];/%20Filter%20the%20functions%20by%20classif%20(%20all%20||%20handler.type%20==%20namespace%20)%20{/%20Pass%20in%20a%20reference%20to%20the%20handler%20function%20itself/%20So%20that%20we%20can%20later%20remove%20itevent.handler%20=%20handler;event.data%20=%20handler.data;ret%20=%20handler.apply(%20this,%20arguments%20);if%20(%20val%20!==%20false%20)val%20=%20ret;if%20(%20ret%20===%20false%20)%20{event.preventDefault();event.stopPropagation();}}}return%20val;},fix:%20function(event)%20{if%20(%20event[expando]%20==%20true%20)return%20event;/%20store%20a%20copy%20of%20the%20original%20event%20object/%20and%20"clone"%20to%20set%20read-only%20propertiesvar%20originalEvent%20=%20event;event%20=%20{%20originalEvent:%20originalEvent%20};var%20props%20=%20"altKey%20attrChange%20attrName%20bubbles%20button%20cancelable%20charCode%20clientX%20clientY%20ctrlKey%20currentTarget%20data%20detail%20eventPhase%20fromElement%20handler%20keyCode%20metaKey%20newValue%20originalTarget%20pageX%20pageY%20prevValue%20relatedNode%20relatedTarget%20screenX%20screenY%20shiftKey%20srcElement%20target%20timeStamp%20toElement%20type%20view%20wheelDelta%20which".split("%20");for%20(%20var%20i=props.length;%20i;%20i--%20)event[%20props[i]%20]%20=%20originalEvent[%20props[i]%20];/%20Mark%20it%20as%20fixedevent[expando]%20=%20true;/%20add%20preventDefault%20and%20stopPropagation%20since/%20they%20will%20not%20work%20on%20the%20cloneevent.preventDefault%20=%20function()%20{/%20if%20preventDefault%20exists%20run%20it%20on%20the%20original%20eventif%20(originalEvent.preventDefault)originalEvent.preventDefault();/%20otherwise%20set%20the%20returnValue%20property%20of%20the%20original%20event%20to%20false%20(IE)originalEvent.returnValue%20=%20false;};event.stopPropagation%20=%20function()%20{/%20if%20stopPropagation%20exists%20run%20it%20on%20the%20original%20eventif%20(originalEvent.stopPropagation)originalEvent.stopPropagation();/%20otherwise%20set%20the%20cancelBubble%20property%20of%20the%20original%20event%20to%20true%20(IE)originalEvent.cancelBubble%20=%20true;};/%20Fix%20timeStampevent.timeStamp%20=%20event.timeStamp%20||%20now();/%20Fix%20target%20property,%20if%20necessaryif%20(%20!event.target%20)event.target%20=%20event.srcElement%20||%20document;%20/%20Fixes%20#1925%20where%20srcElement%20might%20not%20be%20defined%20either//%20check%20if%20target%20is%20a%20textnode%20(safari)if%20(%20event.target.nodeType%20==%203%20)event.target%20=%20event.target.parentNode;//%20Add%20relatedTarget,%20if%20necessaryif%20(%20!event.relatedTarget%20&&%20event.fromElement%20)event.relatedTarget%20=%20event.fromElement%20==%20event.target%20?%20event.toElement%20:%20event.fromElement;//%20Calculate%20pageX/Y%20if%20missing%20and%20clientX/Y%20availableif%20(%20event.pageX%20==%20null%20&&%20event.clientX%20!=%20null%20)%20{var%20doc%20=%20document.documentElement,%20body%20=%20document.body;event.pageX%20=%20event.clientX%20+%20(doc%20&&%20doc.scrollLeft%20||%20body%20&&%20body.scrollLeft%20||%200)%20-%20(doc.clientLeft%20||%200);event.pageY%20=%20event.clientY%20+%20(doc%20&&%20doc.scrollTop%20||%20body%20&&%20body.scrollTop%20||%200)%20-%20(doc.clientTop%20||%200);}//%20Add%20which%20for%20key%20eventsif%20(%20!event.which%20&&%20((event.charCode%20||%20event.charCode%20===%200)%20?%20event.charCode%20:%20event.keyCode)%20)event.which%20=%20event.charCode%20||%20event.keyCode;//%20Add%20metaKey%20to%20non-Mac%20browsers%20(use%20ctrl%20for%20PC's and Meta for Macs)
+			// Extra functions don't get the custom event object
+			if ( event )
+				data.shift();
+
+			// Handle triggering of extra function
+			if ( extra && jQuery.isFunction( extra ) ) {
+				// call the extra function and tack the current return value on the end for possible inspection
+				ret = extra.apply( elem, val == null ? data : data.concat( val ) );
+				// if anything is returned, give it precedence and have it overwrite the previous value
+				if (ret !== undefined)
+					val = ret;
+			}
+
+			// Trigger the native events (except for clicks on links)
+			if ( fn && donative !== false && val !== false && !(jQuery.nodeName(elem, 'a') && type == "click") ) {
+				this.triggered = true;
+				try {
+					elem[ type ]();
+				// prevent IE from throwing an error for some hidden elements
+				} catch (e) {}
+			}
+
+			this.triggered = false;
+		}
+
+		return val;
+	},
+
+	handle: function(event) {
+		// returned undefined or false
+		var val, ret, namespace, all, handlers;
+
+		event = arguments[0] = jQuery.event.fix( event || window.event );
+
+		// Namespaced event handlers
+		namespace = event.type.split(".");
+		event.type = namespace[0];
+		namespace = namespace[1];
+		// Cache this now, all = true means, any handler
+		all = !namespace && !event.exclusive;
+
+		handlers = ( jQuery.data(this, "events") || {} )[event.type];
+
+		for ( var j in handlers ) {
+			var handler = handlers[j];
+
+			// Filter the functions by class
+			if ( all || handler.type == namespace ) {
+				// Pass in a reference to the handler function itself
+				// So that we can later remove it
+				event.handler = handler;
+				event.data = handler.data;
+
+				ret = handler.apply( this, arguments );
+
+				if ( val !== false )
+					val = ret;
+
+				if ( ret === false ) {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+			}
+		}
+
+		return val;
+	},
+
+	fix: function(event) {
+		if ( event[expando] == true )
+			return event;
+
+		// store a copy of the original event object
+		// and "clone" to set read-only properties
+		var originalEvent = event;
+		event = { originalEvent: originalEvent };
+		var props = "altKey attrChange attrName bubbles button cancelable charCode clientX clientY ctrlKey currentTarget data detail eventPhase fromElement handler keyCode metaKey newValue originalTarget pageX pageY prevValue relatedNode relatedTarget screenX screenY shiftKey srcElement target timeStamp toElement type view wheelDelta which".split(" ");
+		for ( var i=props.length; i; i-- )
+			event[ props[i] ] = originalEvent[ props[i] ];
+
+		// Mark it as fixed
+		event[expando] = true;
+
+		// add preventDefault and stopPropagation since
+		// they will not work on the clone
+		event.preventDefault = function() {
+			// if preventDefault exists run it on the original event
+			if (originalEvent.preventDefault)
+				originalEvent.preventDefault();
+			// otherwise set the returnValue property of the original event to false (IE)
+			originalEvent.returnValue = false;
+		};
+		event.stopPropagation = function() {
+			// if stopPropagation exists run it on the original event
+			if (originalEvent.stopPropagation)
+				originalEvent.stopPropagation();
+			// otherwise set the cancelBubble property of the original event to true (IE)
+			originalEvent.cancelBubble = true;
+		};
+
+		// Fix timeStamp
+		event.timeStamp = event.timeStamp || now();
+
+		// Fix target property, if necessary
+		if ( !event.target )
+			event.target = event.srcElement || document; // Fixes #1925 where srcElement might not be defined either
+
+		// check if target is a textnode (safari)
+		if ( event.target.nodeType == 3 )
+			event.target = event.target.parentNode;
+
+		// Add relatedTarget, if necessary
+		if ( !event.relatedTarget && event.fromElement )
+			event.relatedTarget = event.fromElement == event.target ? event.toElement : event.fromElement;
+
+		// Calculate pageX/Y if missing and clientX/Y available
+		if ( event.pageX == null && event.clientX != null ) {
+			var doc = document.documentElement, body = document.body;
+			event.pageX = event.clientX + (doc && doc.scrollLeft || body && body.scrollLeft || 0) - (doc.clientLeft || 0);
+			event.pageY = event.clientY + (doc && doc.scrollTop || body && body.scrollTop || 0) - (doc.clientTop || 0);
+		}
+
+		// Add which for key events
+		if ( !event.which && ((event.charCode || event.charCode === 0) ? event.charCode : event.keyCode) )
+			event.which = event.charCode || event.keyCode;
+
+		// Add metaKey to non-Mac browsers (use ctrl for PC's and Meta for Macs)
 		if ( !event.metaKey && event.ctrlKey )
 			event.metaKey = event.ctrlKey;
 
@@ -2083,7 +2276,7 @@ jQuery.fn.extend({
 	},
 
 	hover: function(fnOver, fnOut) {
-		return this.bind('mouseenter',%20fnOver).bind('mouseleave', fnOut);
+		return this.bind('mouseenter', fnOver).bind('mouseleave', fnOut);
 	},
 
 	ready: function(fn) {

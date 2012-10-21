@@ -1,0 +1,61 @@
+				table,td {
+                    border: 1px solid #a8b758;
+                }
+                table,th,td, textarea, input, option {
+                    text-align: left;
+                    vertical-align:top;
+                    font:0.9em Arial, Helvetica, sans-serif;
+                }
+                table {
+                    border-collapse:collapse;
+                }
+                th {
+                    font-weight: bold;
+                    background-color:#a8b758;
+                    color:white;
+                }
+                tr.odd {
+                    background-color:#DCDCDC;
+                    color:black;
+                }
+                tr.even {
+                    background-color: #F8F8FF;
+                    color:black;
+                }
+                td.edit {
+                    font-weight: bold;
+                    color: #a8b758;
+                    text-decoration: underline;
+                    cursor: pointer;       
+                }
+                
+                a {
+                    font-weight: bold;
+                    color: #a8b758;     
+                }
+                
+                input.submit {
+                    vertical-align: middle;
+                    text-align: center;
+                }
+				
+				span.editAll {
+                    font-weight: bold;
+                    color: #a8b758;
+                    text-decoration: underline;
+                    cursor: pointer;
+                    float: right
+                }
+				
+                input.submitAll {
+                    vertical-align: middle;
+                    text-align: center;
+                }
+                
+                td.error {
+                    color: red;
+                    font:0.8em Arial, Helvetica, sans-serif;
+                    font-style: italic;
+                }
+			
+				

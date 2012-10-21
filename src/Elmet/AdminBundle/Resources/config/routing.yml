@@ -1,0 +1,96 @@
+ElmetAdminBundle_homepage:
+    pattern:  /
+    defaults: { _controller: ElmetAdminBundle:Home:index }
+
+ElmetAdminBundle_login_page:
+    pattern:  /login
+    defaults: { _controller: ElmetAdminBundle:Security:login }
+    
+ElmetAdminBundle_login_check_page:
+    pattern:  /login/check
+    defaults: { _controller: ElmetAdminBundle:Security:check }
+
+ElmetAdminBundle_cepb_view_page:
+    pattern:  /curtaineyeletpriceband/view
+    defaults: { _controller: ElmetAdminBundle:CurtainEyeletPriceBand:view }
+
+ElmetAdminBundle_cepb_update_page:
+    pattern:  /curtaineyeletpriceband/update
+    defaults: { _controller: ElmetAdminBundle:CurtainEyeletPriceBand:update }
+
+ElmetAdminBundle_cepb_remove_page:
+    pattern:  /curtaineyeletpriceband/remove/{id}
+    defaults: { _controller: ElmetAdminBundle:CurtainEyeletPriceBand:remove }
+
+ElmetAdminBundle_testimonial_view_page:
+    pattern:  /testimonial/view
+    defaults: { _controller: ElmetAdminBundle:Testimonial:view }
+
+ElmetAdminBundle_testimonial_update_page:
+    pattern:  /testimonial/update
+    defaults: { _controller: ElmetAdminBundle:Testimonial:update }
+
+ElmetAdminBundle_testimonial_remove_page:
+    pattern:  /testimonial/remove/{id}
+    defaults: { _controller: ElmetAdminBundle:Testimonial:remove }
+
+ElmetAdminBundle_pelmet_view_page:
+    pattern:  /pelmet/view
+    defaults: { _controller: ElmetAdminBundle:Pelmet:view }
+
+ElmetAdminBundle_pelmet_update_page:
+    pattern:  /pelmet/update
+    defaults: { _controller: ElmetAdminBundle:Pelmet:update }
+
+ElmetAdminBundle_pelmet_remove_page:
+    pattern:  /pelmet/remove/{id}
+    defaults: { _controller: ElmetAdminBundle:Pelmet:remove }
+
+ElmetAdminBundle_cc_view_page:
+    pattern:  /cushioncover/view
+    defaults: { _controller: ElmetAdminBundle:CushionCover:view }
+
+ElmetAdminBundle_cc_update_page:
+    pattern:  /cushioncover/update
+    defaults: { _controller: ElmetAdminBundle:CushionCover:update }
+
+ElmetAdminBundle_cc_remove_page:
+    pattern:  /cushioncover/remove/{id}
+    defaults: { _controller: ElmetAdminBundle:CushionCover:remove }
+    
+ElmetAdminBundle_tieback_view_page:
+    pattern:  /tieback/view
+    defaults: { _controller: ElmetAdminBundle:TieBack:view }
+
+ElmetAdminBundle_tieback_update_page:
+    pattern:  /tieback/update
+    defaults: { _controller: ElmetAdminBundle:TieBack:update }
+
+ElmetAdminBundle_tieback_remove_page:
+    pattern:  /tieback/remove/{id}
+    defaults: { _controller: ElmetAdminBundle:TieBack:remove }
+
+ElmetAdminBundle_fabric_view_page:
+    pattern:  /fabric/view
+    defaults: { _controller: ElmetAdminBundle:Fabric:view }
+
+ElmetAdminBundle_fabric_update_page:
+    pattern:  /fabric/update
+    defaults: { _controller: ElmetAdminBundle:Fabric:update }
+
+ElmetAdminBundle_fabric_remove_page:
+    pattern:  /fabric/remove/{id}
+    defaults: { _controller: ElmetAdminBundle:Fabric:remove }
+    
+ElmetAdminBundle_cpb_view_page:
+    pattern:  /curtainpriceband/view
+    defaults: { _controller: ElmetAdminBundle:CurtainPriceBand:view }
+
+ElmetAdminBundle_cpb_update_page:
+    pattern:  /curtainpriceband/update
+    defaults: { _controller: ElmetAdminBundle:CurtainPriceBand:update }
+
+ElmetAdminBundle_cpb_remove_page:
+    pattern:  /curtainpriceband/remove/{id}
+    defaults: { _controller: ElmetAdminBundle:CurtainPriceBand:remove }
+
