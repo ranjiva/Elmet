@@ -17,6 +17,8 @@
                 
                 element = document.getElementById("edit_"+id);
                 element.style.display = 'none';
+
+			decreaseTableWidth();
             }
             
             function create()
@@ -29,16 +31,30 @@
             {
                 element = document.getElementById("new");
                 element.style.display = 'none';
+			decreaseTableWidth();
             }
 			
 			var submitButton;
+			var originalFormWidth;
+			var originalTableWidth; 
         
         function increaseTableWidth() {
         
-            $("form").width('550px');
-            $("table").width('490px');
+             var formWidth = originalFormWidth + 50;
+		   $("form").width(formWidth +'px');
+			
+		  var tableWidth = originalTableWidth + 50;             
+		  $("table").width(tableWidth + 'px');
         
         }
+	
+	   function decreaseTableWidth() {
+       
+		  $("form").width(originalFormWidth +'px');
+		             
+		  $("table").width(originalTableWidth + 'px');
+        }
+
         
         function editAll() {
         
@@ -64,6 +80,9 @@
                 
                 submitButton = $(this).attr("name");
            
-            }); 
+            });
+
+		 originalFormWidth = $("form").width();
+ 		 originalTableWidth = $("table").width();
         });
         

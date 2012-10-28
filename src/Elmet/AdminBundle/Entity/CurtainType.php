@@ -2,7 +2,7 @@
 
 namespace Elmet\AdminBundle\Entity;
 
-class TieBackType
+class CurtainType
 {
     protected $type;
     
