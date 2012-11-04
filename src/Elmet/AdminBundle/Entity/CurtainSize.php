@@ -12,7 +12,7 @@ class CurtainSize
     {
         $this->size = $size;
         $this->width = $width;
-        $this->width = $height;
+        $this->height = $height;
     }
     
     public function getSize()

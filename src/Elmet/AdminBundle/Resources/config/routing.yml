@@ -107,7 +107,7 @@ ElmetAdminBundle_cp_update_page:
     defaults: { _controller: ElmetAdminBundle:CurtainPrice:update }
 
 ElmetAdminBundle_cp_remove_page:
-    pattern:  /curtainprice/remove/{id}
+    pattern:  /curtainprice/remove/{id}/{priceBandId}
     defaults: { _controller: ElmetAdminBundle:CurtainPrice:remove }
 
 ElmetAdminBundle_cp_view_page:

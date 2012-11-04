@@ -10,18 +10,55 @@
             $(document).ready(function() {
                   
                 var num = $("tr[id*='view_']").length
-
+                var curtainTypes = [];
+                
+                {%set i = 0 %}
+                {% for curtainType in curtainTypes %}
+                   curtainTypes[{{i}}] = "{{curtainType.type}}";
+                   {%set i = i + 1 %}
+                {% endfor %}
+                
                 if (num == 0) {
                     $("tr[id='new']").show();
                     $("td[id='undo_new']").hide();
                     $("span[id='editAll']").hide();
                 }
+                
+                $("select[id='cepb_new']").change(function(e){
+                    
+                    var selected = $("select[id='cepb_new'] option:selected").text();
+                     
+                    $("select[id='type_new']").empty(); 
+                    
+                    for(i=0;i < curtainTypes.length;i++) {
+                        
+                        if (selected != "") {
+                            
+                            if (curtainTypes[i] == "HomeWindow") {
+                                                         
+                                $("select[id='type_new']").append($('<option></option>').val(curtainTypes[i]).html(curtainTypes[i]));
+                            }
+                            
+                        } else {
+                            
+                            if (curtainTypes[i] != "HomeWindow") {
+                                
+                                $("select[id='type_new']").append($('<option></option>').val(curtainTypes[i]).html(curtainTypes[i]));
+                            }
+                        }
+                    }
+                     
+                });
+             
             });
+            
+            
             
         </script>
      </head>
      <body>
          <form method="post" action="/admin/curtainprice/update" style="width: 665px">
+            <input type="hidden" name="curtainpriceband_current" value="{{id}}"/>
             <div style="width: 610px">
                 
                 <span style="float: right"/> 
@@ -63,7 +100,7 @@
                                  {{id}}
                              </td>
                              <td>
-                                <select name="curtaineyeletpriceband_new">
+                                <select id="cepb_new" name="curtaineyeletpriceband_new">
                                     
                                     <option value="empty"></option>
                                     
@@ -79,7 +116,7 @@
                                 <select name="size_new">
 
                                     {% for curtainSize in curtainSizes %}
-
+                                        
                                          <option value="{{curtainSize.size}}">{{curtainSize.size}}</option>
 
                                     {% endfor %}
@@ -87,12 +124,14 @@
                                  </select>
                              </td>
                              <td>
-                                <select name="type_new">
+                                <select id="type_new" name="type_new">
 
-                                    {% for curtainType in curtainTypes %}
-
-                                         <option value="{{curtainType.type}}">{{curtainType.type}}</option>
-
+                                    {% for curtainType in curtainTypes %}                       
+                                        {% if (curtainType.type != "HomeWindow") %}
+                                    
+                                            <option value="{{curtainType.type}}">{{curtainType.type}}</option>
+                                            
+                                        {% endif %}
                                     {% endfor %}
 
                                  </select>
@@ -128,7 +167,7 @@
                              </td>
                              <td class="edit" onclick="create()">new</td>
                              <td class="edit" onclick="edit({{curtainPrice.id}},'single:price')">edit</td>
-                             <td><a href="/admin/curtainprice/remove/{{curtainPrice.id}}">remove</a></td>
+                             <td><a href="/admin/curtainprice/remove/{{curtainPrice.id}}/{{id}}">remove</a></td>
                          </tr>
 
                          <tr id="edit_{{curtainPrice.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
