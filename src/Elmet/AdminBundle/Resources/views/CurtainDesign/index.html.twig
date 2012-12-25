@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title>Elmet Curtains Administration Portal</title>
+        <link href="/css/admin.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="/js/jquery.js"></script>
+     </head>
+     <body>
+         <table style="width: 550px">
+             <thead>
+                 <tr>
+                     <th style="width: 100px">Curtain Price Band</th>
+                     <th style="width: 100px">Short Name</th>
+                     <th style="width: 350px">Name</th>
+                 </tr>
+             </thead>
+             <tbody>
+
+                 {%set i = 1 %}
+                 {% for curtainDesign in curtainDesigns %}
+                     <tr class="{{ cycle(['odd', 'even'], i) }}">
+                         <td>
+                            {{curtainDesign.curtainPriceBand.id}}
+                         </td>
+                         <td>
+                            {{curtainDesign.urlName}}
+                         </td>
+                         <td>
+                            {{curtainDesign.name}}
+                         </td>
+                         <td class="edit"><a href="/admin/curtaindesign/new">new</a></td>
+                         <td class="edit"><a href="/admin/curtaindesign/view/{{curtainDesign.id}}">view</a></td>
+                         <td><a href="/admin/curtaindesign/remove/{{curtainDesign.id}}">remove</a></td>
+                     </tr>
+                 {%set i = i + 1 %}    
+                 {% endfor %}
+             </tbody>
+         </table> 
+     </body>
+</html>

@@ -80,7 +80,7 @@ class CurtainDesign
      protected $curtain_price_band;
      
      /**
-      * @ORM\OneToMany(targetEntity="CurtainColour", mappedBy="curtain_design")
+      * @ORM\OneToMany(targetEntity="CurtainColour", mappedBy="curtain_design", cascade={"persist", "merge", "detach", "remove"})
       */
      protected $curtain_colours;
 

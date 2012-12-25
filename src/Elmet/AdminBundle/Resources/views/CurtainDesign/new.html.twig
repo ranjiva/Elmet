@@ -1,0 +1,150 @@
+<html>
+    <head>
+        <title>Elmet Curtains Administration Portal</title>
+        <link href="/css/admin.css" rel="stylesheet" type="text/css"/>
+        <style>
+            table, tr, td
+            {  
+                border: 0px;
+                padding: 5px;
+            }
+                     
+        </style>
+        <script type="text/javascript" src="/js/jquery.js"></script>
+        <script type="text/javascript" src="/js/admin.js"></script>
+        <script type="text/javascript" src="/js/admincurtaindesign.js"></script>
+     </head>
+     <body>
+         <form method="post" action="/admin/curtaindesign/create" style="width: 550px">
+             <input type="hidden" name="oldUrlName" value="-1.9999999999999999999999"/>
+             
+             {%set i = 1 %}
+             {%for urlName in urlNames%}
+                
+                <input type="hidden" name="urlname_{{i}}" value="{{urlName}}"/>
+                {%set i = i + 1 %}
+             
+             {%endfor%}
+             
+             <table style="width: 500px">
+                 <tr>
+                     <td>
+                         <label for="priceband">Curtain Price Band:</label>
+                     </td>
+                     <td>
+                         <select name="priceband" id="priceband">     
+                            {% for curtainPriceBand in curtainPriceBands %}
+                                <option value="{{curtainPriceBand.id}}">{{curtainPriceBand.id}}</option>
+                            {% endfor %}                                         
+                         </select>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td><label for="shortname">Short Name:</label>
+                     <td>
+                         <input type="text" id="shortname" name="shortname" value=""/>
+                     </td>
+                     <td id="error_shortname" class="error" style="display: none; width: 100px">Name should not be empty and should be unique</td>
+                 </tr>
+                 <tr>
+                     <td><label for="name">Name:</label>
+                     <td>
+                         <textarea rows="3" cols="50" id="name" name="name"></textarea>
+                     </td>
+                     <td id="error_name" class="error" style="display: none; width: 100px">Name should not be empty</td>
+                 </tr>
+                 <tr>
+                     <td><label for="materials">Materials:</label>
+                     <td>
+                         <textarea rows="4" cols="60" id="materials" name="materials"></textarea>
+                     </td>
+                     <td id="error_materials" class="error" style="display: none; width: 100px">Materials description should not be empty</td>
+                 </tr>
+                 <tr>
+                     <td>
+                         <label for="tapesize">Tape Size:</label>
+                     </td>
+                     <td>
+                         <select name="tapesize" id="tapesize">     
+                            {% for tapeSize in tapeSizes %}
+                                <option value="{{tapeSize.size}}">{{tapeSize.size}}</option>
+                            {% endfor %}                                         
+                         </select>
+                     </td>
+                 </tr>
+                 <tr>
+                    <td>
+                         <label for="lined">Lined:</label>
+                     </td>
+                     <td>
+                         <select name="lined" id="lined">
+                             <option value="1">Y</option>
+                             <option value="0">N</option>
+                         </select> 
+                     </td>
+                 </tr>
+                 <tr>
+                    <td>
+                         <label for="eyelets">Eyelets Available:</label>
+                     </td>
+                     <td>
+                         <select name="eyelets" id="eyelets">                             
+                            <option value="1">Y</option>
+                            <option value="0">N</option>
+                         </select> 
+                     </td>
+                 </tr>
+                 <tr>
+                     <td><label for="fabricwidth">Fabric Width:</label>
+                     <td>
+                         <input type="text" id="fabricwidth" name="fabricwidth"/>
+                     </td>
+                     <td id="error_fabricwidth" class="error" style="display: none; width: 100px">Fabric width should be numeric</td>
+                 </tr>
+                 <tr>
+                     <td><label for="patternRepeatLength">Pattern Repeat Length:</label>
+                     <td>
+                         <input type="text" id="patternrepeatlength" name="patternrepeatlength"/>
+                     </td>
+                     <td id="error_patternrepeatlength" class="error" style="display: none; width: 100px">Pattern repeat length should be numeric</td>
+                 </tr>
+                 <tr>
+                     <td>
+                         <label for="curtainfinish">Curtain Finish:</label>
+                     </td>
+                     <td>
+                         <select name="curtainfinish" id="curtainfinish">     
+                            {% for curtainFinish in curtainFinishes %}
+                                <option value="{{curtainFinish.finish}}">{{curtainFinish.finish}}</option>
+                            {% endfor %}                                         
+                         </select>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td>
+                         <label for="cushionfinish">Cushion Finish:</label>
+                     </td>
+                     <td>
+                         <select name="cushionfinish" id="cushionfinish">     
+                            {% for cushionFinish in cushionFinishes %}
+                                <option value="{{cushionFinish.finish}}">{{cushionFinish.finish}}</option>
+                            {% endfor %}                                         
+                         </select>
+                     </td>
+                 </tr>
+                 <tr>
+                    <td>
+                         <label for="new">New:</label>
+                     </td>
+                     <td>
+                         <select name="new" id="eyelets">
+                            <option value="1" selected="true">Y</option>
+                            <option value="0">N</option>                             
+                         </select> 
+                     </td>
+                 </tr>
+             </table>
+             <br/><input id="submit" name="submit" class="submitAll" type="submit" value="Save"/>
+        </form>
+     </body>
+</html>

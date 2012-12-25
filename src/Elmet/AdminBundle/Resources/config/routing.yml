@@ -113,3 +113,27 @@ ElmetAdminBundle_cp_remove_page:
 ElmetAdminBundle_cp_view_page:
     pattern:  /curtainprice/view/{id}
     defaults: { _controller: ElmetAdminBundle:CurtainPrice:view }
+
+ElmetAdminBundle_cd_index_page:
+    pattern:  /curtaindesign/index
+    defaults: { _controller: ElmetAdminBundle:CurtainDesign:index }
+
+ElmetAdminBundle_cd_view_page:
+    pattern:  /curtaindesign/view/{id}
+    defaults: { _controller: ElmetAdminBundle:CurtainDesign:view }
+
+ElmetAdminBundle_cd_remove_page:
+    pattern:  /curtaindesign/remove/{id}
+    defaults: { _controller: ElmetAdminBundle:CurtainDesign:remove }
+
+ElmetAdminBundle_cd_update_page:
+    pattern:  /curtaindesign/update
+    defaults: { _controller: ElmetAdminBundle:CurtainDesign:update }
+
+ElmetAdminBundle_cd_new_page:
+    pattern:  /curtaindesign/new
+    defaults: { _controller: ElmetAdminBundle:CurtainDesign:new }
+    
+ElmetAdminBundle_cd_create_page:
+    pattern:  /curtaindesign/create
+    defaults: { _controller: ElmetAdminBundle:CurtainDesign:create }
