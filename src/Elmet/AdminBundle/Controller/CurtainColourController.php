@@ -18,7 +18,10 @@ class CurtainColourController extends Controller
     
     public function newAction($id)
     {
-         return $this->render('ElmetAdminBundle:CurtainColour:new.html.twig',array('id' => $id));
+         $repository = $this->getDoctrine()->getRepository('ElmetSiteBundle:CurtainDesign');
+         $curtainDesign = $repository->findOneById($id);
+        
+         return $this->render('ElmetAdminBundle:CurtainColour:new.html.twig',array('curtainDesign' => $curtainDesign));
     }
     
     public function updateAction()
@@ -52,7 +55,8 @@ class CurtainColourController extends Controller
             $curtainColour->setThumbnailFilepath($urlName."/".$thumbFile->getClientOriginalName());
             $thumbFile->move($fileRoot.$urlName,$thumbFile->getClientOriginalName());
         }
-        
+       
+        $curtainColour->setName($this->getRequest()->get('name'));
         $curtainColour->setBuynow($this->getRequest()->get('buynow'));
         $curtainColour->setInStock($this->getRequest()->get('instock'));
         
@@ -65,43 +69,66 @@ class CurtainColourController extends Controller
     
     public function createAction()
     {
-        $curtainPriceBandRepository = $this->getDoctrine()->getRepository('ElmetSiteBundle:CurtainPriceBand');
-        $curtainPriceBand = $curtainPriceBandRepository->findOneById($this->getRequest()->get('priceband'));
-            
-        $curtainDesign = new CurtainDesign();
-
-        $curtainDesign->setCurtainPriceBand($curtainPriceBand);
-        $curtainDesign->setCushionFinish($this->getRequest()->get('curtainfinish'));
-        $curtainDesign->setEyeletsAvailable($this->getRequest()->get('eyelets'));
-        $curtainDesign->setFabricWidth($this->getRequest()->get('fabricwidth'));
-        $curtainDesign->setFinish($this->getRequest()->get('curtainfinish'));
-        $curtainDesign->setLined($this->getRequest()->get('lined'));
-        $curtainDesign->setMaterials($this->getRequest()->get('materials'));
-        $curtainDesign->setName($this->getRequest()->get('name'));
-        $curtainDesign->setNew($this->getRequest()->get('new'));
-        $curtainDesign->setPatternRepeatLength($this->getRequest()->get('patternrepeatlength'));
-        $curtainDesign->setTapeSize($this->getRequest()->get('tapesize'));
-        $curtainDesign->setUrlName($this->getRequest()->get('shortname'));
-
-        $em = $this->getDoctrine()->getEntityManager();
-        $em->persist($curtainDesign);
-        $em->flush();
-
-        return $this->viewAction($curtainDesign->getId());
-    }
-    
-    
-    
-    public function removeAction($id)
-    {
+        $id = $this->getRequest()->get('id');
         $repository = $this->getDoctrine()->getRepository('ElmetSiteBundle:CurtainDesign');
         $curtainDesign = $repository->findOneById($id);
+        $curtainColour = new CurtainColour();
+        
+        $urlName = $curtainDesign->getUrlName();
+        
+        $displayFile = $this->getRequest()->files->get('display');
+        $swatchFile = $this->getRequest()->files->get('swatch');
+        $thumbFile = $this->getRequest()->files->get('thumbnail');
+        $fileRoot = $this->container->getParameter('fileroot');
+        $noImageFile = $this->container->getParameter('no_image_filename');
+        
+        if ($displayFile != null) {
+        
+            $curtainColour->setFullFilepath($urlName."/".$displayFile->getClientOriginalName());
+            $displayFile->move($fileRoot.$urlName,$displayFile->getClientOriginalName());
+        } else {
+            $curtainColour->setFullFilepath($noImageFile);
+        }
+        
+        if ($swatchFile != null) {
+        
+            $curtainColour->setSwatchFilepath($urlName."/".$swatchFile->getClientOriginalName());
+            $swatchFile->move($fileRoot.$urlName,$swatchFile->getClientOriginalName());
+        } else {
+            $curtainColour->setSwatchFilepath($noImageFile);
+        }
+        
+        if ($thumbFile != null) {
+        
+            $curtainColour->setThumbnailFilepath($urlName."/".$thumbFile->getClientOriginalName());
+            $thumbFile->move($fileRoot.$urlName,$thumbFile->getClientOriginalName());
+        } else {
+            $curtainColour->setThumbnailFilepath($noImageFile);
+        }
+        
+        $curtainColour->setName($this->getRequest()->get('name'));
+        $curtainColour->setBuynow($this->getRequest()->get('buynow'));
+        $curtainColour->setInStock($this->getRequest()->get('instock'));
+        $curtainColour->setCurtainDesign($curtainDesign);
         
         $em = $this->getDoctrine()->getEntityManager();
-        $em->remove($curtainDesign);
+        $em->persist($curtainColour);
         $em->flush();
         
-        return $this->indexAction();
+        return $this->forward('ElmetAdminBundle:CurtainDesign:view',array('id' => $id));  
+    }
+ 
+    public function removeAction($id)
+    {
+        $repository = $this->getDoctrine()->getRepository('ElmetSiteBundle:CurtainColour');
+        $curtainColour = $repository->findOneById($id);
+        $curtainDesign = $curtainColour->getCurtainDesign();
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->remove($curtainColour);
+        $em->flush();
+        
+        return $this->forward('ElmetAdminBundle:CurtainDesign:view',array('id' => $curtainDesign->getId()));
     }
     
     

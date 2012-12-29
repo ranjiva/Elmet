@@ -1,0 +1,99 @@
+<html>
+    <head>
+        <title>Elmet Curtains Administration Portal</title>
+        <link href="/css/admin.css" rel="stylesheet" type="text/css"/>
+        <style>
+            table, tr, td
+            {  
+                border: 0px;
+                padding: 5px;
+            }
+                     
+        </style>
+        <script type="text/javascript" src="/js/jquery.js"></script>
+        <script type="text/javascript" src="/js/admin.js"></script>
+        <script language="javascript">
+                        
+            $(document).ready(function() {
+                
+                $("form").submit(function(e){
+                            
+                    $("td[id='error_name']").hide();
+                    
+                    name = $("input[id='name']").val();
+                    
+                    if (name == "") {
+                        $("td[id='error_name']").show();
+                        e.preventDefault();
+                    }
+                    
+                });
+            });
+        </script>
+     </head>
+     <body>
+         <span>
+             <a href="/admin/curtaindesign/index">curtain designs -> </a>
+             <a href="/admin/curtaindesign/view/{{curtainDesign.id}}">{{curtainDesign.urlName}} -> </a>
+             New
+         </span>
+         <form method="post" action="/admin/curtaincolour/create" enctype="multipart/form-data" style="width: 550px">
+             <input type="hidden" name="id" value="{{curtainDesign.id}}"/>
+             
+             <table style="width: 500px">
+                 <tr>
+                     <td><label for="name">Name:</label>
+                     <td>
+                         <input type="text" id="name" name="name"/>
+                     </td>
+                     <td id="error_name" class="error" style="display: none; width: 100px">Name should not be empty</td>
+                 </tr>
+                 <tr>
+                     <td><label for="name">Display Image:</label>
+                     <td>
+                         <input type="file" id="display" name="display"/>
+                     </td>
+                 </tr> 
+                 <tr>
+                     <td><label for="name">Thumb Nail Image:</label>
+                     <td>
+                         <input type="file" id="thumbnail" name="thumbnail"/>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td><label for="name">Swatch Image:</label>
+                     <td>
+                         <input type="file" id="swatch" name="swatch"/>
+                     </td>
+                 </tr>
+                 <tr>
+                    <td>
+                         <label for="buynow">Buy Now:</label>
+                     </td>
+                     <td>
+                         <select name="buynow" id="buynow">
+                             
+                             <option value="1">Y</option>
+                             <option value="0">N</option>
+
+                         </select> 
+                     </td>
+                 </tr>
+                 <tr>
+                    <td>
+                         <label for="instock">In Stock:</label>
+                     </td>
+                     <td>
+                         <select name="instock" id="instock">
+                             
+                             <option value="1">Y</option>
+                             <option value="0">N</option>
+                             
+                         </select> 
+                     </td>
+                 </tr>
+             </table>
+             <br/><input id="submit" name="submit" class="submitAll" type="submit" value="Save"/>
+        </form>
+     </body>
+</html>

@@ -39,6 +39,22 @@
                 $("span[id='edit']").show();
                 $("input[id='submit']").hide();
             }
+            
+            $(document).ready(function() {
+                
+                $("form").submit(function(e){
+                
+                    $("td[id='error_name']").hide();
+                    
+                    name = $("input[id='name']").val();
+                    
+                    if (name == "") {
+                        
+                        $("td[id='error_name']").show();
+                        e.preventDefault();
+                    }
+                });
+            });
         </script>
      </head>
      <body>
