@@ -64,6 +64,9 @@
         </script>
      </head>
      <body>
+         <span>
+             <a href="/admin/curtaindesign/index">curtain designs -> </a>{{curtainDesign.urlName}}
+         </span>
          <form method="post" action="/admin/curtaindesign/update" style="width: 550px">
              <span id="edit" class="editAll" onclick="edit()">Edit</span>
              <span id="undoEdit" class="editAll" onclick="undoEdit()" style="display:none">Undo</span>
@@ -254,7 +257,7 @@
                      </td>
                      <td>
                         {% if curtainDesign.curtainColours.count == 0 %}
-                            <a href="/admin/curtaindesign/new">new</a>
+                            <a href="/admin/curtaincolour/new">new</a>
                         {% else %}
 
                             <table style="width: 300px">
@@ -271,9 +274,9 @@
                                         <td>
                                            {{curtainColour.name}}
                                         </td>
-                                        <td id="new_colour" class="edit" style="display:none"><a href="/admin/curtaindesign/new">new</a></td>
-                                        <td class="edit"><a href="/admin/curtaindesign/view/{{curtainColour.id}}">view</a></td>
-                                        <td id="remove_colour" style="display:none"><a href="/admin/curtaineyeletpriceband/remove/{{curtainColour.id}}">remove</a></td>
+                                        <td id="new_colour" class="edit" style="display:none"><a href="/admin/curtaincolour/new/{{curtainDesign.id}}">new</a></td>
+                                        <td class="edit"><a href="/admin/curtaincolour/view/{{curtainColour.id}}">view</a></td>
+                                        <td id="remove_colour" style="display:none"><a href="/admin/curtaincolour/remove/{{curtainColour.id}}">remove</a></td>
                                     </tr>
                                     {%set i = i + 1 %}    
                                     {% endfor %}

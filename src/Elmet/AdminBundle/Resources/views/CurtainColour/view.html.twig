@@ -1,0 +1,129 @@
+<html>
+    <head>
+        <title>Elmet Curtains Administration Portal</title>
+        <link href="/css/admin.css" rel="stylesheet" type="text/css"/>
+        <style>
+            table, tr, td
+            {  
+                border: 0px;
+                padding: 5px;
+            }
+                     
+        </style>
+        <script type="text/javascript" src="/js/jquery.js"></script>
+        <script type="text/javascript" src="/js/admin.js"></script>
+        <script language="javascript">
+                        
+            function edit() {
+
+                $("input[id='name']").removeAttr('readonly');
+                $("input[id='display']").removeAttr('readonly');
+                $("input[id='thumbnail']").removeAttr('readonly');
+                $("input[id='swatch']").removeAttr('readonly');                
+                $("select[id='instock']").removeAttr('disabled');
+                $("select[id='buynow']").removeAttr('disabled');
+                $("span[id='undoEdit']").show();
+                $("span[id='edit']").hide();
+                $("input[id='submit']").show();
+            }
+
+            function undoEdit() {
+
+                $("input[id='name']").attr('readonly', 'true');
+                $("input[id='display']").attr('readonly', 'true');
+                $("input[id='thumbnail']").attr('readonly', 'true');
+                $("input[id='swatch']").attr('readonly', 'true');                
+                $("select[id='instock']").attr('disabled', 'true');
+                $("select[id='buynow']").attr('disabled', 'true');
+                $("span[id='undoEdit']").hide();
+                $("span[id='edit']").show();
+                $("input[id='submit']").hide();
+            }
+        </script>
+     </head>
+     <body>
+         <span>
+             <a href="/admin/curtaindesign/index">curtain designs -> </a>
+             <a href="/admin/curtaindesign/view/{{curtainColour.curtainDesign.id}}">{{curtainColour.curtainDesign.urlName}} -> </a>
+             {{curtainColour.name}}
+         </span>
+         <form method="post" action="/admin/curtaincolour/update" enctype="multipart/form-data" style="width: 550px">
+             <span id="edit" class="editAll" onclick="edit()">Edit</span>
+             <span id="undoEdit" class="editAll" onclick="undoEdit()" style="display:none">Undo</span>
+             <input type="hidden" name="id" value="{{curtainColour.id}}"/>
+             
+             <table style="width: 500px">
+                 <tr>
+                     <td><label for="name">Name:</label>
+                     <td>
+                         <input type="text" id="name" name="name" readonly="readonly" value="{{curtainColour.name}}"/>
+                     </td>
+                     <td id="error_name" class="error" style="display: none; width: 100px">Name should not be empty</td>
+                 </tr>
+                 <tr>
+                     <td><label for="name">Display Image:</label>
+                     <td>
+                         <input type="file" id="display" name="display" readonly="readonly"/>
+                     </td>
+                 </tr> 
+                 <tr>
+                     <td><label for="name">Thumb Nail Image:</label>
+                     <td>
+                         <input type="file" id="thumbnail" name="thumbnail" readonly="readonly"/>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td><label for="name">Swatch Image:</label>
+                     <td>
+                         <input type="file" id="swatch" name="swatch" readonly="readonly"/>
+                     </td>
+                 </tr>
+                 <tr>
+                    <td>
+                         <label for="buynow">Buy Now:</label>
+                     </td>
+                     <td>
+                         <select name="buynow" id="buynow" disabled="true">
+                             
+                             {% if (curtainColour.buynow == 1) %}
+                                 <option value="1" selected="true">Y</option>
+                             {% else %}
+                                 <option value="1">Y</option>
+                             {% endif %}
+                             
+                             {% if (curtainColour.buynow == 0) %}
+                                 <option value="0" selected="true">N</option>
+                             {% else %}
+                                 <option value="0">N</option>
+                             {% endif %}
+                             
+                         </select> 
+                     </td>
+                 </tr>
+                 <tr>
+                    <td>
+                         <label for="instock">In Stock:</label>
+                     </td>
+                     <td>
+                         <select name="instock" id="instock" disabled="true">
+                             
+                             {% if (curtainColour.inStock == 1) %}
+                                 <option value="1" selected="true">Y</option>
+                             {% else %}
+                                 <option value="1">Y</option>
+                             {% endif %}
+                             
+                             {% if (curtainColour.inStock == 0) %}
+                                 <option value="0" selected="true">N</option>
+                             {% else %}
+                                 <option value="0">N</option>
+                             {% endif %}
+                             
+                         </select> 
+                     </td>
+                 </tr>
+             </table>
+             <br/><input id="submit" name="submit" class="submitAll" type="submit" value="Save" style="display:none"/>
+        </form>
+     </body>
+</html>

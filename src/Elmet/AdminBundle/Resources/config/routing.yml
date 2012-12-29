@@ -137,3 +137,23 @@ ElmetAdminBundle_cd_new_page:
 ElmetAdminBundle_cd_create_page:
     pattern:  /curtaindesign/create
     defaults: { _controller: ElmetAdminBundle:CurtainDesign:create }
+
+ElmetAdminBundle_cc_view_page:
+    pattern:  /curtaincolour/view/{id}
+    defaults: { _controller: ElmetAdminBundle:CurtainColour:view }
+
+ElmetAdminBundle_cc_remove_page:
+    pattern:  /curtaincolour/remove/{id}
+    defaults: { _controller: ElmetAdminBundle:CurtainColour:remove }
+
+ElmetAdminBundle_cc_update_page:
+    pattern:  /curtaincolour/update
+    defaults: { _controller: ElmetAdminBundle:CurtainColour:update }
+
+ElmetAdminBundle_cc_new_page:
+    pattern:  /curtaincolour/new/{id}
+    defaults: { _controller: ElmetAdminBundle:CurtainColour:new }
+    
+ElmetAdminBundle_cc_create_page:
+    pattern:  /curtaincolour/create
+    defaults: { _controller: ElmetAdminBundle:CurtainColour:create }
