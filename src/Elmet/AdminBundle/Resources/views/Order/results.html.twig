@@ -1,0 +1,85 @@
+<html>
+    <head>
+        <title>Elmet Curtains Administration Portal</title>
+        <link href="/css/admin.css" rel="stylesheet" type="text/css"/>
+        <style>
+            table, tr, td
+            {  
+                border: 0px;
+                padding: 5px;
+            }
+                     
+        </style>
+        <script type="text/javascript" src="/js/jquery.js"></script>
+        <script type="text/javascript" src="/js/admin.js"></script>
+     </head>
+     <body>
+         <span>
+             <a href="/admin/order/search">Order Search -> </a>Results
+         </span>    
+         <table>
+             <thead>
+                 <tr>
+                     <th style="width: 50px">Order No</th>
+                     <th style="width: 100px">Name</th>
+                     <th style="width: 150px">Email</th>
+                     <th style="width: 100px">Address</th>
+                     <th style="width: 350px">Order</th>
+                 </tr>
+             </thead>
+             <tbody>    
+                 {%set i = 1 %}
+                 {% for order in orders %}
+                    <tr class="{{ cycle(['odd', 'even'], i) }}">
+                        <td>{{order.id}}</td>
+                        <td>{{order.billingName}}</td>
+                        <td>{{order.email}}</td>
+                        <td>
+                            {{order.billingAddress}}<br/>
+                            {% if order.billingAddress2 != "" %}
+                                {{order.billingAddress2}}<br/>
+                            {% endif %}
+                            {{order.billingTown}}<br/>
+                            {{order.billingPostcode}}
+                        </td>
+                        <td>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th style="width: 150px">Design</th>
+                                        <th style="width: 150px">Item</th>
+                                        <th style="width: 50px">Colour</th>
+                                        <th style="width: 50px">Size</th>
+                                        <th style="width: 50px">Drop Alteration</th>
+                                        <th style="width: 50px">Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% set j = 1 %}
+                                    {% for item in order.orderItems %}    
+                                        <tr class="{{ cycle(['odd', 'even'], j) }}">
+                                            <td>{{item.name}}</td>
+                                            <td>{{item.description}}</td>
+                                            <td>{{item.colour}}</td>
+                                            <td>{{item.size}}</td>
+                                            <td>
+                                                {% if item.dropAlteration == "" %}
+                                                    N/A
+                                                {% else %}
+                                                    {{item.dropAlteration}}
+                                                {% endif %}
+                                            </td>
+                                            <td>{{item.quantity}}</td>
+                                        </tr>
+                                    {% set j = j + 1 %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                 {%set i = i + 1 %}    
+                 {% endfor %}
+             </tbody>
+         </table>
+     </body>
+</html>

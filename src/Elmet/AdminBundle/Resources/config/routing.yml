@@ -157,3 +157,11 @@ ElmetAdminBundle_cc_new_page:
 ElmetAdminBundle_cc_create_page:
     pattern:  /curtaincolour/create
     defaults: { _controller: ElmetAdminBundle:CurtainColour:create }
+
+ElmetAdminBundle_order_search_page:
+    pattern:  /order/search
+    defaults: { _controller: ElmetAdminBundle:Order:search }
+
+ElmetAdminBundle_order_results_page:
+    pattern:  /order/results
+    defaults: { _controller: ElmetAdminBundle:Order:results }
