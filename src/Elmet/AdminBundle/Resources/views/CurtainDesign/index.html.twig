@@ -1,11 +1,11 @@
-<html>
-    <head>
-        <title>Elmet Curtains Administration Portal</title>
-        <link href="/css/admin.css" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" src="/js/jquery.js"></script>
-     </head>
-     <body>
-         <table style="width: 550px">
+{% extends 'ElmetAdminBundle::layout.html.twig' %}
+{% block breadcrumb %}    
+    <span>
+         <a href="/admin/curtaindesign/index">Manage Curtain Designs</a>
+     </span>
+{% endblock %}
+{% block body %}
+         <table style="width: 600px">
              <thead>
                  <tr>
                      <th style="width: 100px">Curtain Price Band</th>
@@ -35,5 +35,4 @@
                  {% endfor %}
              </tbody>
          </table> 
-     </body>
-</html>
+{% endblock %}

@@ -24,14 +24,15 @@
                 }
                 td.edit {
                     font-weight: bold;
-                    color: #a8b758;
-                    text-decoration: underline;
+                    color: #556B2F;
+                    text-decoration: none;
                     cursor: pointer;       
                 }
                 
                 a {
                     font-weight: bold;
-                    color: #a8b758;     
+                    color: #556B2F;
+			    text-decoration: none;     
                 }
                 
                 input.submit {
@@ -41,8 +42,8 @@
 				
 				span.editAll {
                     font-weight: bold;
-                    color: #a8b758;
-                    text-decoration: underline;
+                    color: #556B2F;
+                    text-decoration: none;
                     cursor: pointer;
                     float: right
                 }
@@ -58,4 +59,58 @@
                     font-style: italic;
                 }
 			
+			.sidebar {
 				
+				float: left;
+				width: 290px;
+				background-color: #F8F8FF;
+				border-style: solid;
+				border-width: 1px;
+				margin: 0px 10px 0px 0px;
+				padding: 0px;
+				text-align: left;
+				
+			}
+     
+			.sidebar ul {
+				
+				list-style: none;
+				
+			}
+
+                .sidebar li {
+                    
+                    list-style: none;
+                }
+                
+                .sidebar a {
+                
+                    text-decoration: none;
+                }
+
+			.inputform tr, td {            
+                
+				border: 0px;
+                		padding: 5px;
+            	}
+                
+			.breadcrumb {
+
+                    float:left; 
+			    width:300px; 
+			    margin-bottom: 10px;   
+                }
+			
+			.breadcrumb span {
+
+			    font-size: x-small;    
+                }
+     			
+ 			.breadcrumb a {
+
+                    font-weight: bold;
+                    color: #556B2F;
+			    text-decoration: none;
+			    font-size: x-small;
+			        
+                }

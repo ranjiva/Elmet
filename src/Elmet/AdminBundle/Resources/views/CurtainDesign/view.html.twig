@@ -1,293 +1,234 @@
-<html>
-    <head>
-        <title>Elmet Curtains Administration Portal</title>
-        <link href="/css/admin.css" rel="stylesheet" type="text/css"/>
-        <style>
-            table, tr, td
-            {  
-                border: 0px;
-                padding: 5px;
-            }
-                     
-        </style>
-        <script type="text/javascript" src="/js/jquery.js"></script>
-        <script type="text/javascript" src="/js/admin.js"></script>
-        <script type="text/javascript" src="/js/admincurtaindesign.js"></script>
-        <script language="javascript">
-                        
-            function edit() {
+{% extends 'ElmetAdminBundle::layout.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="/js/admincurtaindesign.js"></script>
+{% endblock %}
+{% block breadcrumb %}    
+    <span>
+         <a href="/admin/curtaindesign/index">Manage Curtain Designs</a> -> {{curtainDesign.urlName | lower}}
+     </span>
+{% endblock %}
+{% block body %}
+     <form method="post" action="/admin/curtaindesign/update" style="width: 550px" class="inputform">
+         <span id="edit" class="editAll" onclick="edit()">Edit</span>
+         <span id="undoEdit" class="editAll" onclick="undoEdit()" style="display:none">Undo</span>
+         <input type="hidden" name="oldUrlName" value="{{curtainDesign.urlName}}"/>
+         <input type="hidden" name="id" value="{{curtainDesign.id}}"/>
 
-                $("select[id='priceband']").removeAttr('disabled');
-                $("input[id='shortname']").removeAttr('readonly');
-                $("textarea[id='name']").removeAttr('readonly');
-                $("textarea[id='materials']").removeAttr('readonly');
-                $("select[id='tapesize']").removeAttr('disabled');
-                $("select[id='lined']").removeAttr('disabled');
-                $("select[id='eyelets']").removeAttr('disabled');
-                $("input[id='fabricwidth']").removeAttr('readonly');
-                $("input[id='patternrepeatlength']").removeAttr('readonly');
-                $("select[id='cushionfinish']").removeAttr('disabled');
-                $("select[id='curtainfinish']").removeAttr('disabled');
-                $("td[id='new_colour']").show();
-                $("td[id='remove_colour']").show();
-                $("select[id='new']").removeAttr('disabled');
-                $("span[id='undoEdit']").show();
-                $("span[id='edit']").hide();
-                $("input[id='submit']").show();
-            }
+         {%set i = 1 %}
+         {%for urlName in urlNames%}
 
-            function undoEdit() {
+            <input type="hidden" name="urlname_{{i}}" value="{{urlName}}"/>
+            {%set i = i + 1 %}
 
-                $("select[id='priceband']").attr('disabled', 'true');
-                $("input[id='shortname']").attr('readonly', 'true');
-                $("textarea[id='name']").attr('readonly', 'true');
-                $("textarea[id='materials']").attr('readonly', 'true');
-                $("select[id='tapesize']").attr('disabled', 'true');
-                $("select[id='lined']").attr('disabled', 'true');
-                $("select[id='eyelets']").attr('disabled', 'true');
-                $("input[id='fabricwidth']").attr('readonly', 'true');
-                $("input[id='patternrepeatlength']").attr('readonly', 'true');
-                $("select[id='cushionfinish']").attr('disabled', 'true');
-                $("select[id='curtainfinish']").attr('disabled', 'true');
-                $("select[id='new']").attr('disabled', 'true');
-                $("td[id='new_colour']").hide();
-                $("td[id='remove_colour']").hide();
-                $("span[id='undoEdit']").hide();
-                $("span[id='edit']").show();
-                $("input[id='submit']").hide();
-                $("td[id='error_fabricwidth']").hide();
-                $("td[id='error_patternrepeatlength']").hide();
-                $("td[id='error_shortname']").hide();
-                $("td[id='error_name']").hide();
-                $("td[id='error_materials']").hide();
-            }
-        </script>
-     </head>
-     <body>
-         <span>
-             <a href="/admin/curtaindesign/index">curtain designs -> </a>{{curtainDesign.urlName}}
-         </span>
-         <form method="post" action="/admin/curtaindesign/update" style="width: 550px">
-             <span id="edit" class="editAll" onclick="edit()">Edit</span>
-             <span id="undoEdit" class="editAll" onclick="undoEdit()" style="display:none">Undo</span>
-             <input type="hidden" name="oldUrlName" value="{{curtainDesign.urlName}}"/>
-             <input type="hidden" name="id" value="{{curtainDesign.id}}"/>
-             
-             {%set i = 1 %}
-             {%for urlName in urlNames%}
-                
-                <input type="hidden" name="urlname_{{i}}" value="{{urlName}}"/>
-                {%set i = i + 1 %}
-             
-             {%endfor%}
-             
-             <table style="width: 500px">
-                 <tr>
-                     <td>
-                         <label for="priceband">Curtain Price Band:</label>
-                     </td>
-                     <td>
-                         <select name="priceband" id="priceband" disabled="true">     
-                            {% for curtainPriceBand in curtainPriceBands %}
-                            
-                                {% if (curtainPriceBand.id == curtainDesign.curtainPriceBand.id) %}
-                                    <option value="{{curtainPriceBand.id}}" selected="true">{{curtainPriceBand.id}}</option>
-                                {% else %}
-                                    <option value="{{curtainPriceBand.id}}">{{curtainPriceBand.id}}</option>
-                                {% endif %}
-                            {% endfor %}                                         
-                         </select>
-                     </td>
-                 </tr>
-                 <tr>
-                     <td><label for="shortname">Short Name:</label>
-                     <td>
-                         <input type="text" id="shortname" name="shortname" value="{{curtainDesign.urlName}}" readonly="readonly"/>
-                     </td>
-                     <td id="error_shortname" class="error" style="display: none; width: 100px">Name should not be empty and should be unique</td>
-                 </tr>
-                 <tr>
-                     <td><label for="name">Name:</label>
-                     <td>
-                         <textarea rows="3" cols="50" id="name" name="name" readonly="readonly">{{curtainDesign.name}}</textarea>
-                     </td>
-                     <td id="error_name" class="error" style="display: none; width: 100px">Name should not be empty</td>
-                 </tr>
-                 <tr>
-                     <td><label for="materials">Materials:</label>
-                     <td>
-                         <textarea rows="4" cols="60" id="materials" name="materials" readonly="readonly">{{curtainDesign.materials}}</textarea>
-                     </td>
-                     <td id="error_materials" class="error" style="display: none; width: 100px">Materials description should not be empty</td>
-                 </tr>
-                 <tr>
-                     <td>
-                         <label for="tapesize">Tape Size:</label>
-                     </td>
-                     <td>
-                         <select name="tapesize" id="tapesize" disabled="true">     
-                            {% for tapeSize in tapeSizes %}
-                            
-                                {% if (tapeSize.size == curtainDesign.tapesize) %}
-                                    <option value="{{tapeSize.size}}" selected="true">{{tapeSize.size}}</option>
-                                {% else %}
-                                    <option value="{{tapeSize.size}}">{{tapeSize.size}}</option>
-                                {% endif %}
-                            {% endfor %}                                         
-                         </select>
-                     </td>
-                 </tr>
-                 <tr>
-                    <td>
-                         <label for="lined">Lined:</label>
-                     </td>
-                     <td>
-                         <select name="lined" id="lined" disabled="true">
-                             
-                             {% if (curtainDesign.lined == 1) %}
-                                 <option value="1" selected="true">Y</option>
-                             {% else %}
-                                 <option value="1">Y</option>
-                             {% endif %}
-                             
-                             {% if (curtainDesign.lined == 0) %}
-                                 <option value="0" selected="true">N</option>
-                             {% else %}
-                                 <option value="0">N</option>
-                             {% endif %}
-                             
-                         </select> 
-                     </td>
-                 </tr>
-                 <tr>
-                    <td>
-                         <label for="eyelets">Eyelets Available:</label>
-                     </td>
-                     <td>
-                         <select name="eyelets" id="eyelets" disabled="true">
-                             
-                             {% if (curtainDesign.lined == 1) %}
-                                 <option value="1" selected="true">Y</option>
-                             {% else %}
-                                 <option value="1">Y</option>
-                             {% endif %}
-                             
-                             {% if (curtainDesign.lined == 0) %}
-                                 <option value="0" selected="true">N</option>
-                             {% else %}
-                                 <option value="0">N</option>
-                             {% endif %}
-                             
-                         </select> 
-                     </td>
-                 </tr>
-                 <tr>
-                     <td><label for="fabricwidth">Fabric Width:</label>
-                     <td>
-                         <input type="text" id="fabricwidth" name="fabricwidth" value="{{curtainDesign.fabricWidth}}" readonly="readonly"/>
-                     </td>
-                     <td id="error_fabricwidth" class="error" style="display: none; width: 100px">Fabric width should be numeric</td>
-                 </tr>
-                 <tr>
-                     <td><label for="patternRepeatLength">Pattern Repeat Length:</label>
-                     <td>
-                         <input type="text" id="patternrepeatlength" name="patternrepeatlength" value="{{curtainDesign.patternRepeatLength}}" readonly="readonly"/>
-                     </td>
-                     <td id="error_patternrepeatlength" class="error" style="display: none; width: 100px">Pattern repeat length should be numeric</td>
-                 </tr>
-                 <tr>
-                     <td>
-                         <label for="curtainfinish">Curtain Finish:</label>
-                     </td>
-                     <td>
-                         <select name="curtainfinish" id="curtainfinish" disabled="true">     
-                            {% for curtainFinish in curtainFinishes %}
-                            
-                                {% if (curtainFinish.finish == curtainDesign.finish) %}
-                                    <option value="{{curtainFinish.finish}}" selected="true">{{curtainFinish.finish}}</option>
-                                {% else %}
-                                    <option value="{{curtainFinish.finish}}">{{curtainFinish.finish}}</option>
-                                {% endif %}
-                            {% endfor %}                                         
-                         </select>
-                     </td>
-                 </tr>
-                 <tr>
-                     <td>
-                         <label for="cushionfinish">Cushion Finish:</label>
-                     </td>
-                     <td>
-                         <select name="cushionfinish" id="cushionfinish" disabled="true">     
-                            {% for cushionFinish in cushionFinishes %}
-                            
-                                {% if (cushionFinish.finish == curtainDesign.cushionFinish) %}
-                                    <option value="{{cushionFinish.finish}}" selected="true">{{cushionFinish.finish}}</option>
-                                {% else %}
-                                    <option value="{{cushionFinish.finish}}">{{cushionFinish.finish}}</option>
-                                {% endif %}
-                            {% endfor %}                                         
-                         </select>
-                     </td>
-                 </tr>
-                 <tr>
-                    <td>
-                         <label for="new">New:</label>
-                     </td>
-                     <td>
-                         <select name="new" id="eyelets" disabled="true">
-                             
-                             {% if (curtainDesign.new == 1) %}
-                                 <option value="1" selected="true">Y</option>
-                             {% else %}
-                                 <option value="1">Y</option>
-                             {% endif %}
-                             
-                             {% if (curtainDesign.new == 0) %}
-                                 <option value="0" selected="true">N</option>
-                             {% else %}
-                                 <option value="0">N</option>
-                             {% endif %}
-                             
-                         </select> 
-                     </td>
-                 </tr>
-                 <tr>
-                     <td>
-                         <label for="colours">Colours:</label>
-                     </td>
-                     <td>
-                        {% if curtainDesign.curtainColours.count == 0 %}
-                            <a href="/admin/curtaincolour/new/{{curtainDesign.id}}">new</a>
-                        {% else %}
+         {%endfor%}
 
-                            <table style="width: 300px">
-                                 <thead>
-                                     <tr>
-                                         <th style="width: 100px">Colour</th>
-                                     </tr>
-                                 </thead>
-                                 <tbody>
+         <table style="width: 500px">
+             <tr>
+                 <td>
+                     <label for="priceband">Curtain Price Band:</label>
+                 </td>
+                 <td>
+                     <select name="priceband" id="priceband" disabled="true">     
+                        {% for curtainPriceBand in curtainPriceBands %}
 
-                                    {%set i = 1 %}
-                                    {% for curtainColour in curtainDesign.curtainColours %}
-                                    <tr class="{{ cycle(['odd', 'even'], i) }}">
-                                        <td>
-                                           {{curtainColour.name}}
-                                        </td>
-                                        <td id="new_colour" class="edit" style="display:none"><a href="/admin/curtaincolour/new/{{curtainDesign.id}}">new</a></td>
-                                        <td class="edit"><a href="/admin/curtaincolour/view/{{curtainColour.id}}">view</a></td>
-                                        <td id="remove_colour" style="display:none"><a href="/admin/curtaincolour/remove/{{curtainColour.id}}">remove</a></td>
-                                    </tr>
-                                    {%set i = i + 1 %}    
-                                    {% endfor %}
+                            {% if (curtainPriceBand.id == curtainDesign.curtainPriceBand.id) %}
+                                <option value="{{curtainPriceBand.id}}" selected="true">{{curtainPriceBand.id}}</option>
+                            {% else %}
+                                <option value="{{curtainPriceBand.id}}">{{curtainPriceBand.id}}</option>
+                            {% endif %}
+                        {% endfor %}                                         
+                     </select>
+                 </td>
+             </tr>
+             <tr>
+                 <td><label for="shortname">Short Name:</label>
+                 <td>
+                     <input type="text" id="shortname" name="shortname" value="{{curtainDesign.urlName}}" readonly="readonly"/>
+                 </td>
+                 <td id="error_shortname" class="error" style="display: none; width: 100px">Name should not be empty and should be unique</td>
+             </tr>
+             <tr>
+                 <td><label for="name">Name:</label>
+                 <td>
+                     <textarea rows="3" cols="50" id="name" name="name" readonly="readonly">{{curtainDesign.name}}</textarea>
+                 </td>
+                 <td id="error_name" class="error" style="display: none; width: 100px">Name should not be empty</td>
+             </tr>
+             <tr>
+                 <td><label for="materials">Materials:</label>
+                 <td>
+                     <textarea rows="4" cols="60" id="materials" name="materials" readonly="readonly">{{curtainDesign.materials}}</textarea>
+                 </td>
+                 <td id="error_materials" class="error" style="display: none; width: 100px">Materials description should not be empty</td>
+             </tr>
+             <tr>
+                 <td>
+                     <label for="tapesize">Tape Size:</label>
+                 </td>
+                 <td>
+                     <select name="tapesize" id="tapesize" disabled="true">     
+                        {% for tapeSize in tapeSizes %}
 
-                                </tbody>
-                             </table>
+                            {% if (tapeSize.size == curtainDesign.tapesize) %}
+                                <option value="{{tapeSize.size}}" selected="true">{{tapeSize.size}}</option>
+                            {% else %}
+                                <option value="{{tapeSize.size}}">{{tapeSize.size}}</option>
+                            {% endif %}
+                        {% endfor %}                                         
+                     </select>
+                 </td>
+             </tr>
+             <tr>
+                <td>
+                     <label for="lined">Lined:</label>
+                 </td>
+                 <td>
+                     <select name="lined" id="lined" disabled="true">
+
+                         {% if (curtainDesign.lined == 1) %}
+                             <option value="1" selected="true">Y</option>
+                         {% else %}
+                             <option value="1">Y</option>
                          {% endif %}
-                     </td>
-                 </tr>
-             </table>
-             <br/><input id="submit" name="submit" class="submitAll" type="submit" value="Save" style="display:none"/>
-        </form>
-     </body>
-</html>
+
+                         {% if (curtainDesign.lined == 0) %}
+                             <option value="0" selected="true">N</option>
+                         {% else %}
+                             <option value="0">N</option>
+                         {% endif %}
+
+                     </select> 
+                 </td>
+             </tr>
+             <tr>
+                <td>
+                     <label for="eyelets">Eyelets Available:</label>
+                 </td>
+                 <td>
+                     <select name="eyelets" id="eyelets" disabled="true">
+
+                         {% if (curtainDesign.lined == 1) %}
+                             <option value="1" selected="true">Y</option>
+                         {% else %}
+                             <option value="1">Y</option>
+                         {% endif %}
+
+                         {% if (curtainDesign.lined == 0) %}
+                             <option value="0" selected="true">N</option>
+                         {% else %}
+                             <option value="0">N</option>
+                         {% endif %}
+
+                     </select> 
+                 </td>
+             </tr>
+             <tr>
+                 <td><label for="fabricwidth">Fabric Width:</label>
+                 <td>
+                     <input type="text" id="fabricwidth" name="fabricwidth" value="{{curtainDesign.fabricWidth}}" readonly="readonly"/>
+                 </td>
+                 <td id="error_fabricwidth" class="error" style="display: none; width: 100px">Fabric width should be numeric</td>
+             </tr>
+             <tr>
+                 <td><label for="patternRepeatLength">Pattern Repeat Length:</label>
+                 <td>
+                     <input type="text" id="patternrepeatlength" name="patternrepeatlength" value="{{curtainDesign.patternRepeatLength}}" readonly="readonly"/>
+                 </td>
+                 <td id="error_patternrepeatlength" class="error" style="display: none; width: 100px">Pattern repeat length should be numeric</td>
+             </tr>
+             <tr>
+                 <td>
+                     <label for="curtainfinish">Curtain Finish:</label>
+                 </td>
+                 <td>
+                     <select name="curtainfinish" id="curtainfinish" disabled="true">     
+                        {% for curtainFinish in curtainFinishes %}
+
+                            {% if (curtainFinish.finish == curtainDesign.finish) %}
+                                <option value="{{curtainFinish.finish}}" selected="true">{{curtainFinish.finish}}</option>
+                            {% else %}
+                                <option value="{{curtainFinish.finish}}">{{curtainFinish.finish}}</option>
+                            {% endif %}
+                        {% endfor %}                                         
+                     </select>
+                 </td>
+             </tr>
+             <tr>
+                 <td>
+                     <label for="cushionfinish">Cushion Finish:</label>
+                 </td>
+                 <td>
+                     <select name="cushionfinish" id="cushionfinish" disabled="true">     
+                        {% for cushionFinish in cushionFinishes %}
+
+                            {% if (cushionFinish.finish == curtainDesign.cushionFinish) %}
+                                <option value="{{cushionFinish.finish}}" selected="true">{{cushionFinish.finish}}</option>
+                            {% else %}
+                                <option value="{{cushionFinish.finish}}">{{cushionFinish.finish}}</option>
+                            {% endif %}
+                        {% endfor %}                                         
+                     </select>
+                 </td>
+             </tr>
+             <tr>
+                <td>
+                     <label for="new">New:</label>
+                 </td>
+                 <td>
+                     <select name="new" id="eyelets" disabled="true">
+
+                         {% if (curtainDesign.new == 1) %}
+                             <option value="1" selected="true">Y</option>
+                         {% else %}
+                             <option value="1">Y</option>
+                         {% endif %}
+
+                         {% if (curtainDesign.new == 0) %}
+                             <option value="0" selected="true">N</option>
+                         {% else %}
+                             <option value="0">N</option>
+                         {% endif %}
+
+                     </select> 
+                 </td>
+             </tr>
+             <tr>
+                 <td>
+                     <label for="colours">Colours:</label>
+                 </td>
+                 <td>
+                    {% if curtainDesign.curtainColours.count == 0 %}
+                        <a href="/admin/curtaincolour/new/{{curtainDesign.id}}">new</a>
+                    {% else %}
+
+                        <table style="width: 300px">
+                             <thead>
+                                 <tr>
+                                     <th style="width: 100px">Colour</th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+
+                                {%set i = 1 %}
+                                {% for curtainColour in curtainDesign.curtainColours %}
+                                <tr class="{{ cycle(['odd', 'even'], i) }}">
+                                    <td>
+                                       {{curtainColour.name}}
+                                    </td>
+                                    <td id="new_colour" class="edit" style="display:none"><a href="/admin/curtaincolour/new/{{curtainDesign.id}}">new</a></td>
+                                    <td class="edit"><a href="/admin/curtaincolour/view/{{curtainColour.id}}">view</a></td>
+                                    <td id="remove_colour" style="display:none"><a href="/admin/curtaincolour/remove/{{curtainColour.id}}">remove</a></td>
+                                </tr>
+                                {%set i = i + 1 %}    
+                                {% endfor %}
+
+                            </tbody>
+                         </table>
+                     {% endif %}
+                 </td>
+             </tr>
+         </table>
+         <br/><input id="submit" name="submit" class="submitAll" type="submit" value="Save" style="display:none"/>
+    </form>
+{% endblock %}

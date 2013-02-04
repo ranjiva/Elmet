@@ -1,164 +1,163 @@
-<html>
-    <head>
-        <title>Elmet Curtains Administration Portal</title>
-        <link href="/css/admin.css" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" src="/js/jquery.js"></script>
-        <script type="text/javascript" src="/js/admin.js"></script>
-        <script type="text/javascript" src="/js/adminprice.js"></script>
-     </head>
-     <body>
-         <form method="post" action="/admin/cushioncover/update" style="width: 460px">
-             <span id="editAll" class="editAll" onclick="editAll()">Edit All</span>
-             <span id="undoEditAll" class="editAll" onclick="undoEditAll()" style="display:none">Undo</span>
-             <table style="width: 400px">
-                 <thead>
-                     <tr>
-                         <th style="width: 100px">Price Band</th>
-                         <th style="width: 100px">Size</th>
-                         <th>Price</th>
+{% extends 'ElmetAdminBundle::layout.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="/js/adminprice.js"></script>
+{% endblock %}
+{% block breadcrumb %}    
+    <span>
+         <a href="/admin/cushioncover/view">Manage Cushion Cover Prices</a>
+     </span>
+{% endblock %}
+{% block body %}
+     <form method="post" action="/admin/cushioncover/update" style="width: 510px">
+         <span id="editAll" class="editAll" onclick="editAll()">Edit All</span>
+         <span id="undoEditAll" class="editAll" onclick="undoEditAll()" style="display:none">Undo</span>
+         <table style="width: 450px">
+             <thead>
+                 <tr>
+                     <th style="width: 100px">Price Band</th>
+                     <th style="width: 100px">Size</th>
+                     <th>Price</th>
+                 </tr>
+             </thead>
+             <tbody>
+
+                 <tr id="new"style="display:none">
+                         <td>
+                            <select name="priceband_new">
+
+                                {% for curtainPriceBand in curtainPriceBands %}
+
+                                     <option value="{{curtainPriceBand.id}}">{{curtainPriceBand.id}}</option>
+
+                                {% endfor %}
+
+                             </select>
+                         </td>
+                         <td>
+                            <select name="size_new">
+
+                                {% for cushionCoverSize in cushionCoverSizes %}
+
+                                     <option value="{{cushionCoverSize.size}}">{{cushionCoverSize.size}}</option>
+
+                                {% endfor %}
+
+                             </select>
+                         </td>
+                         <td>
+                             <input type="number" name="price_new" value=""/>
+                         </td>
+                         <td class="edit" onclick="undoCreate()">undo</td>
+                         <td><input class="submit" type="submit" name="save_new" value="Save"/></td> 
+                         <td id="error_new" class="error" style="display: none; width: 200px">Price is not numeric</price>
+                 </tr>
+
+                 {%set i = 1 %}
+                 {% for cushionCover in cushionCovers %}
+
+                     <tr id="view_{{cushionCover.id}}" class="{{ cycle(['odd', 'even'], i) }}">
+                         <td>
+                            {{cushionCover.curtainPriceBand.id}}
+                         </td>
+                         <td>
+                            {{cushionCover.size}}
+                         </td>
+                         <td>
+                             {{cushionCover.price}}            
+                         </td>
+                         <td class="edit" onclick="create()">new</td>
+                         <td class="edit" onclick="edit({{cushionCover.id}},'price')">edit</td>
+                         <td><a href="/admin/cushioncover/remove/{{cushionCover.id}}">remove</a></td>
                      </tr>
-                 </thead>
-                 <tbody>
-                     
-                     <tr id="new"style="display:none">
-                             <td>
-                                <select name="priceband_new">
-                               
-                                    {% for curtainPriceBand in curtainPriceBands %}
-                                        
-                                         <option value="{{curtainPriceBand.id}}">{{curtainPriceBand.id}}</option>
-                                     
-                                    {% endfor %}
-                                         
-                                 </select>
-                             </td>
-                             <td>
-                                <select name="size_new">
-                               
-                                    {% for cushionCoverSize in cushionCoverSizes %}
-                                        
-                                         <option value="{{cushionCoverSize.size}}">{{cushionCoverSize.size}}</option>
-                                     
-                                    {% endfor %}
-                                         
-                                 </select>
-                             </td>
-                             <td>
-                                 <input type="number" name="price_new" value=""/>
-                             </td>
-                             <td class="edit" onclick="undoCreate()">undo</td>
-                             <td><input class="submit" type="submit" name="save_new" value="Save"/></td> 
-                             <td id="error_new" class="error" style="display: none; width: 200px">Price is not numeric</price>
+
+                     <tr id="edit_{{cushionCover.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
+                         <td>
+                            <select name="single:priceband_{{cushionCover.id}}">
+
+                                {% for curtainPriceBand in curtainPriceBands %}
+
+                                    {% if cushionCover.curtainPriceBand.id == curtainPriceBand.id %}
+
+                                        <option value="{{curtainPriceBand.id}}" selected="true">{{curtainPriceBand.id}}</option>
+                                    {% else %} 
+                                        <option value="{{curtainPriceBand.id}}">{{curtainPriceBand.id}}</option>
+                                    {% endif %}
+
+                                {% endfor %}
+
+                             </select>
+                         </td>
+                         <td>
+                          <select name="single:size_{{cushionCover.id}}">
+
+                                {% for cushionCoverSize in cushionCoverSizes %}
+
+                                    {% if cushionCover.size == cushionCoverSize.size %}
+
+                                        <option value="{{cushionCoverSize.size}}" selected="true">{{cushionCoverSize.size}}</option>
+                                    {% else %} 
+                                        <option value="{{cushionCoverSize.size}}">{{cushionCoverSize.size}}</option>
+                                    {% endif %}
+
+                                {% endfor %}
+
+                             </select>
+
+                         </td>
+                         <td>
+                             <input type="number" name="single:price_{{cushionCover.id}}" value="{{cushionCover.price}}"/>
+                         </td>
+                         <td class="edit" onclick="undo({{cushionCover.id}})">undo</td>
+                         <td><input class="submit" type="submit" name="save_{{cushionCover.id}}" value="Save"/></td>
+                         <td id="error_{{cushionCover.id}}" class="error" style="display: none; width: 200px">Price is not numeric</price>
                      </tr>
-                     
-                     {%set i = 1 %}
-                     {% for cushionCover in cushionCovers %}
-                         
-                         <tr id="view_{{cushionCover.id}}" class="{{ cycle(['odd', 'even'], i) }}">
-                             <td>
-                                {{cushionCover.curtainPriceBand.id}}
-                             </td>
-                             <td>
-                                {{cushionCover.size}}
-                             </td>
-                             <td>
-                                 {{cushionCover.price}}            
-                             </td>
-                             <td class="edit" onclick="create()">new</td>
-                             <td class="edit" onclick="edit({{cushionCover.id}},'price')">edit</td>
-                             <td><a href="/admin/cushioncover/remove/{{cushionCover.id}}">remove</a></td>
-                         </tr>
-                         
-                         <tr id="edit_{{cushionCover.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
-                             <td>
-                                <select name="single:priceband_{{cushionCover.id}}">
-                               
-                                    {% for curtainPriceBand in curtainPriceBands %}
-                                        
-                                        {% if cushionCover.curtainPriceBand.id == curtainPriceBand.id %}
-                                    
-                                            <option value="{{curtainPriceBand.id}}" selected="true">{{curtainPriceBand.id}}</option>
-                                        {% else %} 
-                                            <option value="{{curtainPriceBand.id}}">{{curtainPriceBand.id}}</option>
-                                        {% endif %}
-                                         
-                                    {% endfor %}
-                                         
-                                 </select>
-                             </td>
-                             <td>
-                              <select name="single:size_{{cushionCover.id}}">
-                               
-                                    {% for cushionCoverSize in cushionCoverSizes %}
-                                        
-                                        {% if cushionCover.size == cushionCoverSize.size %}
-                                    
-                                            <option value="{{cushionCoverSize.size}}" selected="true">{{cushionCoverSize.size}}</option>
-                                        {% else %} 
-                                            <option value="{{cushionCoverSize.size}}">{{cushionCoverSize.size}}</option>
-                                        {% endif %}
-                                         
-                                    {% endfor %}
-                                         
-                                 </select>
-                                                       
-                             </td>
-                             <td>
-                                 <input type="number" name="single:price_{{cushionCover.id}}" value="{{cushionCover.price}}"/>
-                             </td>
-                             <td class="edit" onclick="undo({{cushionCover.id}})">undo</td>
-                             <td><input class="submit" type="submit" name="save_{{cushionCover.id}}" value="Save"/></td>
-                             <td id="error_{{cushionCover.id}}" class="error" style="display: none; width: 200px">Price is not numeric</price>
-                         </tr>
-                         
-                         <tr id="editAll_{{cushionCover.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
-                             <td>
-                                <select name="all:priceband_{{cushionCover.id}}">
-                               
-                                    {% for curtainPriceBand in curtainPriceBands %}
-                                        
-                                        {% if cushionCover.curtainPriceBand.id == curtainPriceBand.id %}
-                                    
-                                            <option value="{{curtainPriceBand.id}}" selected="true">{{curtainPriceBand.id}}</option>
-                                        {% else %} 
-                                            <option value="{{curtainPriceBand.id}}">{{curtainPriceBand.id}}</option>
-                                        {% endif %}
-                                         
-                                    {% endfor %}
-                                         
-                                 </select>
-                             </td>
-                             <td>
-                              <select name="all:size_{{cushionCover.id}}">
-                               
-                                    {% for cushionCoverSize in cushionCoverSizes %}
-                                        
-                                        {% if cushionCover.size == cushionCoverSize.size %}
-                                    
-                                            <option value="{{cushionCoverSize.size}}" selected="true">{{cushionCoverSize.size}}</option>
-                                        {% else %} 
-                                            <option value="{{cushionCoverSize.size}}">{{cushionCoverSize.size}}</option>
-                                        {% endif %}
-                                         
-                                    {% endfor %}
-                                         
-                                 </select>
-                                                       
-                             </td>
-                             <td>
-                                 <input type="number" name="all:price_{{cushionCover.id}}" value="{{cushionCover.price}}"/>
-                             </td>
-                             <td id="error_{{cushionCover.id}}" class="error" style="display: none; width: 200px">Price is not numeric</price>
-                         </tr>
-                         
-                     {%set i = i + 1 %}    
-                     {% endfor %}
-                 </tbody>
-             </table>
-             
-             <br/><input id="submitAll" name="submit_all" class="submitAll" type="submit" value="Save All" style="display:none"/>
-         </form>        
-            
-             
-     </body>
-</html>
+
+                     <tr id="editAll_{{cushionCover.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
+                         <td>
+                            <select name="all:priceband_{{cushionCover.id}}">
+
+                                {% for curtainPriceBand in curtainPriceBands %}
+
+                                    {% if cushionCover.curtainPriceBand.id == curtainPriceBand.id %}
+
+                                        <option value="{{curtainPriceBand.id}}" selected="true">{{curtainPriceBand.id}}</option>
+                                    {% else %} 
+                                        <option value="{{curtainPriceBand.id}}">{{curtainPriceBand.id}}</option>
+                                    {% endif %}
+
+                                {% endfor %}
+
+                             </select>
+                         </td>
+                         <td>
+                          <select name="all:size_{{cushionCover.id}}">
+
+                                {% for cushionCoverSize in cushionCoverSizes %}
+
+                                    {% if cushionCover.size == cushionCoverSize.size %}
+
+                                        <option value="{{cushionCoverSize.size}}" selected="true">{{cushionCoverSize.size}}</option>
+                                    {% else %} 
+                                        <option value="{{cushionCoverSize.size}}">{{cushionCoverSize.size}}</option>
+                                    {% endif %}
+
+                                {% endfor %}
+
+                             </select>
+
+                         </td>
+                         <td>
+                             <input type="number" name="all:price_{{cushionCover.id}}" value="{{cushionCover.price}}"/>
+                         </td>
+                         <td id="error_{{cushionCover.id}}" class="error" style="display: none; width: 200px">Price is not numeric</price>
+                     </tr>
+
+                 {%set i = i + 1 %}    
+                 {% endfor %}
+             </tbody>
+         </table>
+
+         <br/><input id="submitAll" name="submit_all" class="submitAll" type="submit" value="Save All" style="display:none"/>
+     </form>        
+{% endblock %} 

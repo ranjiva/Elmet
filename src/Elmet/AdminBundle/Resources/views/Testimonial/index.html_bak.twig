@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <title>Elmet Curtains Administration Portal</title>
+        <link href="/css/admin.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="/js/admin.js"></script>
+     </head>
+     <body>
+         <form method="post" action="/admin/testimonial/update">
+             <table style="width: 600px">
+                 <thead>
+                     <tr>
+                         <th style="width: 100px">Customer Name</th>
+                         <th style="width: 300px">Testimonial</th>
+                         <th>Featured</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                     
+                     <tr id="new"style="display:none">
+                             <td>
+                                <input type="text" name="customer_new" value=""/>
+                             </td>
+                             <td>
+                                <textarea style="width: 300px; height:100px" name="testimonial_new"></textarea>
+                             </td>
+                             <td>
+                                 <select name="featured_new">
+                                     <option value="1" selected="true">Y</option>
+                                     <option value="0">N</option>    
+                                 </select>
+                             </td>
+                             <td class="edit" onclick="undoCreate()">undo</td>
+                             <td><input class="submit" type="submit" name="save_new" value="Save"/></td> 
+                     </tr>
+                     
+                     {%set i = 1 %}
+                     {% for testimonial in testimonials %}
+                         
+                         <tr id="view_{{testimonial.id}}" class="{{ cycle(['odd', 'even'], i) }}">
+                             <td>
+                                {{testimonial.customerDetails}}
+                             </td>
+                             <td>
+                                {{testimonial.testimonial}}
+                             </td>
+                             <td>
+                                 {% if testimonial.featured == 1 %}
+                                     Y
+                                 {% else %}
+                                     N
+                                 {%endif %}            
+                             </td>
+                             <td class="edit" onclick="create()">new</td>
+                             <td class="edit" onclick="edit({{testimonial.id}},'customer')">edit</td>
+                             <td><a href="/admin/testimonial/remove/{{testimonial.id}}">remove</a></td>
+                         </tr>
+                         
+                         <tr id="edit_{{testimonial.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
+                             <td>
+                                <input type="text" name="customer_{{testimonial.id}}" value="{{testimonial.customerDetails}}"/>
+                             </td>
+                             <td>
+                                <textarea style="width: 300px; height:100px" name="testimonial_{{testimonial.id}}">{{testimonial.testimonial}}</textarea>
+                             </td>
+                             <td>
+                                 <select name="featured_{{testimonial.id}}">
+                               
+                                     {% if testimonial.featured == 1 %}
+                                         <option value="1" selected="true">Y</option>
+                                         <option value="0">N</option>
+                                     {% else %}
+                                         <option value="1">Y</option>
+                                         <option value="0" selected="true">N</option>
+                                     {%endif %}
+                                         
+                                 </select>
+                             </td>
+                             <td class="edit" onclick="undo({{testimonial.id}})">undo</td>
+                             <td><input class="submit" type="submit" name="save_{{testimonial.id}}" value="Save"/></td> 
+                         </tr>
+                         
+                     {%set i = i + 1 %}    
+                     {% endfor %}
+                 </tbody>
+             </table>
+         </form>        
+            
+             
+     </body>
+</html>

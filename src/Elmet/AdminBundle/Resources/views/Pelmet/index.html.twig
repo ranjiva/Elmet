@@ -1,164 +1,164 @@
-<html>
-    <head>
-        <title>Elmet Curtains Administration Portal</title>
-        <link href="/css/admin.css" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" src="/js/jquery.js"></script>
-        <script type="text/javascript" src="/js/admin.js"></script>
-        <script type="text/javascript" src="/js/adminprice.js"></script>
-     </head>
-     <body>
-         <form method="post" action="/admin/pelmet/update" style="width: 460px">
-             <span id="editAll" class="editAll" onclick="editAll()">Edit All</span>
-             <span id="undoEditAll" class="editAll" onclick="undoEditAll()" style="display:none">Undo</span>
-             <table style="width: 400px">
-                 <thead>
-                     <tr>
-                         <th style="width: 100px">Price Band</th>
-                         <th style="width: 100px">Size</th>
-                         <th>Price</th>
+{% extends 'ElmetAdminBundle::layout.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="/js/adminprice.js"></script>
+{% endblock %}
+{% block breadcrumb %}    
+    <span>
+         <a href="/admin/pelmet/view">Manage Pelmet Prices</a>
+     </span>
+{% endblock %}
+{% block body %}
+     <form method="post" action="/admin/pelmet/update" style="width: 460px">
+         <span id="editAll" class="editAll" onclick="editAll()">Edit All</span>
+         <span id="undoEditAll" class="editAll" onclick="undoEditAll()" style="display:none">Undo</span>
+         <table style="width: 400px">
+             <thead>
+                 <tr>
+                     <th style="width: 100px">Price Band</th>
+                     <th style="width: 100px">Size</th>
+                     <th>Price</th>
+                 </tr>
+             </thead>
+             <tbody>
+
+                 <tr id="new"style="display:none">
+                         <td>
+                            <select name="priceband_new">
+
+                                {% for curtainPriceBand in curtainPriceBands %}
+
+                                     <option value="{{curtainPriceBand.id}}">{{curtainPriceBand.id}}</option>
+
+                                {% endfor %}
+
+                             </select>
+                         </td>
+                         <td>
+                            <select name="size_new">
+
+                                {% for pelmetSize in pelmetSizes %}
+
+                                     <option value="{{pelmetSize.size}}">{{pelmetSize.size}}</option>
+
+                                {% endfor %}
+
+                             </select>
+                         </td>
+                         <td>
+                             <input type="number" name="price_new" value=""/>
+                         </td>
+                         <td class="edit" onclick="undoCreate()">undo</td>
+                         <td><input class="submit" type="submit" name="save_new" value="Save"/></td> 
+                         <td id="error_new" class="error" style="display: none; width: 200px">Price is not numeric</price>
+                 </tr>
+
+                 {%set i = 1 %}
+                 {% for pelmet in pelmets %}
+
+                     <tr id="view_{{pelmet.id}}" class="{{ cycle(['odd', 'even'], i) }}">
+                         <td>
+                            {{pelmet.curtainPriceBand.id}}
+                         </td>
+                         <td>
+                            {{pelmet.size}}
+                         </td>
+                         <td>
+                             {{pelmet.price}}            
+                         </td>
+                         <td class="edit" onclick="create()">new</td>
+                         <td class="edit" onclick="edit({{pelmet.id}},'price')">edit</td>
+                         <td><a href="/admin/pelmet/remove/{{pelmet.id}}">remove</a></td>
                      </tr>
-                 </thead>
-                 <tbody>
-                     
-                     <tr id="new"style="display:none">
-                             <td>
-                                <select name="priceband_new">
-                               
-                                    {% for curtainPriceBand in curtainPriceBands %}
-                                        
-                                         <option value="{{curtainPriceBand.id}}">{{curtainPriceBand.id}}</option>
-                                     
-                                    {% endfor %}
-                                         
-                                 </select>
-                             </td>
-                             <td>
-                                <select name="size_new">
-                               
-                                    {% for pelmetSize in pelmetSizes %}
-                                        
-                                         <option value="{{pelmetSize.size}}">{{pelmetSize.size}}</option>
-                                     
-                                    {% endfor %}
-                                         
-                                 </select>
-                             </td>
-                             <td>
-                                 <input type="number" name="price_new" value=""/>
-                             </td>
-                             <td class="edit" onclick="undoCreate()">undo</td>
-                             <td><input class="submit" type="submit" name="save_new" value="Save"/></td> 
-                             <td id="error_new" class="error" style="display: none; width: 200px">Price is not numeric</price>
+
+                     <tr id="edit_{{pelmet.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
+                         <td>
+                            <select name="single:priceband_{{pelmet.id}}">
+
+                                {% for curtainPriceBand in curtainPriceBands %}
+
+                                    {% if pelmet.curtainPriceBand.id == curtainPriceBand.id %}
+
+                                        <option value="{{curtainPriceBand.id}}" selected="true">{{curtainPriceBand.id}}</option>
+                                    {% else %} 
+                                        <option value="{{curtainPriceBand.id}}">{{curtainPriceBand.id}}</option>
+                                    {% endif %}
+
+                                {% endfor %}
+
+                             </select>
+                         </td>
+                         <td>
+                          <select name="single:size_{{pelmet.id}}">
+
+                                {% for pelmetSize in pelmetSizes %}
+
+                                    {% if pelmet.size == pelmetSize.size %}
+
+                                        <option value="{{pelmetSize.size}}" selected="true">{{pelmetSize.size}}</option>
+                                    {% else %} 
+                                        <option value="{{pelmetSize.size}}">{{pelmetSize.size}}</option>
+                                    {% endif %}
+
+                                {% endfor %}
+
+                             </select>
+
+                         </td>
+                         <td>
+                             <input type="number" name="single:price_{{pelmet.id}}" value="{{pelmet.price}}"/>
+                         </td>
+                         <td class="edit" onclick="undo({{pelmet.id}})">undo</td>
+                         <td><input class="submit" type="submit" name="save_{{pelmet.id}}" value="Save"/></td>
+                         <td id="error_{{pelmet.id}}" class="error" style="display: none; width: 200px">Price is not numeric</price>
                      </tr>
-                     
-                     {%set i = 1 %}
-                     {% for pelmet in pelmets %}
-                         
-                         <tr id="view_{{pelmet.id}}" class="{{ cycle(['odd', 'even'], i) }}">
-                             <td>
-                                {{pelmet.curtainPriceBand.id}}
-                             </td>
-                             <td>
-                                {{pelmet.size}}
-                             </td>
-                             <td>
-                                 {{pelmet.price}}            
-                             </td>
-                             <td class="edit" onclick="create()">new</td>
-                             <td class="edit" onclick="edit({{pelmet.id}},'price')">edit</td>
-                             <td><a href="/admin/pelmet/remove/{{pelmet.id}}">remove</a></td>
-                         </tr>
-                         
-                         <tr id="edit_{{pelmet.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
-                             <td>
-                                <select name="single:priceband_{{pelmet.id}}">
-                               
-                                    {% for curtainPriceBand in curtainPriceBands %}
-                                        
-                                        {% if pelmet.curtainPriceBand.id == curtainPriceBand.id %}
-                                    
-                                            <option value="{{curtainPriceBand.id}}" selected="true">{{curtainPriceBand.id}}</option>
-                                        {% else %} 
-                                            <option value="{{curtainPriceBand.id}}">{{curtainPriceBand.id}}</option>
-                                        {% endif %}
-                                         
-                                    {% endfor %}
-                                         
-                                 </select>
-                             </td>
-                             <td>
-                              <select name="single:size_{{pelmet.id}}">
-                               
-                                    {% for pelmetSize in pelmetSizes %}
-                                        
-                                        {% if pelmet.size == pelmetSize.size %}
-                                    
-                                            <option value="{{pelmetSize.size}}" selected="true">{{pelmetSize.size}}</option>
-                                        {% else %} 
-                                            <option value="{{pelmetSize.size}}">{{pelmetSize.size}}</option>
-                                        {% endif %}
-                                         
-                                    {% endfor %}
-                                         
-                                 </select>
-                                                       
-                             </td>
-                             <td>
-                                 <input type="number" name="single:price_{{pelmet.id}}" value="{{pelmet.price}}"/>
-                             </td>
-                             <td class="edit" onclick="undo({{pelmet.id}})">undo</td>
-                             <td><input class="submit" type="submit" name="save_{{pelmet.id}}" value="Save"/></td>
-                             <td id="error_{{pelmet.id}}" class="error" style="display: none; width: 200px">Price is not numeric</price>
-                         </tr>
-                         
-                         <tr id="editAll_{{pelmet.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
-                             <td>
-                                <select name="all:priceband_{{pelmet.id}}">
-                               
-                                    {% for curtainPriceBand in curtainPriceBands %}
-                                        
-                                        {% if pelmet.curtainPriceBand.id == curtainPriceBand.id %}
-                                    
-                                            <option value="{{curtainPriceBand.id}}" selected="true">{{curtainPriceBand.id}}</option>
-                                        {% else %} 
-                                            <option value="{{curtainPriceBand.id}}">{{curtainPriceBand.id}}</option>
-                                        {% endif %}
-                                         
-                                    {% endfor %}
-                                         
-                                 </select>
-                             </td>
-                             <td>
-                              <select name="all:size_{{pelmet.id}}">
-                               
-                                    {% for pelmetSize in pelmetSizes %}
-                                        
-                                        {% if pelmet.size == pelmetSize.size %}
-                                    
-                                            <option value="{{pelmetSize.size}}" selected="true">{{pelmetSize.size}}</option>
-                                        {% else %} 
-                                            <option value="{{pelmetSize.size}}">{{pelmetSize.size}}</option>
-                                        {% endif %}
-                                         
-                                    {% endfor %}
-                                         
-                                 </select>
-                                                       
-                             </td>
-                             <td>
-                                 <input type="number" name="all:price_{{pelmet.id}}" value="{{pelmet.price}}"/>
-                             </td>
-                             <td id="error_{{pelmet.id}}" class="error" style="display: none; width: 200px">Price is not numeric</price>
-                         </tr>
-                         
-                     {%set i = i + 1 %}    
-                     {% endfor %}
-                 </tbody>
-             </table>
-             
-             <br/><input id="submitAll" name="submit_all" class="submitAll" type="submit" value="Save All" style="display:none"/>
-         </form>        
-            
-             
-     </body>
-</html>
+
+                     <tr id="editAll_{{pelmet.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
+                         <td>
+                            <select name="all:priceband_{{pelmet.id}}">
+
+                                {% for curtainPriceBand in curtainPriceBands %}
+
+                                    {% if pelmet.curtainPriceBand.id == curtainPriceBand.id %}
+
+                                        <option value="{{curtainPriceBand.id}}" selected="true">{{curtainPriceBand.id}}</option>
+                                    {% else %} 
+                                        <option value="{{curtainPriceBand.id}}">{{curtainPriceBand.id}}</option>
+                                    {% endif %}
+
+                                {% endfor %}
+
+                             </select>
+                         </td>
+                         <td>
+                          <select name="all:size_{{pelmet.id}}">
+
+                                {% for pelmetSize in pelmetSizes %}
+
+                                    {% if pelmet.size == pelmetSize.size %}
+
+                                        <option value="{{pelmetSize.size}}" selected="true">{{pelmetSize.size}}</option>
+                                    {% else %} 
+                                        <option value="{{pelmetSize.size}}">{{pelmetSize.size}}</option>
+                                    {% endif %}
+
+                                {% endfor %}
+
+                             </select>
+
+                         </td>
+                         <td>
+                             <input type="number" name="all:price_{{pelmet.id}}" value="{{pelmet.price}}"/>
+                         </td>
+                         <td id="error_{{pelmet.id}}" class="error" style="display: none; width: 200px">Price is not numeric</price>
+                     </tr>
+
+                 {%set i = i + 1 %}    
+                 {% endfor %}
+             </tbody>
+         </table>
+
+         <br/><input id="submitAll" name="submit_all" class="submitAll" type="submit" value="Save All" style="display:none"/>
+     </form>        
+{% endblock %}  
+          

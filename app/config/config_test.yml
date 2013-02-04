@@ -12,3 +12,9 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+
+security:
+    firewalls:
+            secured_area:
+                pattern:    ^/admin
+                http_basic:

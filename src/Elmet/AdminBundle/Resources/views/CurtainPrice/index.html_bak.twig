@@ -1,0 +1,235 @@
+<html>
+    <head>
+        <title>Elmet Curtains Administration Portal</title>
+        <link href="/css/admin.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="/js/jquery.js"></script>
+        <script type="text/javascript" src="/js/admin.js"></script>
+        <script type="text/javascript" src="/js/adminprice.js"></script>
+        <script language="javascript">
+            
+            $(document).ready(function() {
+                  
+                var num = $("tr[id*='view_']").length
+                var curtainTypes = [];
+                
+                var i = 0;
+                               
+                $("input[name*='curtaintype_']").each(function() {
+                        
+                    curtainTypes[i] = $(this).val();
+                    i++;
+                 });
+                
+                if (num == 0) {
+                    $("tr[id='new']").show();
+                    $("td[id='undo_new']").hide();
+                    $("span[id='editAll']").hide();
+                }
+                
+                $("select[id='cepb_new']").change(function(e){
+                    
+                    var selected = $("select[id='cepb_new'] option:selected").text();
+                     
+                    $("select[id='type_new']").empty(); 
+                    
+                    for(i=0;i < curtainTypes.length;i++) {
+                        
+                        if (selected != "") {
+                            
+                            if (curtainTypes[i] == "HomeWindow") {
+                                                         
+                                $("select[id='type_new']").append($('<option></option>').val(curtainTypes[i]).html(curtainTypes[i]));
+                            }
+                            
+                        } else {
+                            
+                            if (curtainTypes[i] != "HomeWindow") {
+                                
+                                $("select[id='type_new']").append($('<option></option>').val(curtainTypes[i]).html(curtainTypes[i]));
+                            }
+                        }
+                    }
+                     
+                });
+             
+            });
+            
+            
+            
+        </script>
+     </head>
+     <body>
+         <form method="post" action="/admin/curtainprice/update" style="width: 665px">
+            <input type="hidden" name="curtainpriceband_current" value="{{id}}"/>
+            {%set i = 0 %}
+            {% for curtainType in curtainTypes %}
+                <input type="hidden" name="curtaintype_{{i}}" value="{{curtainType.type}}"/>       
+            {%set i = i + 1 %}
+            {% endfor %}
+            
+            <div style="width: 610px">
+                
+                <span style="float: right"/> 
+                    {% if (prevId != -1) %} 
+                        <a href="/admin/curtainprice/view/{{prevId}}">&lt;</a>
+                    {% endif%}
+
+                    {% for curtainPriceBand in curtainPriceBands %}
+
+                        {% if (id == curtainPriceBand.id) %}
+
+                            <span class="current">{{curtainPriceBand.id}}</span>
+                        {% else %}
+                            <span><a href="/admin/curtainprice/view/{{curtainPriceBand.id}}">{{curtainPriceBand.id}}</a></span>
+                        {% endif %}
+                    {% endfor%}    
+
+                    {% if (nextId != -1) %} 
+                        <a href="/admin/curtainprice/view/{{nextId}}">&gt;</a>
+                    {% endif%}        
+                </span>        
+            </div>
+            <span id="editAll" class="editAll" onclick="editAll()">Edit All</span>
+            <span id="undoEditAll" class="editAll" onclick="undoEditAll()" style="display:none">Undo</span>
+             <table style="width: 610px">
+                 <thead>
+                     <tr>
+                         <th style="width: 100px">Price Band</th>
+                         <th style="width: 150px">Eyelet Price Band</th>
+                         <th style="width: 100px">Size</th>
+                         <th style="width: 100px">Type</th>
+                         <th>Price</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+
+                     <tr id="new"style="display:none">
+                             <td>
+                                 {{id}}
+                             </td>
+                             <td>
+                                <select id="cepb_new" name="curtaineyeletpriceband_new">
+                                    
+                                    <option value="empty"></option>
+                                    
+                                    {% for curtainEyeletPriceBand in curtainEyeletPriceBands %}
+
+                                         <option value="{{curtainEyeletPriceBand.id}}">{{curtainEyeletPriceBand.id}}</option>
+
+                                    {% endfor %}
+
+                                 </select>
+                             </td>
+                             <td>
+                                <select name="size_new">
+
+                                    {% for curtainSize in curtainSizes %}
+                                        
+                                         <option value="{{curtainSize.size}}">{{curtainSize.size}}</option>
+
+                                    {% endfor %}
+
+                                 </select>
+                             </td>
+                             <td>
+                                <select id="type_new" name="type_new">
+
+                                    {% for curtainType in curtainTypes %}                       
+                                        {% if (curtainType.type != "HomeWindow") %}
+                                    
+                                            <option value="{{curtainType.type}}">{{curtainType.type}}</option>
+                                            
+                                        {% endif %}
+                                    {% endfor %}
+
+                                 </select>
+                             </td>
+                             <td>
+                                 <input type="number" name="price_new" value=""/>
+                             </td>
+                             <td class="edit" id="undo_new" onclick="undoCreate()">undo</td>
+                             <td><input class="submit" type="submit" name="save_new" value="Save"/></td> 
+                             <td id="error_new" class="error" style="display: none; width: 200px">Price is not numeric</price>
+                     </tr>
+
+                     {%set i = 1 %}
+                     {% for curtainPrice in curtainPrices %}
+
+                         <tr id="view_{{curtainPrice.id}}" class="{{ cycle(['odd', 'even'], i) }}">
+                             <td>
+                                {{curtainPrice.curtainPriceBand.id}}
+                             </td>
+                             <td>
+                                {% if ((curtainPrice.type != "CaravanWindow") and (curtainPrice.type != "CaravanDoor")) %}   
+                                    {{curtainPrice.curtainEyeletPriceBand.id}}
+                                {% endif %}
+                             </td>
+                             <td>
+                                {{curtainPrice.size}}
+                             </td>
+                             <td>
+                                {{curtainPrice.type}}
+                             </td>
+                             <td>
+                                 {{curtainPrice.price}}            
+                             </td>
+                             <td class="edit" onclick="create()">new</td>
+                             <td class="edit" onclick="edit({{curtainPrice.id}},'single:price')">edit</td>
+                             <td><a href="/admin/curtainprice/remove/{{curtainPrice.id}}/{{id}}">remove</a></td>
+                         </tr>
+
+                         <tr id="edit_{{curtainPrice.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
+                             <td>
+                                {{curtainPrice.curtainPriceBand.id}}
+                             </td>
+                             <td>
+                                {% if ((curtainPrice.type != "CaravanWindow") and (curtainPrice.type != "CaravanDoor")) %}   
+                                    {{curtainPrice.curtainEyeletPriceBand.id}}
+                                {% endif %}
+                             </td>
+                             <td>
+                                {{curtainPrice.size}}
+                             </td>
+                             <td>
+                                {{curtainPrice.type}}
+                             </td>
+                             <td>
+                                 <input type="number" name="single:price_{{curtainPrice.id}}" value="{{curtainPrice.price}}"/>
+                             </td>
+                             <td class="edit" onclick="undo({{curtainPrice.id}})">undo</td>
+                             <td><input class="submit" type="submit" name="save_{{curtainPrice.id}}" value="Save"/></td>
+                             <td id="error_{{curtainPrice.id}}" class="error" style="display: none; width: 200px">Price is not numeric</price>
+                         </tr>
+
+                         <tr id="editAll_{{curtainPrice.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
+                             <td>
+                                {{curtainPrice.curtainPriceBand.id}}
+                             </td>
+                             <td>
+                                {% if ((curtainPrice.type != "CaravanWindow") and (curtainPrice.type != "CaravanDoor")) %}   
+                                    {{curtainPrice.curtainEyeletPriceBand.id}}
+                                {% endif %}
+                             </td>
+                             <td>
+                                {{curtainPrice.size}}
+                             </td>
+                             <td>
+                                {{curtainPrice.type}}
+                             </td>
+                             <td>
+                                 <input type="number" name="all:price_{{curtainPrice.id}}" value="{{curtainPrice.price}}"/>
+                             </td>
+                             <td id="error_{{curtainPrice.id}}" class="error" style="display: none; width: 200px">Price is not numeric</price>
+                         </tr>
+
+                     {%set i = i + 1 %}    
+                     {% endfor %}
+                 </tbody>
+             </table>
+
+             <br/><input id="submitAll" name="submit_all" class="submitAll" type="submit" value="Save All" style="display:none"/>   
+        </form>        
+            
+             
+     </body>
+</html>

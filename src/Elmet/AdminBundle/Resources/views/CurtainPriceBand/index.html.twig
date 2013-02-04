@@ -1,156 +1,76 @@
-<html>
-    <head>
-        <title>Elmet Curtains Administration Portal</title>
-        <link href="/css/admin.css" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" src="/js/jquery.js"></script>
-        <script type="text/javascript" src="/js/admin.js"></script>
-        <script language="javascript">
-            
-            $(document).ready(function(){
-            
-                $("form").submit(function(e){
-            
-                    var names = "";
+{% extends 'ElmetAdminBundle::layout.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+<script type="text/javascript" src="/js/admincurtainpriceband.js"></script>
+{% endblock %}
+{% block breadcrumb %}    
+    <span>
+         <a href="/admin/curtainpriceband/view">Manage Curtain Price Bands</a>
+     </span>
+{% endblock %}
+{% block body %}
+     <form method="post" action="/admin/curtainpriceband/update" style="width: 380px">
+         <span id="editAll" class="editAll" onclick="editAll()">Edit All</span>
+         <span id="undoEditAll" class="editAll" onclick="undoEditAll()" style="display:none">Undo</span>
+         <table style="width: 320px">
+             <thead>
+                 <tr>
+                     <th style="width: 50px">Id</th>
+                     <th style="width: 100px">Name</th>
+                 </tr>
+             </thead>
+             <tbody>
 
-                    $("input[name*='old:name_']").each(function() {
+                 <tr id="new"style="display:none">
+                         <td>{{lastId+1}}</td>
+                         <td>
+                             <input type="text" name="name_new" value=""/>
+                         </td>
+                         <td class="edit" onclick="undoCreate()">undo</td>
+                         <td><input class="submit" type="submit" name="save_new" value="Save"/></td> 
+                         <td id="error_new" class="error" style="display: none; width: 200px">Name can not be empty and must be unique</price>
+                 </tr>
 
-                        names = names + ',' + $(this).val();
-                    });
-
-                    if (submitButton == "save_new") {
-
-                        var name = $("input[name='name_new']").val(); 
-                        
-                        if ((name == "") || (names.indexOf(name) != -1)) {
-
-                            increaseTableWidth();
-                            $("td[id='error_new']").show();
-                            e.preventDefault();
-                        }
-
-                    } else {
-
-                        if (submitButton == "submit_all") {
-
-                            $("tr[id*='editAll_']").each(function() {
-
-                                $(this).find("input[name*='all:name_']").each(function () { 
-
-                                    var name = $(this).val();
-                                    
-                                    if ((name == "") || (names.indexOf(name) != -1)) {
-                                        
-                                        var pos = $(this).attr("name").indexOf('_');
-                                        var id = $(this).attr("name").substr(pos+1);
-                                        
-                                        var oldName = $("input[name*='old:name_" + id + "']").val();
-                                      
-                                        if((oldName != name) || (name == "")) {
-                                        
-                                            $(this).parents("tr[id*='editAll_']").find("td[id='error_" + id + "']").show();
-                                            e.preventDefault();
-                                            increaseTableWidth();
-                                        }
-                                        else {
-                                            $(this).parents("tr[id*='editAll_']").find("td[id='error_" + id + "']").hide();
-                                        }
-                                    }
-                                });
-
-                            });
-
-                        } else {
-
-                            var pos = submitButton.indexOf('_');
-                            var id = submitButton.substr(pos+1);
-
-                            var name = $("tr[id='edit_" + id + "']").find("input[name='single:name_" + id + "']").val();
-                                       
-                            if ((name == "") || (names.indexOf(name) != -1)) {
-
-                                var oldName = $("input[name*='old:name_" + id + "']").val();
-                                
-                                if ((oldName != name) || (name == "")) {
-
-                                    $("tr[id='edit_" + id + "']").find("td[id='error_" + id + "']").show();
-                                    e.preventDefault();
-                                    increaseTableWidth();
-                                }
-                            }
-
-                        }
-                    }    
-                });
-            });
-            
-        </script>
-     </head>
-     <body>
-         <form method="post" action="/admin/curtainpriceband/update" style="width: 310px">
-             <span id="editAll" class="editAll" onclick="editAll()">Edit All</span>
-             <span id="undoEditAll" class="editAll" onclick="undoEditAll()" style="display:none">Undo</span>
-             <table style="width: 250px">
-                 <thead>
-                     <tr>
-                         <th style="width: 50px">Id</th>
-                         <th style="width: 100px">Name</th>
+                 {%set i = 1 %}
+                 {% for curtainPriceBand in curtainPriceBands %}
+                     <input type="hidden" name="old:name_{{curtainPriceBand.id}}" value="{{curtainPriceBand.name}}"/>
+                     <tr id="view_{{curtainPriceBand.id}}" class="{{ cycle(['odd', 'even'], i) }}">
+                         <td>
+                            {{curtainPriceBand.id}}
+                         </td>
+                         <td>
+                            {{curtainPriceBand.name}}
+                         </td>
+                         <td class="edit" onclick="create()">new</td>
+                         <td class="edit" onclick="edit({{curtainPriceBand.id}},'single:name')">edit</td>
+                         {% if canRemove[curtainPriceBand.id] == TRUE %}
+                            <td><a href="/admin/curtainpriceband/remove/{{curtainPriceBand.id}}">remove</a></td>
+                         {% endif %}
                      </tr>
-                 </thead>
-                 <tbody>
-                     
-                     <tr id="new"style="display:none">
-                             <td>{{lastId+1}}</td>
-                             <td>
-                                 <input type="text" name="name_new" value=""/>
-                             </td>
-                             <td class="edit" onclick="undoCreate()">undo</td>
-                             <td><input class="submit" type="submit" name="save_new" value="Save"/></td> 
-                             <td id="error_new" class="error" style="display: none; width: 200px">Name can not be empty and must be unique</price>
+
+                     <tr id="edit_{{curtainPriceBand.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
+                         <td>{{curtainPriceBand.id}}</td>
+                         <td>
+                             <input type="text" name="single:name_{{curtainPriceBand.id}}" value="{{curtainPriceBand.name}}"/>
+                         </td>
+                         <td class="edit" onclick="undo({{curtainPriceBand.id}})">undo</td>
+                         <td><input class="submit" type="submit" name="save_{{curtainPriceBand.id}}" value="Save"/></td>
+                         <td id="error_{{curtainPriceBand.id}}" class="error" style="display: none; width: 200px">Name can not be empty and must be unique</price>
                      </tr>
-                     
-                     {%set i = 1 %}
-                     {% for curtainPriceBand in curtainPriceBands %}
-                         <input type="hidden" name="old:name_{{curtainPriceBand.id}}" value="{{curtainPriceBand.name}}"/>
-                         <tr id="view_{{curtainPriceBand.id}}" class="{{ cycle(['odd', 'even'], i) }}">
-                             <td>
-                                {{curtainPriceBand.id}}
-                             </td>
-                             <td>
-                                {{curtainPriceBand.name}}
-                             </td>
-                             <td class="edit" onclick="create()">new</td>
-                             <td class="edit" onclick="edit({{curtainPriceBand.id}},'view:name')">edit</td>
-                             {% if canRemove[curtainPriceBand.id] == TRUE %}
-                                <td><a href="/admin/curtainpriceband/remove/{{curtainPriceBand.id}}">remove</a></td>
-                             {% endif %}
-                         </tr>
-                         
-                         <tr id="edit_{{curtainPriceBand.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
-                             <td>{{curtainPriceBand.id}}</td>
-                             <td>
-                                 <input type="text" name="single:name_{{curtainPriceBand.id}}" value="{{curtainPriceBand.name}}"/>
-                             </td>
-                             <td class="edit" onclick="undo({{curtainPriceBand.id}})">undo</td>
-                             <td><input class="submit" type="submit" name="save_{{curtainPriceBand.id}}" value="Save"/></td>
-                             <td id="error_{{curtainPriceBand.id}}" class="error" style="display: none; width: 200px">Name can not be empty and must be unique</price>
-                         </tr>
-                         
-                         <tr id="editAll_{{curtainPriceBand.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
-                             <td>{{curtainPriceBand.id}}</td>
-                             <td>
-                                 <input type="text" name="all:name_{{curtainPriceBand.id}}" value="{{curtainPriceBand.name}}"/>
-                             </td>
-                             <td id="error_{{curtainPriceBand.id}}" class="error" style="display: none; width: 200px">Name can not be empty and must be unique</price>
-                         </tr>
-                         
-                     {%set i = i + 1 %}    
-                     {% endfor %}
-                 </tbody>
-             </table>
-             
-             <br/><input id="submitAll" name="submit_all" class="submitAll" type="submit" value="Save All" style="display:none"/>
-         </form>        
-            
-             
-     </body>
-</html>
+
+                     <tr id="editAll_{{curtainPriceBand.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
+                         <td>{{curtainPriceBand.id}}</td>
+                         <td>
+                             <input type="text" name="all:name_{{curtainPriceBand.id}}" value="{{curtainPriceBand.name}}"/>
+                         </td>
+                         <td id="error_{{curtainPriceBand.id}}" class="error" style="display: none; width: 200px">Name can not be empty and must be unique</price>
+                     </tr>
+
+                 {%set i = i + 1 %}    
+                 {% endfor %}
+             </tbody>
+         </table>
+
+         <br/><input id="submitAll" name="submit_all" class="submitAll" type="submit" value="Save All" style="display:none"/>
+     </form>        
+{% endblock %}

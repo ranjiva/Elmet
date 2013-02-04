@@ -27,7 +27,7 @@
             <h2>Class Coverage Distribution</h2>
             <canvas id="classCoverageDistribution" width="475" height="200"></canvas>
             <script>
-            var ccd = new RGraph.Bar('classCoverageDistribution', [8,0,0,8,4,2,1,0,0,1,2,5]);
+            var ccd = new RGraph.Bar('classCoverageDistribution', [3,2,0,8,4,1,5,0,0,1,2,5]);
             ccd.Set('chart.background.barcolor1', 'white');
             ccd.Set('chart.background.barcolor2', 'white');
             ccd.Set('chart.colors', ['blue']);
@@ -44,7 +44,7 @@
             <h2>Class Complexity</h2>
             <canvas id="classComplexity" width="475" height="200"></canvas>
             <script>
-            var cc = new RGraph.Scatter('classComplexity', [[100,5,"blue","BaseController"],[0,1,"blue","BeddingsController"],[100,4,"blue","ContactController"],[40.952380952381,19,"blue","CurtainsController"],[0,1,"blue","CustServicesController"],[0,1,"blue","HomeController"],[41.818181818182,15,"blue","IPNGeneratorController"],[96.969696969697,5,"blue","LandingPageController"],[0,1,"blue","OffersController"],[80,37,"blue","OrderController"],[0,26,"blue","PayPalController"],[33.333333333333,2,"blue","TestimonialController"],[0,1,"blue","Configuration"],[0,1,"blue","ElmetSiteExtension"],[100,0,"blue","ElmetSiteBundle"],[100,8,"blue","Contact"],[34.782608695652,15,"blue","CurtainColour"],[30.232558139535,28,"blue","CurtainDesign"],[25,5,"blue","CurtainEyeletPriceBand"],[25,5,"blue","CurtainFabric"],[27.272727272727,7,"blue","CurtainPelmet"],[21.739130434783,15,"blue","CurtainPrice"],[20,16,"blue","CurtainPriceBand"],[28.571428571429,9,"blue","CurtainTieBack"],[21.428571428571,9,"blue","CushionCover"],[0,34,"blue","InstantPaymentNotification"],[32.584269662921,51,"blue","Order"],[95.121951219512,27,"blue","OrderItem"],[100,4,"blue","Registration"],[27.272727272727,7,"blue","Testimonial"],[50,3,"blue","CurtainColourRepository"]]);
+            var cc = new RGraph.Scatter('classComplexity', [[100,5,"blue","BaseController"],[50,1,"blue","BeddingsController"],[100,4,"blue","ContactController"],[40.952380952381,19,"blue","CurtainsController"],[50,1,"blue","CustServicesController"],[50,1,"blue","HomeController"],[0.90909090909091,15,"blue","IPNGeneratorController"],[96.969696969697,5,"blue","LandingPageController"],[50,1,"blue","OffersController"],[80,37,"blue","OrderController"],[0.71942446043165,26,"blue","PayPalController"],[33.333333333333,2,"blue","TestimonialController"],[0,1,"blue","Configuration"],[0,1,"blue","ElmetSiteExtension"],[100,0,"blue","ElmetSiteBundle"],[100,8,"blue","Contact"],[34.782608695652,15,"blue","CurtainColour"],[30.232558139535,28,"blue","CurtainDesign"],[25,5,"blue","CurtainEyeletPriceBand"],[25,5,"blue","CurtainFabric"],[27.272727272727,7,"blue","CurtainPelmet"],[21.739130434783,15,"blue","CurtainPrice"],[20,16,"blue","CurtainPriceBand"],[28.571428571429,9,"blue","CurtainTieBack"],[21.428571428571,9,"blue","CushionCover"],[0,34,"blue","InstantPaymentNotification"],[32.584269662921,51,"blue","Order"],[95.121951219512,27,"blue","OrderItem"],[100,4,"blue","Registration"],[27.272727272727,7,"blue","Testimonial"],[50,3,"blue","CurtainColourRepository"]]);
             cc.Set('chart.xmax', 100);
             cc.Set('chart.background.barcolor1', 'white');
             cc.Set('chart.background.barcolor2', 'white');
@@ -61,9 +61,9 @@
             <h2>Top Project Risks</h2>
             <ul>
               <li><a href="Elmet_SiteBundle_Entity_Order.php.html#12">Order</a> (847)</li>
-              <li><a href="Elmet_SiteBundle_Controller_PayPalController.php.html#9">PayPalController</a> (702)</li>
+              <li><a href="Elmet_SiteBundle_Controller_PayPalController.php.html#9">PayPalController</a> (687)</li>
+              <li><a href="Elmet_SiteBundle_Controller_IPNGeneratorController.php.html#10">IPNGeneratorController</a> (233)</li>
               <li><a href="Elmet_SiteBundle_Controller_CurtainsController.php.html#11">CurtainsController</a> (93)</li>
-              <li><a href="Elmet_SiteBundle_Controller_IPNGeneratorController.php.html#10">IPNGeneratorController</a> (59)</li>
               <li><a href="Elmet_SiteBundle_Controller_OrderController.php.html#12">OrderController</a> (47)</li>
               <li><a href="Elmet_SiteBundle_Controller_LandingPageController.php.html#8">LandingPageController</a> (5)</li>
               <li><a href="Elmet_SiteBundle_Repository_CurtainColourRepository.php.html#13">CurtainColourRepository</a> (4)</li>
@@ -80,10 +80,10 @@
               <li><a href="Elmet_SiteBundle_Entity_InstantPaymentNotification.php.html#353">InstantPaymentNotification::getPaymentStatus</a> (0%)</li>
               <li><a href="Elmet_SiteBundle_Entity_InstantPaymentNotification.php.html#313">InstantPaymentNotification::getAddressStreet</a> (0%)</li>
               <li><a href="Elmet_SiteBundle_Entity_InstantPaymentNotification.php.html#303">InstantPaymentNotification::setAddressStreet</a> (0%)</li>
+              <li><a href="Elmet_SiteBundle_Entity_InstantPaymentNotification.php.html#263">InstantPaymentNotification::setAddressName</a> (0%)</li>
               <li><a href="Elmet_SiteBundle_Entity_InstantPaymentNotification.php.html#273">InstantPaymentNotification::getAddressName</a> (0%)</li>
               <li><a href="Elmet_SiteBundle_Entity_InstantPaymentNotification.php.html#283">InstantPaymentNotification::setAddressState</a> (0%)</li>
               <li><a href="Elmet_SiteBundle_Entity_InstantPaymentNotification.php.html#293">InstantPaymentNotification::getAddressState</a> (0%)</li>
-              <li><a href="Elmet_SiteBundle_Entity_InstantPaymentNotification.php.html#363">InstantPaymentNotification::setMcGross</a> (0%)</li>
 
             </ul>
           </td>
@@ -95,7 +95,7 @@
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
-      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.4</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.14 at Sun Sep 16 16:37:52 CEST 2012.</td></tr>
+      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.4</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.14 at Sun Jan 13 1:29:54 CET 2013.</td></tr>
     </table>
 
     <br/>

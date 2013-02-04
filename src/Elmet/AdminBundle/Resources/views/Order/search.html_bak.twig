@@ -1,0 +1,65 @@
+<html>
+    <head>
+        <title>Elmet Curtains Administration Portal</title>
+        <link href="/css/admin.css" rel="stylesheet" type="text/css"/>
+        <style>
+            table, tr, td
+            {  
+                border: 0px;
+                padding: 5px;
+            }
+                     
+        </style>
+        <script type="text/javascript" src="/js/jquery.js"></script>
+        <script type="text/javascript" src="/js/admin.js"></script>
+        
+        <script language="javascript">
+                        
+            
+        </script>
+     </head>
+     <body>
+         <form method="post" action="/admin/order/results" style="width: 550px" class="inputform">
+             
+             <table style="width: 500px">
+                 <tr>
+                     <td><label for="custom">PayPal Custom Value:</label>
+                     <td>
+                         <input type="text" id="custom" name="custom"/>
+                     </td>
+                  <td id="error_custom" class="error" style="display: none; width: 100px">Custom value should be a whole number</td>
+                 </tr>
+                 <tr>
+                     <td><label for="email">Email Address</label>
+                     <td>
+                         <input type="text" id="email" name="email"/>
+                     </td>
+                 </tr> 
+                 <tr>
+                     <td><label for="name">Billing Name:</label>
+                     <td>
+                         <input type="text" id="name" name="name"/>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td><label for="postcode">Post Code:</label>
+                     <td>
+                         <input type="text" id="postcode" name="postcode"/>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td><label for="status">Order Status:</label>
+                     <td>
+                         <select name="status" id="status">
+                             
+                             <option value="Paid">Paid</option>
+                             <option value="Pending">Pending</option>
+                             
+                         </select> 
+                     </td>
+                 </tr>
+             </table>
+             <br/><input id="submit" name="submit" class="submitAll" type="submit" value="Search"/>
+        </form>
+     </body>
+</html>

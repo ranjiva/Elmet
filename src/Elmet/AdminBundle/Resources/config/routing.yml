@@ -46,15 +46,15 @@ ElmetAdminBundle_pelmet_remove_page:
     pattern:  /pelmet/remove/{id}
     defaults: { _controller: ElmetAdminBundle:Pelmet:remove }
 
-ElmetAdminBundle_cc_view_page:
+ElmetAdminBundle_ccover_view_page:
     pattern:  /cushioncover/view
     defaults: { _controller: ElmetAdminBundle:CushionCover:view }
 
-ElmetAdminBundle_cc_update_page:
+ElmetAdminBundle_ccover_update_page:
     pattern:  /cushioncover/update
     defaults: { _controller: ElmetAdminBundle:CushionCover:update }
 
-ElmetAdminBundle_cc_remove_page:
+ElmetAdminBundle_ccover_remove_page:
     pattern:  /cushioncover/remove/{id}
     defaults: { _controller: ElmetAdminBundle:CushionCover:remove }
     

@@ -1,212 +1,211 @@
-<html>
-    <head>
-        <title>Elmet Curtains Administration Portal</title>
-        <link href="/css/admin.css" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" src="/js/jquery.js"></script>
-        <script type="text/javascript" src="/js/admin.js"></script>
-        <script type="text/javascript" src="/js/adminprice.js"></script>
-     </head>
-     <body>
-         <form method="post" action="/admin/tieback/update" style="width: 460px">
-             <span id="editAll" class="editAll" onclick="editAll()">Edit All</span>
-             <span id="undoEditAll" class="editAll" onclick="undoEditAll()" style="display:none">Undo</span>
-             <table style="width: 400px">
-                 <thead>
-                     <tr>
-                         <th style="width: 100px">Price Band</th>
-                         <th style="width: 100px">Size</th>
-                         <th>Price</th>
-                         <th>Window Type</th>
+{% extends 'ElmetAdminBundle::layout.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="/js/adminprice.js"></script>
+{% endblock %}
+{% block breadcrumb %}    
+    <span>
+         <a href="/admin/tieback/view">Manage Tie Back Prices</a>
+     </span>
+{% endblock %}
+{% block body %}
+     <form method="post" action="/admin/tieback/update" style="width: 600px">
+         <span id="editAll" class="editAll" onclick="editAll()">Edit All</span>
+         <span id="undoEditAll" class="editAll" onclick="undoEditAll()" style="display:none">Undo</span>
+         <table style="width: 540px">
+             <thead>
+                 <tr>
+                     <th style="width: 100px">Price Band</th>
+                     <th style="width: 100px">Size</th>
+                     <th>Price</th>
+                     <th>Window Type</th>
+                 </tr>
+             </thead>
+             <tbody>
+
+                 <tr id="new"style="display:none">
+                         <td>
+                            <select name="priceband_new">
+
+                                {% for curtainPriceBand in curtainPriceBands %}
+
+                                     <option value="{{curtainPriceBand.id}}">{{curtainPriceBand.id}}</option>
+
+                                {% endfor %}
+
+                             </select>
+                         </td>
+                         <td>
+                            <select name="size_new">
+
+                                {% for tiebackSize in tiebackSizes %}
+
+                                     <option value="{{tiebackSize.size}}">{{tiebackSize.size}}</option>
+
+                                {% endfor %}
+
+                             </select>
+                         </td>
+                         <td>
+                             <input type="number" name="price_new" value=""/>
+                         </td>
+                         <td>
+                            <select name="type_new">
+
+                                {% for tiebackType in tiebackTypes %}
+
+                                     <option value="{{tiebackType.type}}">{{tiebackType.type}}</option>
+
+                                {% endfor %}
+
+                             </select>
+                         </td>
+                         <td class="edit" onclick="undoCreate()">undo</td>
+                         <td><input class="submit" type="submit" name="save_new" value="Save"/></td> 
+                         <td id="error_new" class="error" style="display: none; width: 200px">Price is not numeric</price>
+                 </tr>
+
+                 {%set i = 1 %}
+                 {% for tieback in tiebacks %}
+
+                     <tr id="view_{{tieback.id}}" class="{{ cycle(['odd', 'even'], i) }}">
+                         <td>
+                            {{tieback.curtainPriceBand.id}}
+                         </td>
+                         <td>
+                            {{tieback.size}}
+                         </td>
+                         <td>
+                             {{tieback.price}}            
+                         </td>
+                         <td>
+                             {{tieback.type}}            
+                         </td>
+                         <td class="edit" onclick="create()">new</td>
+                         <td class="edit" onclick="edit({{tieback.id}},'price')">edit</td>
+                         <td><a href="/admin/tieback/remove/{{tieback.id}}">remove</a></td>
                      </tr>
-                 </thead>
-                 <tbody>
-                     
-                     <tr id="new"style="display:none">
-                             <td>
-                                <select name="priceband_new">
-                               
-                                    {% for curtainPriceBand in curtainPriceBands %}
-                                        
-                                         <option value="{{curtainPriceBand.id}}">{{curtainPriceBand.id}}</option>
-                                     
-                                    {% endfor %}
-                                         
-                                 </select>
-                             </td>
-                             <td>
-                                <select name="size_new">
-                               
-                                    {% for tiebackSize in tiebackSizes %}
-                                        
-                                         <option value="{{tiebackSize.size}}">{{tiebackSize.size}}</option>
-                                     
-                                    {% endfor %}
-                                         
-                                 </select>
-                             </td>
-                             <td>
-                                 <input type="number" name="price_new" value=""/>
-                             </td>
-                             <td>
-                                <select name="type_new">
-                               
-                                    {% for tiebackType in tiebackTypes %}
-                                        
-                                         <option value="{{tiebackType.type}}">{{tiebackType.type}}</option>
-                                     
-                                    {% endfor %}
-                                         
-                                 </select>
-                             </td>
-                             <td class="edit" onclick="undoCreate()">undo</td>
-                             <td><input class="submit" type="submit" name="save_new" value="Save"/></td> 
-                             <td id="error_new" class="error" style="display: none; width: 200px">Price is not numeric</price>
+
+                     <tr id="edit_{{tieback.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
+                         <td>
+                            <select name="single:priceband_{{tieback.id}}">
+
+                                {% for curtainPriceBand in curtainPriceBands %}
+
+                                    {% if tieback.curtainPriceBand.id == curtainPriceBand.id %}
+
+                                        <option value="{{curtainPriceBand.id}}" selected="true">{{curtainPriceBand.id}}</option>
+                                    {% else %} 
+                                        <option value="{{curtainPriceBand.id}}">{{curtainPriceBand.id}}</option>
+                                    {% endif %}
+
+                                {% endfor %}
+
+                             </select>
+                         </td>
+                         <td>
+                            <select name="single:size_{{tieback.id}}">
+
+                                {% for tiebackSize in tiebackSizes %}
+
+                                    {% if tieback.size == tiebackSize.size %}
+
+                                        <option value="{{tiebackSize.size}}" selected="true">{{tiebackSize.size}}</option>
+                                    {% else %} 
+                                        <option value="{{tiebackSize.size}}">{{tiebackSize.size}}</option>
+                                    {% endif %}
+
+                                {% endfor %}
+
+                             </select>
+
+                         </td>
+                         <td>
+                             <input type="number" name="single:price_{{tieback.id}}" value="{{tieback.price}}"/>
+                         </td>
+                         <td>
+                            <select name="single:type_{{tieback.id}}">
+
+                                {% for tiebackType in tiebackTypes %}
+
+                                    {% if tieback.type == tiebackType.type %}
+
+                                        <option value="{{tiebackType.type}}" selected="true">{{tiebackType.type}}</option>
+                                    {% else %} 
+                                        <option value="{{tiebackType.type}}">{{tiebackType.type}}</option>
+                                    {% endif %}
+
+                                {% endfor %}
+
+                             </select>
+
+                         </td> 
+                         <td class="edit" onclick="undo({{tieback.id}})">undo</td>
+                         <td><input class="submit" type="submit" name="save_{{tieback.id}}" value="Save"/></td>
+                         <td id="error_{{tieback.id}}" class="error" style="display: none; width: 200px">Price is not numeric</price>
                      </tr>
-                     
-                     {%set i = 1 %}
-                     {% for tieback in tiebacks %}
-                         
-                         <tr id="view_{{tieback.id}}" class="{{ cycle(['odd', 'even'], i) }}">
-                             <td>
-                                {{tieback.curtainPriceBand.id}}
-                             </td>
-                             <td>
-                                {{tieback.size}}
-                             </td>
-                             <td>
-                                 {{tieback.price}}            
-                             </td>
-                             <td>
-                                 {{tieback.type}}            
-                             </td>
-                             <td class="edit" onclick="create()">new</td>
-                             <td class="edit" onclick="edit({{tieback.id}},'price')">edit</td>
-                             <td><a href="/admin/tieback/remove/{{tieback.id}}">remove</a></td>
-                         </tr>
-                         
-                         <tr id="edit_{{tieback.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
-                             <td>
-                                <select name="single:priceband_{{tieback.id}}">
-                               
-                                    {% for curtainPriceBand in curtainPriceBands %}
-                                        
-                                        {% if tieback.curtainPriceBand.id == curtainPriceBand.id %}
-                                    
-                                            <option value="{{curtainPriceBand.id}}" selected="true">{{curtainPriceBand.id}}</option>
-                                        {% else %} 
-                                            <option value="{{curtainPriceBand.id}}">{{curtainPriceBand.id}}</option>
-                                        {% endif %}
-                                         
-                                    {% endfor %}
-                                         
-                                 </select>
-                             </td>
-                             <td>
-                                <select name="single:size_{{tieback.id}}">
-                               
-                                    {% for tiebackSize in tiebackSizes %}
-                                        
-                                        {% if tieback.size == tiebackSize.size %}
-                                    
-                                            <option value="{{tiebackSize.size}}" selected="true">{{tiebackSize.size}}</option>
-                                        {% else %} 
-                                            <option value="{{tiebackSize.size}}">{{tiebackSize.size}}</option>
-                                        {% endif %}
-                                         
-                                    {% endfor %}
-                                         
-                                 </select>
-                                                       
-                             </td>
-                             <td>
-                                 <input type="number" name="single:price_{{tieback.id}}" value="{{tieback.price}}"/>
-                             </td>
-                             <td>
-                                <select name="single:type_{{tieback.id}}">
-                               
-                                    {% for tiebackType in tiebackTypes %}
-                                        
-                                        {% if tieback.type == tiebackType.type %}
-                                    
-                                            <option value="{{tiebackType.type}}" selected="true">{{tiebackType.type}}</option>
-                                        {% else %} 
-                                            <option value="{{tiebackType.type}}">{{tiebackType.type}}</option>
-                                        {% endif %}
-                                         
-                                    {% endfor %}
-                                         
-                                 </select>
-                                                       
-                             </td> 
-                             <td class="edit" onclick="undo({{tieback.id}})">undo</td>
-                             <td><input class="submit" type="submit" name="save_{{tieback.id}}" value="Save"/></td>
-                             <td id="error_{{tieback.id}}" class="error" style="display: none; width: 200px">Price is not numeric</price>
-                         </tr>
-                         
-                         <tr id="editAll_{{tieback.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
-                             <td>
-                                <select name="all:priceband_{{tieback.id}}">
-                               
-                                    {% for curtainPriceBand in curtainPriceBands %}
-                                        
-                                        {% if tieback.curtainPriceBand.id == curtainPriceBand.id %}
-                                    
-                                            <option value="{{curtainPriceBand.id}}" selected="true">{{curtainPriceBand.id}}</option>
-                                        {% else %} 
-                                            <option value="{{curtainPriceBand.id}}">{{curtainPriceBand.id}}</option>
-                                        {% endif %}
-                                         
-                                    {% endfor %}
-                                         
-                                 </select>
-                             </td>
-                             <td>
-                                <select name="all:size_{{tieback.id}}">
-                               
-                                    {% for tiebackSize in tiebackSizes %}
-                                        
-                                        {% if tieback.size == tiebackSize.size %}
-                                    
-                                            <option value="{{tiebackSize.size}}" selected="true">{{tiebackSize.size}}</option>
-                                        {% else %} 
-                                            <option value="{{tiebackSize.size}}">{{tiebackSize.size}}</option>
-                                        {% endif %}
-                                         
-                                    {% endfor %}
-                                         
-                                 </select>
-                                                       
-                             </td>
-                             <td>
-                                 <input type="number" name="all:price_{{tieback.id}}" value="{{tieback.price}}"/>
-                             </td>
-                             <td>
-                                <select name="all:type_{{tieback.id}}">
-                               
-                                    {% for tiebackType in tiebackTypes %}
-                                        
-                                        {% if tieback.type == tiebackType.type %}
-                                    
-                                            <option value="{{tiebackType.type}}" selected="true">{{tiebackType.type}}</option>
-                                        {% else %} 
-                                            <option value="{{tiebackType.type}}">{{tiebackType.type}}</option>
-                                        {% endif %}
-                                         
-                                    {% endfor %}
-                                         
-                                 </select>                     
-                             </td>
-                             <td id="error_{{tieback.id}}" class="error" style="display: none; width: 200px">Price is not numeric</price>
-                         </tr>
-                         
-                     {%set i = i + 1 %}    
-                     {% endfor %}
-                 </tbody>
-             </table>
-             
-             <br/><input id="submitAll" name="submit_all" class="submitAll" type="submit" value="Save All" style="display:none"/>
-         </form>        
-            
-             
-     </body>
-</html>
+
+                     <tr id="editAll_{{tieback.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
+                         <td>
+                            <select name="all:priceband_{{tieback.id}}">
+
+                                {% for curtainPriceBand in curtainPriceBands %}
+
+                                    {% if tieback.curtainPriceBand.id == curtainPriceBand.id %}
+
+                                        <option value="{{curtainPriceBand.id}}" selected="true">{{curtainPriceBand.id}}</option>
+                                    {% else %} 
+                                        <option value="{{curtainPriceBand.id}}">{{curtainPriceBand.id}}</option>
+                                    {% endif %}
+
+                                {% endfor %}
+
+                             </select>
+                         </td>
+                         <td>
+                            <select name="all:size_{{tieback.id}}">
+
+                                {% for tiebackSize in tiebackSizes %}
+
+                                    {% if tieback.size == tiebackSize.size %}
+
+                                        <option value="{{tiebackSize.size}}" selected="true">{{tiebackSize.size}}</option>
+                                    {% else %} 
+                                        <option value="{{tiebackSize.size}}">{{tiebackSize.size}}</option>
+                                    {% endif %}
+
+                                {% endfor %}
+
+                             </select>
+
+                         </td>
+                         <td>
+                             <input type="number" name="all:price_{{tieback.id}}" value="{{tieback.price}}"/>
+                         </td>
+                         <td>
+                            <select name="all:type_{{tieback.id}}">
+
+                                {% for tiebackType in tiebackTypes %}
+
+                                    {% if tieback.type == tiebackType.type %}
+
+                                        <option value="{{tiebackType.type}}" selected="true">{{tiebackType.type}}</option>
+                                    {% else %} 
+                                        <option value="{{tiebackType.type}}">{{tiebackType.type}}</option>
+                                    {% endif %}
+
+                                {% endfor %}
+
+                             </select>                     
+                         </td>
+                         <td id="error_{{tieback.id}}" class="error" style="display: none; width: 200px">Price is not numeric</price>
+                     </tr>
+
+                 {%set i = i + 1 %}    
+                 {% endfor %}
+             </tbody>
+         </table>
+
+         <br/><input id="submitAll" name="submit_all" class="submitAll" type="submit" value="Save All" style="display:none"/>
+     </form>        
+{% endblock %}
