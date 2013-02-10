@@ -58,7 +58,7 @@ class FabricControllerTest extends WebTestCase
         $this->em->flush();
     }
     
-    /*public function testView() {
+    public function testView() {
         
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'admin',
@@ -141,7 +141,7 @@ class FabricControllerTest extends WebTestCase
         $this->em->remove($secondCurtainFabric);
         $this->em->flush();
         
-    }*/
+    }
     
     public function testNew() {
         
@@ -160,7 +160,7 @@ class FabricControllerTest extends WebTestCase
         
         $updateCrawler = $client->submit($form);
         
-        $curtainFabric = $this->repository->findOneBy(array('price_per_metre' => 32.95));
+        $curtainFabric = $this->repository->findOneBy(array('id' => $this->curtainFabric->getId()+1));
         
         $this->assertTrue($updateCrawler->filter('td:contains("32.95")')->count() == 1); 
         $this->assertTrue($updateCrawler->filter('td:contains("32.95")')->parents()->first()->attr('id') == 'view_'.$curtainFabric->getId());

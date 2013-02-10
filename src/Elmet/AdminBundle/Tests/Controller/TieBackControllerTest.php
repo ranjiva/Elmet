@@ -85,7 +85,7 @@ class TieBackControllerTest extends WebTestCase
             'PHP_AUTH_USER' => 'admin',
             'PHP_AUTH_PW'   => 'adminpass'));
 
-        $client->request('GET', 'admin/testimonial/remove/'.$this->curtainTieBack->getId());  
+        $client->request('GET', 'admin/tieback/remove/'.$this->curtainTieBack->getId());  
         $viewCrawler = $client->followRedirect();
                 
         $this->assertTrue($viewCrawler->filter('td:contains("140.95")')->count() == 0);
