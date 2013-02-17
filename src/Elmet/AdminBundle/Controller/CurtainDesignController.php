@@ -103,7 +103,7 @@ class CurtainDesignController extends Controller
         $curtainDesign = new CurtainDesign();
 
         $curtainDesign->setCurtainPriceBand($curtainPriceBand);
-        $curtainDesign->setCushionFinish($this->getRequest()->get('curtainfinish'));
+        $curtainDesign->setCushionFinish($this->getRequest()->get('cushionfinish'));
         $curtainDesign->setEyeletsAvailable($this->getRequest()->get('eyelets'));
         $curtainDesign->setFabricWidth($this->getRequest()->get('fabricwidth'));
         $curtainDesign->setFinish($this->getRequest()->get('curtainfinish'));

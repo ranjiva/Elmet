@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Elmet\SiteBundle\Entity\CurtainDesign;
 use Elmet\SiteBundle\Entity\CurtainColour;
 
-class CurtainPriceControllerTest extends WebTestCase
+class CurtainDesignControllerTest extends WebTestCase
 {
     var $curtainDesign;
     var $em;
@@ -74,7 +74,7 @@ class CurtainPriceControllerTest extends WebTestCase
         $this->em->flush();
     }
     
-    /*public function testIndex() {
+    public function testIndex() {
         
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'admin',
@@ -133,7 +133,7 @@ class CurtainPriceControllerTest extends WebTestCase
                 
         $this->assertTrue($viewCrawler->filter('td:contains("loretta")')->count() == 0);
   
-    }*/
+    }
     
     public function testEdit() {
                 
@@ -190,38 +190,50 @@ class CurtainPriceControllerTest extends WebTestCase
         
     }
     
-    
-    
-    /*public function testNew() {
+    public function testNew() {
         
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'admin',
             'PHP_AUTH_PW'   => 'adminpass'));
 
-        $client->request('GET', 'admin/curtainprice/view/2');  
+        $client->request('GET', 'admin/curtaindesign/new');  
         $viewCrawler = $client->followRedirect();
         
-        $editCrawlerNode = $viewCrawler->selectButton('save_new');
+        $editCrawlerNode = $viewCrawler->selectButton('Save');
         $form = $editCrawlerNode->form();
         
-        $form['curtaineyeletpriceband_new'] = 1;
-        $form['size_new'] = "52\" x 54\"";
-        $form['type_new'] = 'CaravanWindow';
-        $form['price_new'] = 1131.95;
+        $form['priceband']->select('1');
+        $form['shortname'] = 'jeanetta';
+        $form['name'] = 'Jeanetta Ready Made Curtains';
+        $form['materials'] = '100% Cotton';
+        $form['lined']->select('0');
+        $form['eyelets']->select('0');
+        $form['fabricwidth'] = 120;
+        $form['patternrepeatlength'] = 10.00;
+        $form['curtainfinish']->select('Straight');
+        $form['cushionfinish']->select('Self-piped');
+        $form['new']->select('0');
+        $form['tapesize']->select("3\"");
         
         $updateCrawler = $client->submit($form);
-        
-        $curtainPrice = $this->repository->findOneBy(array('price' => 1131.95));
-        
-        $this->assertTrue($updateCrawler->filter('td:contains("1131.95")')->count() == 1); 
-        $this->assertTrue($updateCrawler->filter('td:contains("1131.95")')->parents()->first()->attr('id') == 'view_'.$curtainPrice->getId());
-        $this->assertTrue(trim(preg_replace('/\s\s+/', '', $updateCrawler->filter('td:contains("1131.95")')->siblings()->eq(0)->text())) == '2');
-        $this->assertTrue(trim(preg_replace('/\s\s+/', '', $updateCrawler->filter('td:contains("1131.95")')->siblings()->eq(1)->text())) == '');
-        $this->assertTrue(trim(preg_replace('/\s\s+/', '', $updateCrawler->filter('td:contains("1131.95")')->siblings()->eq(2)->text())) == "52\" x 54\"");
-        $this->assertTrue(trim(preg_replace('/\s\s+/', '', $updateCrawler->filter('td:contains("1131.95")')->siblings()->eq(3)->text())) == 'CaravanWindow');
-        
+                
+        $this->assertTrue($updateCrawler->filter('select[name="priceband"]')->children()->filter('option[value="1"]')->attr('selected') == 'true');
+        $this->assertTrue($updateCrawler->filter('input[name="shortname"]')->attr('value') == 'jeanetta');
+        $this->assertTrue($updateCrawler->filter('textarea[name="name"]:contains("Jeanetta Ready Made Curtains")')->count() == 1);
+        $this->assertTrue($updateCrawler->filter('textarea[name="materials"]:contains("100% Cotton")')->count() == 1);
+        $this->assertTrue($updateCrawler->filter('select[name="lined"]')->children()->filter('option[value="0"]')->attr('selected') == 'true');
+        $this->assertTrue($updateCrawler->filter('select[name="eyelets"]')->children()->filter('option[value="0"]')->attr('selected') == 'true');
+        $this->assertTrue($updateCrawler->filter('input[name="fabricwidth"]')->attr('value') == '120');
+        $this->assertTrue($updateCrawler->filter('input[name="patternrepeatlength"]')->attr('value') == '10.00');
+        $this->assertTrue($updateCrawler->filter('select[name="curtainfinish"]')->children()->filter('option[value="Straight"]')->attr('selected') == 'true');
+        $this->assertTrue($updateCrawler->filter('select[name="cushionfinish"]')->children()->filter('option[value="Self-piped"]')->attr('selected') == 'true');
+        $this->assertTrue($updateCrawler->filter('select[name="new"]')->children()->filter('option[value="0"]')->attr('selected') == 'true');
+        $this->assertTrue($updateCrawler->filter('select[name="tapesize"]')->children()->filter('option:contains("3\"")')->attr('selected') == 'true');
+               
+        $curtainPrice = $this->repository->findOneBy(array('url_name' => 'jeanetta'));
+         
         $this->em->remove($curtainPrice);
         $this->em->flush();
-    }*/
+    }
 }
 
