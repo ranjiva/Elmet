@@ -12,6 +12,7 @@ class CurtainsController extends BaseController
 {
     var $curtains_on_a_page = 8;
     
+    /** * @codeCoverageIgnore */
     public function createAction()
     {
         $repository = $this->getDoctrine()->getRepository('ElmetSiteBundle:CurtainPriceBand');
@@ -49,6 +50,7 @@ class CurtainsController extends BaseController
         return new Response('Created curtain design id '.$curtainDesign->getId().' Created curtain colour id '.$curtainColour->getId());                       
     }
     
+    /** * @codeCoverageIgnore */
     public function fetchAction($name)
     {
         $repository = $this->getDoctrine()->getRepository('ElmetSiteBundle:CurtainPriceBand');

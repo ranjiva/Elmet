@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TestimonialController extends BaseController
 {
+    /** * @codeCoverageIgnore */
     public function createAction()
     {
           $testimonial = new Testimonial();

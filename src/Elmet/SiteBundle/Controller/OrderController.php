@@ -11,6 +11,7 @@ use Doctrine\ORM\UnitOfWork;
 
 class OrderController extends BaseController {
     
+    /** * @codeCoverageIgnore */
     public function createAction()
     {
         $repository = $this->getDoctrine()->getRepository('ElmetSiteBundle:CurtainColour');
