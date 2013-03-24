@@ -3,5 +3,6 @@
 /app/cache/*
 /app/logs/*
 /vendor/
-/app/config/parameters.ini
 /nbproject
+/report/
+/app/config/parameters.ini
