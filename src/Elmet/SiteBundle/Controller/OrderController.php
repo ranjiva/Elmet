@@ -99,7 +99,11 @@ class OrderController extends BaseController {
         $cushionCovers = $curtainPriceBand->getCushionCovers();
         $curtainPelmets = $curtainPriceBand->getCurtainPelmets();
         $curtainTieBacks = $curtainPriceBand->getCurtainTieBacks();
-        $curtainPrices = $curtainPriceBand->getCurtainPrices();
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $query = $em->createQuery('SELECT cp FROM ElmetSiteBundle:CurtainPrice cp JOIN cp.curtain_price_band cpd WHERE cpd.id = :id ORDER BY cp.width ASC, cp.height asc');
+        $query->setParameter('id',$curtainPriceBand->getId());
+        $curtainPrices = $query->getResult(); 
         
         $order = $this->getOrder();
         $orderItems = $order->getOrderItems();

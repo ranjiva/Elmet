@@ -34,6 +34,12 @@ if (window.focus) {imageWindow.focus()}
 
 	  
 	  <h3>Material</h3>
+          <?php
+                if ($curtainColour->getInStock() == 0) 
+                {
+                    echo "<p id=\"out-of-stock\">Currently Out of Stock</p>";
+                }
+          ?>
 	  <p><?php echo $curtainDesign->getMaterials() ?></p>
 	</div>
 	<div id="curtain-info">
@@ -251,7 +257,7 @@ if (window.focus) {imageWindow.focus()}
                 
                     $i=0;
                     
-                    foreach($curtainPriceBand->getCurtainPrices() as $curtainPrice) {
+                    foreach($curtainPrices as $curtainPrice) {
                             
                         if ($curtainPrice->getType() == 'HomeWindow') {
                             
@@ -325,7 +331,7 @@ if (window.focus) {imageWindow.focus()}
         
         $i=0;
                     
-        foreach($curtainPriceBand->getCurtainPrices() as $curtainPrice) {
+        foreach($curtainPrices as $curtainPrice) {
         
             if ($curtainPrice->getType() == 'CaravanWindow') {
                 
@@ -363,7 +369,7 @@ if (window.focus) {imageWindow.focus()}
         
         $i = 0;
         
-        foreach($curtainPriceBand->getCurtainPrices() as $curtainPrice) {
+        foreach($curtainPrices as $curtainPrice) {
         
             if ($curtainPrice->getType() == 'CaravanDoor') {
                 

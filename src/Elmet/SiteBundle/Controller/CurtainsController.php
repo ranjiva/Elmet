@@ -129,8 +129,13 @@ class CurtainsController extends BaseController
                 $caravanDoorCurtainExists  = true;
             } 
         }
-        
-        return $this->render('ElmetSiteBundle:Curtains:detail.html.php',array('curtainDesign' => $curtainDesign, 'curtainPriceBand' => $curtainPriceBand, 'curtainColour' => $curtainColour, 'caravanWindowAvailable' => $caravanCurtainExists, 'caravanDoorAvailable' => $caravanDoorCurtainExists, 'featured' => $this->getFeaturedTestimonial(),'numBasketItems' => $this->getNumBasketItems()));
+    
+        $em = $this->getDoctrine()->getEntityManager();
+        $query = $em->createQuery('SELECT cp FROM ElmetSiteBundle:CurtainPrice cp JOIN cp.curtain_price_band cpd WHERE cpd.id = :id ORDER BY cp.width ASC, cp.height asc');
+        $query->setParameter('id',$curtainPriceBand->getId());
+        $curtainPrices = $query->getResult(); 
+           
+        return $this->render('ElmetSiteBundle:Curtains:detail.html.php',array('curtainDesign' => $curtainDesign, 'curtainPrices' => $curtainPrices , 'curtainPriceBand' => $curtainPriceBand, 'curtainColour' => $curtainColour, 'caravanWindowAvailable' => $caravanCurtainExists, 'caravanDoorAvailable' => $caravanDoorCurtainExists, 'featured' => $this->getFeaturedTestimonial(),'numBasketItems' => $this->getNumBasketItems()));
     }
     
     public function closeupAction($urlName, $colour)

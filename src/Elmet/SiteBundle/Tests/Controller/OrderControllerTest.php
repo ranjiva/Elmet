@@ -23,7 +23,7 @@ class OrderControllerTest extends WebTestCase
         $form['cushion_0'] = 2;
         $form['fabric'] = 2;
         $form['caravan_tieback_0'] = 1;
-        $form['caravan_window_curtain_0'] = 2;
+        $form['caravan_window_curtain_1'] = 2;
         $form['caravan_door_curtain_0'] = 2;
         
         $this->viewCrawler = $this->client->submit($form);
