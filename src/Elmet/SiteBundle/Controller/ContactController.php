@@ -42,7 +42,7 @@ class ContactController extends BaseController
             }
         }
         
-        return $this->render('ElmetSiteBundle:Contact:index.html.php',array('featured' => $this->getFeaturedTestimonial(),'numBasketItems' => $this->getNumBasketItems(),'form' => $form->createView()));
+        return $this->render('ElmetSiteBundle:Contact:index.html.php',array('featured' => $this->getFeaturedTestimonials(),'numBasketItems' => $this->getNumBasketItems(),'form' => $form->createView()));
         
     }
     

@@ -8,7 +8,7 @@ class OffersController extends BaseController
 {
     public function indexAction()
     {
-          return $this->render('ElmetSiteBundle:Offers:index.html.php',array('featured' => $this->getFeaturedTestimonial(),'numBasketItems' => $this->getNumBasketItems()));
+          return $this->render('ElmetSiteBundle:Offers:index.html.php',array('featured' => $this->getFeaturedTestimonials(),'numBasketItems' => $this->getNumBasketItems()));
     }
 }
 

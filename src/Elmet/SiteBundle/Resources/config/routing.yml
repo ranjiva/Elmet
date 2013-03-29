@@ -86,6 +86,30 @@ ElmetSiteBundle_order_thankyou:
 ElmetSiteBundle_custservices:
     pattern:  /customerservices
     defaults: { _controller: ElmetSiteBundle:CustServices:index }
+
+ElmetSiteBundle_custservices_delivery:
+    pattern:  /customerservices/delivery
+    defaults: { _controller: ElmetSiteBundle:CustServices:delivery }  
+
+ElmetSiteBundle_custservices_returns:
+    pattern:  /customerservices/returns
+    defaults: { _controller: ElmetSiteBundle:CustServices:returns }
+
+ElmetSiteBundle_custservices_privacy:
+    pattern:  /customerservices/privacy
+    defaults: { _controller: ElmetSiteBundle:CustServices:privacy }
+
+ElmetSiteBundle_custservices_samples:
+    pattern:  /customerservices/samples
+    defaults: { _controller: ElmetSiteBundle:CustServices:samples }
+    
+ElmetSiteBundle_custservices_measuring:
+    pattern:  /customerservices/measuring
+    defaults: { _controller: ElmetSiteBundle:CustServices:measuring }
+
+ElmetSiteBundle_custservices_colours:
+    pattern:  /customerservices/colours
+    defaults: { _controller: ElmetSiteBundle:CustServices:colours }
     
 ElmetSiteBundle_offers:
     pattern:  /offers

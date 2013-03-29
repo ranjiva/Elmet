@@ -1,17 +1,23 @@
 <?php $view->extend('ElmetSiteBundle::layout.html.php') ?>
 <?php $view['slots']->set('title', 'Long, wide and bay window curtains, providing hard-to-get curtain sizes') ?>
 
-      <script language="JavaScript" type="text/javascript">
+<script language="JavaScript" type="text/javascript">
 
-function swatchCloseup()
-{
+    function swatchCloseup()
+    {
 
-var imageWindow;
-var swatchImagePath;
+        var imageWindow;
+        var swatchImagePath;
 
-imageWindow=window.open(<?php echo "'/curtains/closeup/".$curtainDesign->getUrlName()."/".$curtainColour->getName()."'"?>,'name','height=560,width=500');
-if (window.focus) {imageWindow.focus()}
-}
+        imageWindow=window.open(<?php echo "'/curtains/closeup/".$curtainDesign->getUrlName()."/".$curtainColour->getName()."'"?>,'name','height=560,width=500');
+        
+        if (window.focus) {imageWindow.focus()}
+    }
+
+    $(document).ready(function(){
+        
+	 tooltip("td.description","tooltip",15,-15);
+    });
 
 </script>
 
@@ -68,7 +74,9 @@ if (window.focus) {imageWindow.focus()}
 		  <li>Proudly made in the UK</li>
 		  <li>Our extra wide sizes make ideal <strong>curtains for bay windows</strong></li>
                   <li><strong>Please note: </strong>All fabrics are dry clean only</li>
-		  <li>Sample available on request (please send S.A.E.)</li>
+		  <li>Sample available on <a href="/customerservices/samples">request</a> (please send S.A.E.)</li>
+                  <li>The sizes displayed are for a <strong>single</strong> curtain.</li>
+                  <li>The prices displayed are for a <strong>pair</strong> of curtains.</li>
 		</ul>
 	</div>
 	<div id="colours">
@@ -257,12 +265,21 @@ if (window.focus) {imageWindow.focus()}
                 
                     $i=0;
                     
+                    $trackLengthDescriptions = array(
+                                    "52.0" => "Suitable for a track/pole that has a length between 52&quot and 72&quot (132cm - 184cm). This excludes the length of any decorative ends/finials.",
+                                    "76.0" => "Suitable for a track/pole that has a length between 73&quot and 102&quot (185cm - 260cm). This excludes the length of any decorative ends/finials.",
+                                    "104.0" => "Suitable for a track/pole that has a length between 103&quot and 139&quot (261cm - 353cm). This excludes the length of any decorative ends/finials.",
+                                    "132.0" => "Suitable for a track/pole that has a length between 132&quot and 176&quot (335cm - 447cm). This excludes the length of any decorative ends/finials.",
+                                    "152.0" => "Suitable for a track/pole that has a length between 152&quot and 203&quot (386cm - 515cm). This excludes the length of any decorative ends/finials.");
+                    
                     foreach($curtainPrices as $curtainPrice) {
                             
                         if ($curtainPrice->getType() == 'HomeWindow') {
                             
+                            $description = $trackLengthDescriptions["".$curtainPrice->getWidth()];
+                            
                             echo "<tr>\n";
-                            echo "<td><strong>".$curtainPrice->getSize()."</strong></td>\n";
+                            echo "<td title=\"".$description."\" class=\"description\"><strong>".$curtainPrice->getSize()."</strong></td>\n";
                             echo "<td>£".$curtainPrice->getPrice()." per pair</td>\n";
                             echo "<td align=\"center\"><div class=\"input text\"><input name=\"home_tape_curtain_".$i."\" type=\"text\" value=\"0\"/></div></td>\n";
                             

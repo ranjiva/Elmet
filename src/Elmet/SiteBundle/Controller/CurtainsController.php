@@ -134,8 +134,8 @@ class CurtainsController extends BaseController
         $query = $em->createQuery('SELECT cp FROM ElmetSiteBundle:CurtainPrice cp JOIN cp.curtain_price_band cpd WHERE cpd.id = :id ORDER BY cp.width ASC, cp.height asc');
         $query->setParameter('id',$curtainPriceBand->getId());
         $curtainPrices = $query->getResult(); 
-           
-        return $this->render('ElmetSiteBundle:Curtains:detail.html.php',array('curtainDesign' => $curtainDesign, 'curtainPrices' => $curtainPrices , 'curtainPriceBand' => $curtainPriceBand, 'curtainColour' => $curtainColour, 'caravanWindowAvailable' => $caravanCurtainExists, 'caravanDoorAvailable' => $caravanDoorCurtainExists, 'featured' => $this->getFeaturedTestimonial(),'numBasketItems' => $this->getNumBasketItems()));
+        
+        return $this->render('ElmetSiteBundle:Curtains:detail.html.php',array('curtainDesign' => $curtainDesign, 'curtainPrices' => $curtainPrices , 'curtainPriceBand' => $curtainPriceBand, 'curtainColour' => $curtainColour, 'caravanWindowAvailable' => $caravanCurtainExists, 'caravanDoorAvailable' => $caravanDoorCurtainExists, 'featured' => $this->getFeaturedTestimonials(),'numBasketItems' => $this->getNumBasketItems()));
     }
     
     public function closeupAction($urlName, $colour)
@@ -145,7 +145,7 @@ class CurtainsController extends BaseController
         $curtainDesign = $curtainColour->getCurtainDesign();
         $curtainPriceBand = $curtainDesign->getCurtainPriceBand();
             
-        return $this->render('ElmetSiteBundle:Curtains:closeup.html.php',array('curtainDesign' => $curtainDesign, 'curtainPriceBand' => $curtainPriceBand, 'curtainColour' => $curtainColour, 'featured' => $this->getFeaturedTestimonial(),'numBasketItems' => $this->getNumBasketItems())); 
+        return $this->render('ElmetSiteBundle:Curtains:closeup.html.php',array('curtainDesign' => $curtainDesign, 'curtainPriceBand' => $curtainPriceBand, 'curtainColour' => $curtainColour, 'featured' => $this->getFeaturedTestimonials(),'numBasketItems' => $this->getNumBasketItems())); 
     }
     
     public function indexAction()
@@ -177,7 +177,7 @@ class CurtainsController extends BaseController
         if (count($curtaindesigns) % $this->curtains_on_a_page > 0)
             $num_pages = $num_pages + 1;
         
-        return $this->render('ElmetSiteBundle:Curtains:index.html.php',array('pageNum' => $number, 'numPages' => $num_pages,'designs' => $designs,'featured' => $this->getFeaturedTestimonial(),'numBasketItems' => $this->getNumBasketItems()));
+        return $this->render('ElmetSiteBundle:Curtains:index.html.php',array('pageNum' => $number, 'numPages' => $num_pages,'designs' => $designs,'featured' => $this->getFeaturedTestimonials(),'numBasketItems' => $this->getNumBasketItems()));
     }
 }
 

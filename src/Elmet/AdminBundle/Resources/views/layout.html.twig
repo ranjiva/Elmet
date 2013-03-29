@@ -8,32 +8,34 @@
         <link href="/css/admin.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
-        <div>
-            <div class="breadcrumb">
-                {% block breadcrumb %}{% endblock %}
+        <div class="container">
+            <div class="left">
+                <div class="breadcrumb">
+                    {% block breadcrumb %}{% endblock %}
+                </div>
+                <div class="sidebar">
+                    <ul>
+                        <li><a href="/admin/curtaindesign/index">Manage Curtain Designs</a></li>
+                        <li><a href="/admin/curtainpriceband/view">Manage Curtain Price Bands</a></li>
+                        <li><a href="/admin/curtaineyeletpriceband/view">Manage Curtain Eyelet Price Bands</a></li>
+                        <li><a href="/admin/curtainprice/index">Manage Curtain Prices</a></li>               
+                        <li><a href="/admin/pelmet/view">Manage Pelmet Prices</a></li>
+                        <li><a href="/admin/cushioncover/view">Manage Cushion Cover Prices</a></li>
+                        <li><a href="/admin/tieback/view">Manage Tie Back Prices</a></li>
+                        <li><a href="/admin/fabric/view">Manage Fabric Prices</a></li>
+                        <li><a href="/admin/testimonial/view">Manage Testimonials</a></li>
+                        <li><a href="/admin/order/search">Search Orders</a></li>
+                    </ul>
+                </div>
             </div>
-            <div style="float:left; width:800px; text-align: left; margin-bottom: 10px">
-                {% block pagenav %}{% endblock %}
+            <div class="right">
+                <div class="pagenav">
+                    {% block pagenav %}{% endblock %}
+                </div>
+                <div class="page">
+                    {% block body %}{% endblock %}
+                </div>
             </div>
         </div>
-        <div>
-            <div class="sidebar">
-                <ul>
-                    <li><a href="/admin/curtaindesign/index">Manage Curtain Designs</a></li>
-                    <li><a href="/admin/curtainpriceband/view">Manage Curtain Price Bands</a></li>
-                    <li><a href="/admin/curtaineyeletpriceband/view">Manage Curtain Eyelet Price Bands</a></li>
-                    <li><a href="/admin/curtainprice/index">Manage Curtain Prices</a></li>               
-                    <li><a href="/admin/pelmet/view">Manage Pelmet Prices</a></li>
-                    <li><a href="/admin/cushioncover/view">Manage Cushion Cover Prices</a></li>
-                    <li><a href="/admin/tieback/view">Manage Tie Back Prices</a></li>
-                    <li><a href="/admin/fabric/view">Manage Fabric Prices</a></li>
-                    <li><a href="/admin/testimonial/view">Manage Testimonials</a></li>
-                    <li><a href="/admin/order/search">Search Orders</a></li>
-                </ul>
-            </div>
-            <div class="page" style="float:left; width:800px">
-                {% block body %}{% endblock %}
-            </div>
-       </div>
     </body>
 </html>

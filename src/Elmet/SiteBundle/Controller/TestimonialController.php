@@ -29,7 +29,7 @@ class TestimonialController extends BaseController
         $repository = $this->getDoctrine()->getRepository('ElmetSiteBundle:Testimonial');
         $testimonials = $repository->findAll();        
         
-        return $this->render('ElmetSiteBundle:Testimonial:index.html.php',array('testimonials' => $testimonials,'featured' => $this->getFeaturedTestimonial(),'numBasketItems' => $this->getNumBasketItems()));
+        return $this->render('ElmetSiteBundle:Testimonial:index.html.php',array('testimonials' => $testimonials,'featured' => $this->getFeaturedTestimonials(),'numBasketItems' => $this->getNumBasketItems()));
            
     }
 }

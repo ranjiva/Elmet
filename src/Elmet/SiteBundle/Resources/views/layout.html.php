@@ -21,7 +21,9 @@
 <script type="text/javascript" src="/js/global.js"></script>
 <script type="text/javascript" src="/js/jquery.js"></script> 
 <script type="text/javascript" src="/js/thickbox.js"></script>
+<script type="text/javascript" src="/js/tooltip.js"></script>
 <link href="/css/thickbox.css" rel="stylesheet" type="text/css" />
+<link href="/css/tooltip.css" rel="stylesheet" type="text/css" />
 
 
 <!--[if lt IE 7]>
@@ -31,7 +33,45 @@
 
 </style>
 <![endif]-->
+ <script type="text/javascript">
+     
+     $(document).ready(function(){
+         
+         var length = $("div[id*='testimonial_']").length;
+         
+         var current = Math.floor(Math.random()*length);
+         
+         $("div[id='testimonial_" + current + "']").show();
+     });
+     
+     setInterval(function(){updateTestimonial()},15000);
 
+     function updateTestimonial() {
+     
+        var length = $("div[id*='testimonial_']").length;
+        var current;
+        var next;
+        
+        if (length > 1) {
+            
+            $("div[id*='testimonial_']").each(function() {
+            
+                if( $(this).is(':visible') ) {
+
+                    var pos = $(this).attr("id").indexOf('_');
+                    current = parseInt($(this).attr("id").substr(pos+1));
+
+                    $(this).slideUp();
+                }
+            });
+        
+            next = (current + 1)% length;
+        
+            $("div[id='testimonial_" + next + "']").slideDown();
+        }
+     }
+     
+ </script>
 
 </head>
 
@@ -87,24 +127,28 @@
                     <a href="/beddings"><img src="/img/bedding.jpg" alt="bedding" border="0" class="cat-link"/></a>
 <!--                    <a href="/testimonials"><img src="/img/testimonial.jpg" alt="customer reviews" border="0" class="cat-link"/></a> -->
 
-
                     
-		    <div class="featured-testimonial">
-
                     <?php
-                    
-                    echo "<p class=\"quote\"><span class=\"quote-mark\">&#8220;</span>";
-                    echo $featured->getTestimonial();
-                    echo "\n";
-                    echo "<span class=\"quote-mark\">&#8221;</span></p>\n";
-                    echo "<p class=\"customer-details\">";
-                    echo $featured->getCustomerDetails();
-                    echo "</p>";
+                        
+                        $i = 0;
+                        
+                        foreach ($featured as $testimonial) { 
+                            
+                            echo "<div class=\"featured-testimonial\" id=\"testimonial_".$i."\" style=\"display: none\">";                            
+                            echo "<p class=\"quote\"><span class=\"quote-mark\">&#8220;</span>";
+                            echo "<span id=\"testimonial_display\">".$testimonial->getTestimonial()."</span>";
+                            echo "\n";
+                            echo "<span class=\"quote-mark\">&#8221;</span></p>\n";
+                            echo "<p class=\"customer-details\">";
+                            echo "<span id=\"customer_display\">".$testimonial->getCustomerDetails()."</span>";
+                            echo "</p>";
+                            echo "</div>";
+                            
+                            $i=$i+1;
+                        }    
                     
                     ?>
-                    
-		    </div>
-
+             
                     <a href="/testimonial"><img src="/img/customer-testimonials.jpg" alt="customer comments" border="0" class="testimonials-link"/></a>
 
 
@@ -112,9 +156,9 @@
                                 <h2>Customer Services</h2>
                                 <ul>
                                         <li><a href="/testimonial">customer testimonials</a></li>
-                                        <li><a href="/customerservices#delivery">delivery information</a></li>
-                                        <li><a href="/customerservices#returns">returns policy</a></li>
-                                        <li><a href="/customerservices#privacy">privacy policy</a></li>
+                                        <li><a href="/customerservices/delivery">delivery information</a></li>
+                                        <li><a href="/customerservices/returns">returns policy</a></li>
+                                        <li><a href="/customerservices/privacy">privacy policy</a></li>
                                 </ul>
                         </div>
 			<!--

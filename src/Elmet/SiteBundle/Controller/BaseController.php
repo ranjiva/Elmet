@@ -7,18 +7,19 @@ use Elmet\SiteBundle\Entity\Order;
 
 class BaseController extends Controller
 {
-    public function getFeaturedTestimonial()
+    public function getFeaturedTestimonials()
     {
           $session = $this->getRequest()->getSession();
-          $featured = $session->get('featuredTestimonial');
+          $featured = $session->get('featuredTestimonials');
           
           if ($featured == null)
           {     
                 $repository = $this->getDoctrine()->getRepository('ElmetSiteBundle:Testimonial');
-                $featured = $repository->findOneByFeatured('1');
-                $session->set('featuredTestimonial', $featured);
+                $featured = $repository->findBy(array('featured' => '1'));
+                       
+                $session->set('featuredTestimonials', $featured);
           }     
-                
+          
           return $featured;
     }
     

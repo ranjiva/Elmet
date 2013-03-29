@@ -310,11 +310,11 @@ class OrderController extends BaseController {
     {
         if ($this->getNumBasketItems() == 0)
         {
-            return $this->render('ElmetSiteBundle:Order:view_empty.html.php',array('featured' => $this->getFeaturedTestimonial(),'numBasketItems' => $this->getNumBasketItems()));
+            return $this->render('ElmetSiteBundle:Order:view_empty.html.php',array('featured' => $this->getFeaturedTestimonials(),'numBasketItems' => $this->getNumBasketItems()));
         }
         else
         {
-            return $this->render('ElmetSiteBundle:Order:view.html.php',array('featured' => $this->getFeaturedTestimonial(),'numBasketItems' => $this->getNumBasketItems(),'order' => $this->getOrder()));
+            return $this->render('ElmetSiteBundle:Order:view.html.php',array('featured' => $this->getFeaturedTestimonials(),'numBasketItems' => $this->getNumBasketItems(),'order' => $this->getOrder()));
         }
     }
     
@@ -323,7 +323,7 @@ class OrderController extends BaseController {
         $order = new Order();
         $session = $this->getRequest()->getSession();
         $session->set('order', $order);
-        return $this->render('ElmetSiteBundle:Order:view_empty.html.php',array('featured' => $this->getFeaturedTestimonial(),'numBasketItems' => $this->getNumBasketItems()));
+        return $this->render('ElmetSiteBundle:Order:view_empty.html.php',array('featured' => $this->getFeaturedTestimonials(),'numBasketItems' => $this->getNumBasketItems()));
     }
     
     public function submitAction()
@@ -345,7 +345,7 @@ class OrderController extends BaseController {
                 $i = $i + 1;
             }
             
-            return $this->render('ElmetSiteBundle:Order:view.html.php',array('featured' => $this->getFeaturedTestimonial(),'numBasketItems' => $this->getNumBasketItems(),'order' => $this->getOrder())); 
+            return $this->render('ElmetSiteBundle:Order:view.html.php',array('featured' => $this->getFeaturedTestimonials(),'numBasketItems' => $this->getNumBasketItems(),'order' => $this->getOrder())); 
         }
         else
         {
@@ -372,7 +372,7 @@ class OrderController extends BaseController {
             
             $em->flush();
             
-            return $this->render('ElmetSiteBundle:Order:customer_details.html.php',array('featured' => $this->getFeaturedTestimonial(),'numBasketItems' => $this->getNumBasketItems(),'order' => $this->getOrder()));
+            return $this->render('ElmetSiteBundle:Order:customer_details.html.php',array('featured' => $this->getFeaturedTestimonials(),'numBasketItems' => $this->getNumBasketItems(),'order' => $this->getOrder()));
         }
 
     }
@@ -393,19 +393,19 @@ class OrderController extends BaseController {
         {
             $order->updateOrderTotal();
             
-            return $this->render('ElmetSiteBundle:Order:view.html.php',array('featured' => $this->getFeaturedTestimonial(),'numBasketItems' => $this->getNumBasketItems(),'order' => $this->getOrder())); 
+            return $this->render('ElmetSiteBundle:Order:view.html.php',array('featured' => $this->getFeaturedTestimonials(),'numBasketItems' => $this->getNumBasketItems(),'order' => $this->getOrder())); 
             
         }
     }
     
     public function cardAction()
     {
-        return $this->render('ElmetSiteBundle:Order:pay_using_card.html.php',array('featured' => $this->getFeaturedTestimonial(),'numBasketItems' => $this->getNumBasketItems()));
+        return $this->render('ElmetSiteBundle:Order:pay_using_card.html.php',array('featured' => $this->getFeaturedTestimonials(),'numBasketItems' => $this->getNumBasketItems()));
     }
     
     public function paypalAction()
     {
-        return $this->render('ElmetSiteBundle:Order:pay_using_paypal.html.php',array('featured' => $this->getFeaturedTestimonial(),'numBasketItems' => $this->getNumBasketItems()));
+        return $this->render('ElmetSiteBundle:Order:pay_using_paypal.html.php',array('featured' => $this->getFeaturedTestimonials(),'numBasketItems' => $this->getNumBasketItems()));
     }
     
     public function thankyouAction()
@@ -414,7 +414,7 @@ class OrderController extends BaseController {
         $session = $this->getRequest()->getSession();
         $session->set('order', $order);
                 
-        return $this->render('ElmetSiteBundle:Order:thank_you.html.php',array('featured' => $this->getFeaturedTestimonial(),'numBasketItems' => $this->getNumBasketItems()));
+        return $this->render('ElmetSiteBundle:Order:thank_you.html.php',array('featured' => $this->getFeaturedTestimonials(),'numBasketItems' => $this->getNumBasketItems()));
     }
     
 }
