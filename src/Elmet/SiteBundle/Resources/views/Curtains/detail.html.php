@@ -16,7 +16,7 @@
 
     $(document).ready(function(){
         
-	 tooltip("td.description","tooltip",15,-15);
+	 tooltip(".description","tooltip",15,-15);
     });
 
 </script>
@@ -75,8 +75,9 @@
 		  <li>Our extra wide sizes make ideal <strong>curtains for bay windows</strong></li>
                   <li><strong>Please note: </strong>All fabrics are dry clean only</li>
 		  <li>Sample available on <a href="/customerservices/samples">request</a> (please send S.A.E.)</li>
-                  <li>The sizes displayed are for a <strong>single</strong> curtain.</li>
-                  <li>The prices displayed are for a <strong>pair</strong> of curtains.</li>
+                  <!--<li>The sizes displayed are for a <strong>single</strong> curtain.</li>
+                  <li>The prices displayed are for a <strong>pair</strong> of curtains.</li>-->
+                  <li>We offer a free drop alteration service<img src="/img/information.png" class="description" title="<p>To take advantage of our free drop alteration service, please select curtains from the standard sizes below, choosing a standard size with a drop greater than that which you require. Once you add your curtains to your basket, you will have the opportunity to specify the length to which the drop should be shortened.</p><p>Please note that if you select more than one curtain of the same size and you only require some of the curtains to have the drop altered, or require each to have a different drop, then please add the curtains to your basket one at a time. This will allow you to then specify a different drop for each curtain</p><p>Please note that curtains supplied with their drops altered, are viewed by us as being made to measure. We recommend that you read our refund policy on made to measure curtains in our Customer Services section before placing your order</p>"></li>
 		</ul>
 	</div>
 	<div id="colours">
@@ -104,8 +105,8 @@
 <form controller="order" method="post" action="/order/add/<?php echo $curtainDesign->getUrlName()."/".$curtainColour->getName()?>"><fieldset style="display:none;"><input type="hidden" name="_method" value="POST" /></fieldset>
 <div id="content-bottom">
   <div class="curtain-pricelist">
-	<h3>Home Window Curtains</h3>
-		  <div class="curtain-accessories">
+	<h3>Home Window Curtains<img src="/img/information.png" title="<p>All our ready made curtains are priced per pair. The sizes stated are for the WIDTH X DROP of EACH curtain and there are two curtains of this size in each pack.</p><p>Our curtains are dispatched ungathered and the sizes stated are for an ungathered curtain.  Depending on the amount of gather required, we recommend that the length of an individual curtain be longer than 3/4 of the length of the track/pole that it is hung from and not more than the length of the track/pole. The length excludes that of any decorative ends or finials.</p><p>Please hover over the sizes displayed to get information on suitable track/pole lengths for a pair of curtains of that size.</p><p>Please see our curtain measuring guide in our Customer Services section, for more information on how to measure your curtain width and drop.</p>" class="description"></h3>	  
+        <div class="curtain-accessories">
                   <h2>Home Accessories</h2>
                   <div class="pelmet">
                   <h3>Pelmets</h3>
@@ -127,7 +128,7 @@
                     }
                         
                   ?>
-                                    
+                  
                   </div>
 
                   <div class="tiebacks">
@@ -301,8 +302,7 @@
                 
                 ?>	
 	</tbody>
-	</table>
-
+	</table>       
   </div>
 <br/><br/>
 

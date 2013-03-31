@@ -1,6 +1,14 @@
 <?php $view->extend('ElmetSiteBundle::layout.html.php') ?>
 <?php $view['slots']->set('title', 'Long, wide and bay window curtains, providing hard-to-get curtain sizes') ?>
 
+<script language="JavaScript" type="text/javascript">
+
+    $(document).ready(function(){
+        
+	 tooltip(".description","tooltip",15,-15);
+    });
+</script>
+
 <div style="float:left;">
   <h1>Basket (<?php echo count($order->getOrderItems()); ?> items)</h1>
 </div>
@@ -51,7 +59,7 @@
             
             if ($orderItem->getProductType() == "Curtain")
             {
-                echo "<input type=\"text\" name=\"item_".$i."\" value=\"".$orderItem->getDropAlteration()."\">\n";
+                echo "<input type=\"number\" min=\"0.0\" step=\"any\" name=\"item_".$i."\" value=\"".$orderItem->getDropAlteration()."\"><img src=\"/img/information.png\" class=\"description\" title=\"<p>Please enter in inches, the length of drop to which you want the curtain shortened and then click the update button.</p>\">\n";
                 echo "<div>&nbsp;&nbsp;Inches</div>\n";
             }
             else
