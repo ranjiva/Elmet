@@ -3,6 +3,7 @@
                 $("input[id='name']").removeAttr('readonly');
                 $("input[id='display']").removeAttr('readonly');
                 $("input[id='thumbnail']").removeAttr('readonly');
+                $("input[id='stock']").removeAttr('readonly');
                 $("input[id='swatch']").removeAttr('readonly');                
                 $("select[id='instock']").removeAttr('disabled');
                 $("select[id='buynow']").removeAttr('disabled');
@@ -16,7 +17,8 @@
                 $("input[id='name']").attr('readonly', 'true');
                 $("input[id='display']").attr('readonly', 'true');
                 $("input[id='thumbnail']").attr('readonly', 'true');
-                $("input[id='swatch']").attr('readonly', 'true');                
+                $("input[id='swatch']").attr('readonly', 'true');
+                $("input[id='stock']").attr('readonly', 'true');
                 $("select[id='instock']").attr('disabled', 'true');
                 $("select[id='buynow']").attr('disabled', 'true');
                 $("span[id='undoEdit']").hide();
@@ -29,12 +31,26 @@
                 $("form").submit(function(e){
                 
                     $("td[id='error_name']").hide();
+                    $("td[id='error_availablestock']").hide();
                     
-                    name = $("input[id='name']").val();
-                    
+                    var error = false;
+                    var name = $("input[id='name']").val();
+                    var availableStock = $("input[id='stock']").val();
+
                     if (name == "") {
                         
                         $("td[id='error_name']").show();
+                        error = true;
+                    }
+                                           
+                    if ((availableStock != "") && (isNaN(availableStock) == true)) {
+                        
+                        $("td[id='error_available']").show();
+                        error = true;
+                    }
+                    
+                    if (error == true) {
+                    
                         e.preventDefault();
                     }
                 });

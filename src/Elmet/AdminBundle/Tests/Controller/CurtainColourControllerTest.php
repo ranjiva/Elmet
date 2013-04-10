@@ -51,6 +51,7 @@ class CurtainColourControllerTest extends WebTestCase
         $curtainColour->setSwatchFilepath("loretta/lorretta_cream_t.jpg");
         $curtainColour->setBuynow(1);
         $curtainColour->setInStock(1);
+        $curtainColour->setAvailableStock(20.0);
         $curtainColour->setCurtainDesign($this->curtainDesign);
         $this->curtainDesign->addCurtainColour($curtainColour);
         
@@ -61,6 +62,7 @@ class CurtainColourControllerTest extends WebTestCase
         $secondCurtainColour->setSwatchFilepath("loretta/lorretta_blue_t.jpg");
         $secondCurtainColour->setBuynow(1);
         $secondCurtainColour->setInStock(1);
+        $secondCurtainColour->setAvailableStock(30.0);
         $secondCurtainColour->setCurtainDesign($this->curtainDesign);
         $this->curtainDesign->addCurtainColour($secondCurtainColour);
         
@@ -86,6 +88,7 @@ class CurtainColourControllerTest extends WebTestCase
         $viewCrawler = $client->followRedirect();
         
         $this->assertTrue($viewCrawler->filter('input[name="name"]')->attr('value') == $curtainColour->getName());
+        $this->assertTrue($viewCrawler->filter('input[name="stock"]')->attr('value') == $curtainColour->getAvailableStock());
         $this->assertTrue($viewCrawler->filter('select[name="buynow"]')->children()->filter('option[value="1"]')->attr('selected') == 'true');
         $this->assertTrue($viewCrawler->filter('select[name="instock"]')->children()->filter('option[value="1"]')->attr('selected') == 'true');
         
@@ -146,6 +149,7 @@ class CurtainColourControllerTest extends WebTestCase
         $form['name'] = 'Grey2'; 
         $form['instock']->select('0');
         $form['buynow']->select('0');
+        $form['stock'] = 35.5;
         $form['display']->upload('loretta_grey2.jpg');
         $form['thumbnail']->upload('loretta_grey_t2.jpg');
         $form['swatch']->upload('loretta_grey_detail2.jpg');
@@ -171,6 +175,7 @@ class CurtainColourControllerTest extends WebTestCase
         $fileRoot = static::$kernel->getContainer()->getParameter('fileroot');
              
         $this->assertTrue($updatedViewCrawler->filter('input[name="name"]')->attr('value') == 'Grey2');
+        $this->assertTrue($updatedViewCrawler->filter('input[name="stock"]')->attr('value') == 35.5);
         $this->assertTrue($updatedViewCrawler->filter('select[name="buynow"]')->children()->filter('option[value="0"]')->attr('selected') == 'true');
         $this->assertTrue($updatedViewCrawler->filter('select[name="instock"]')->children()->filter('option[value="0"]')->attr('selected') == 'true');
         $this->assertTrue($curtainColour->getFullFilepath() == 'loretta/loretta_grey2.jpg');
@@ -216,6 +221,7 @@ class CurtainColourControllerTest extends WebTestCase
         $form['name'] = 'Grey2'; 
         $form['instock']->select('0');
         $form['buynow']->select('0');
+        $form['stock'] = 45.6;
         $form['display']->upload('loretta_grey2.jpg');
         $form['thumbnail']->upload('loretta_grey_t2.jpg');
         $form['swatch']->upload('loretta_grey_detail2.jpg');
@@ -241,6 +247,7 @@ class CurtainColourControllerTest extends WebTestCase
         $fileRoot = static::$kernel->getContainer()->getParameter('fileroot');
         
         $this->assertTrue($updatedViewCrawler->filter('input[name="name"]')->attr('value') == 'Grey2');
+        $this->assertTrue($updatedViewCrawler->filter('input[name="stock"]')->attr('value') == 45.6);
         $this->assertTrue($updatedViewCrawler->filter('select[name="buynow"]')->children()->filter('option[value="0"]')->attr('selected') == 'true');
         $this->assertTrue($updatedViewCrawler->filter('select[name="instock"]')->children()->filter('option[value="0"]')->attr('selected') == 'true');
         $this->assertTrue($curtainColour->getFullFilepath() == 'loretta/loretta_grey2.jpg');

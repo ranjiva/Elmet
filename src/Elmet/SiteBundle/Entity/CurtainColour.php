@@ -53,6 +53,11 @@ class CurtainColour
      */
      protected $in_stock;
 
+     /**
+     * @ORM\Column(type="decimal", precision=6, scale=2)
+     */
+     protected $available_stock;
+     
     /**
      * Get id
      *
@@ -201,5 +206,25 @@ class CurtainColour
     public function getCurtainDesign()
     {
         return $this->curtain_design;
+    }
+
+    /**
+     * Set available_stock
+     *
+     * @param decimal $availableStock
+     */
+    public function setAvailableStock($availableStock)
+    {
+        $this->available_stock = $availableStock;
+    }
+
+    /**
+     * Get available_stock
+     *
+     * @return decimal 
+     */
+    public function getAvailableStock()
+    {
+        return $this->available_stock;
     }
 }

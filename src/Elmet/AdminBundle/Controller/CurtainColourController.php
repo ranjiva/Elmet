@@ -60,6 +60,14 @@ class CurtainColourController extends Controller
         $curtainColour->setBuynow($this->getRequest()->get('buynow'));
         $curtainColour->setInStock($this->getRequest()->get('instock'));
         
+        $availableStock = $this->getRequest()->get('stock');
+        
+        if ($availableStock == null) {
+            $curtainColour->setAvailableStock(0.00);
+        } else {
+            $curtainColour->setAvailableStock($availableStock);
+        }
+        
         $em = $this->getDoctrine()->getEntityManager();
         $em->merge($curtainColour);
         $em->flush();
@@ -110,6 +118,14 @@ class CurtainColourController extends Controller
         $curtainColour->setBuynow($this->getRequest()->get('buynow'));
         $curtainColour->setInStock($this->getRequest()->get('instock'));
         $curtainColour->setCurtainDesign($curtainDesign);
+        
+        $availableStock = $this->getRequest()->get('stock');
+        
+        if ($availableStock == null) {
+            $curtainColour->setAvailableStock(0.00);
+        } else {
+            $curtainColour->setAvailableStock($availableStock);
+        }
         
         $em = $this->getDoctrine()->getEntityManager();
         $em->persist($curtainColour);
