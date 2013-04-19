@@ -1,0 +1,115 @@
+{% extends 'ElmetAdminBundle::layout.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="/js/adminstock.js"></script>
+{% endblock %}
+{% block breadcrumb %}    
+    <span>
+         <a href="/admin/curtainstock/view">Manage Curtain Stock</a>
+     </span>
+{% endblock %}
+{% block body %}
+     <form method="post" action="/admin/curtainstock/update" style="width: 600px">
+        <span id="editAll" class="editAll" onclick="editAll()">Edit All</span>
+        <span id="undoEditAll" class="editAll" onclick="undoEditAll()" style="display:none">Undo</span>
+         <table style="width: 530px">
+             <thead>
+                 <tr>
+                     <th style="width: 120px">Curtain Design</th>
+                     <th style="width: 120px">Curtain Colour</th>
+                     <th style="width: 100px">Stock (m)</th>
+                     <th style="width: 80px">In Stock</th>
+                 </tr>
+             </thead>
+             <tbody>
+                 {%set i = 1 %}
+                 {% for curtainColour in curtainColours %}
+
+                     <tr id="view_{{curtainColour.id}}" class="{{ cycle(['odd', 'even'], i) }}">
+                         <td>
+                            {{curtainColour.curtainDesign.urlName}}
+                         </td>
+                         <td>
+                             {{curtainColour.name}}
+                         </td>
+                         <td>{{curtainColour.availableStock}}</td>
+                         <td>
+                            {% if (curtainColour.inStock == 1) %}
+                                Y
+                            {% else %}
+                                N
+                            {% endif %} 
+                         </td>
+                         <td class="edit" onclick="edit({{curtainColour.id}},'single:stock')">edit</td>
+                     </tr>
+
+                     <tr id="edit_{{curtainColour.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
+                         <td>
+                            {{curtainColour.curtainDesign.urlName}}
+                         </td>
+                         <td>
+                            {{curtainColour.name}}
+                         </td>
+                         <td>
+                             <input type="text" name="single:stock_{{curtainColour.id}}" value="{{curtainColour.availableStock}}"/>
+                         </td>
+                         <td>
+                             <select name="single:instock_{{curtainColour.id}}">
+
+                                 {% if (curtainColour.inStock == 1) %}
+                                     <option value="1" selected="true">Y</option>
+                                 {% else %}
+                                     <option value="1">Y</option>
+                                 {% endif %}
+
+                                 {% if (curtainColour.inStock == 0) %}
+                                     <option value="0" selected="true">N</option>
+                                 {% else %}
+                                     <option value="0">N</option>
+                                 {% endif %}
+
+                             </select> 
+                         </td>
+                         <td class="edit" onclick="undo({{curtainColour.id}})">undo</td>
+                         <td><input class="submit" type="submit" name="save_{{curtainColour.id}}" value="Save"/></td>
+                         <td id="error_{{curtainColour.id}}" class="error" style="display: none; width: 200px">Stock is not numeric</price>
+                     </tr>
+
+                     <tr id="editAll_{{curtainColour.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
+                         <td>
+                            {{curtainColour.curtainDesign.urlName}}
+                         </td>
+                         <td>
+                            {{curtainColour.name}}
+                         </td>
+                         <td>
+                             <input type="text" name="all:stock_{{curtainColour.id}}" value="{{curtainColour.availableStock}}"/>
+                         </td>
+                         <td>
+                             <select name="all:instock_{{curtainColour.id}}">
+
+                                 {% if (curtainColour.inStock == 1) %}
+                                     <option value="1" selected="true">Y</option>
+                                 {% else %}
+                                     <option value="1">Y</option>
+                                 {% endif %}
+
+                                 {% if (curtainColour.inStock == 0) %}
+                                     <option value="0" selected="true">N</option>
+                                 {% else %}
+                                     <option value="0">N</option>
+                                 {% endif %}
+
+                             </select> 
+                         </td>
+                         <td id="error_{{curtainColour.id}}" class="error" style="display: none; width: 200px">Stock is not numeric</price>
+                     </tr>
+
+                 {%set i = i + 1 %}    
+                 {% endfor %}
+             </tbody>
+         </table>
+
+         <br/><input id="submitAll" name="submit_all" class="submitAll" type="submit" value="Save All" style="display:none"/>   
+    </form>        
+{% endblock %}

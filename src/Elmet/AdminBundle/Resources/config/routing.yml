@@ -165,3 +165,11 @@ ElmetAdminBundle_order_search_page:
 ElmetAdminBundle_order_results_page:
     pattern:  /order/results
     defaults: { _controller: ElmetAdminBundle:Order:results }
+    
+ElmetAdminBundle_stock_view_page:
+    pattern:  /curtainstock/view
+    defaults: { _controller: ElmetAdminBundle:CurtainStock:view }
+
+ElmetAdminBundle_stock_update_page:
+    pattern:  /curtainstock/update
+    defaults: { _controller: ElmetAdminBundle:CurtainStock:update }

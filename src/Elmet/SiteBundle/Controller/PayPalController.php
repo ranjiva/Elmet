@@ -57,6 +57,15 @@ class PayPalController extends BaseController
             $em->flush();
 
             $this->sendEmails($order);
+            $curtainColours = $this->updateStock($order);
+            
+            if (!empty($curtainColours['low'])) {
+                $this->sendLowStockNotification($curtainColours['low']);
+            }
+            
+            if (!empty($curtainColours['out'])) {
+                $this->sendOutOfStockNotification($curtainColours['out']);
+            }
             
             $status = "Success";
         }
@@ -236,6 +245,82 @@ class PayPalController extends BaseController
 
         $this->get('mailer')->send($message);
     }
-}
+    
+    public function updateStock($order) {
+        
+        $colourRepository = $this->getDoctrine()->getRepository('ElmetSiteBundle:CurtainColour');
+        $meterageRepository =  $this->getDoctrine()->getRepository('ElmetSiteBundle:CurtainMeterage');
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $lowStockCurtainColours = array();
+        $outOfStockCurtainColours = array();
+        
+        foreach($order->getOrderItems() as $orderItem) {
+            
+            $productType = $orderItem->getProductType();
+            
+            if (($productType == "Curtain") || ($productType == "Fabric")) {
+                
+                $curtainColour = $colourRepository->findOneById($orderItem->getProductCategoryId());
+                
+                if ($productType == "Curtain") {
+                    
+                    $curtainMeterage = $meterageRepository->findOneBySize($orderItem->getSize());
+                    $meterageUsed  = $curtainMeterage->getMeterage() * $orderItem->getQuantity();
+                } else {
+                    $meterageUsed = $orderItem->getQuantity();
+                }
+                
+                $stockAvailable = $curtainColour->getAvailableStock() - $meterageUsed;
+                
+                if ($stockAvailable < 0.0) {
+                    $stockAvailable = 0.00;
+                }
+                
+                $curtainColour->setAvailableStock($stockAvailable);
+                
+                if ($stockAvailable < $this->container->getParameter('no_stock_floor')) {  
+                    
+                    $outOfStockCurtainColours[$curtainColour->getId()] = $curtainColour;
+                    $curtainColour->setInStock(0);
+                
+                } else if ($stockAvailable < $this->container->getParameter('low_stock_floor')) {
+                    
+                    $lowStockCurtainColours[$curtainColour->getId()] = $curtainColour;
+                }
+                
+                $em->merge($curtainColour);
+            }
+        }
+        
+        $em->flush();
+   
+        return array('low' => $lowStockCurtainColours, 'out' => $outOfStockCurtainColours);
+          
+    }
 
+    public function sendLowStockNotification($lowStockCurtainColours) {
+        
+        $message = \Swift_Message::newInstance()
+                        ->setSubject('Elmet Curtains - Low Stock Notification')
+                        ->setFrom($this->container->getParameter('noreply_address'))
+                        ->setTo($this->container->getParameter('orders_address'))
+                        ->setBody($this->renderView('ElmetAdminBundle:CurtainStock:email.html.twig', array('title' => 'Low Stock', 'message' => 'The following curtain designs and colours have a low level of stock:', 'curtainColours' => $lowStockCurtainColours)),'text/html');
+
+        $this->get('mailer')->send($message);
+        
+    }
+
+    public function sendOutOfStockNotification($outOfStockCurtainColours) {
+        
+        $message = \Swift_Message::newInstance()
+                        ->setSubject('Elmet Curtains - Out Of Stock Notification')
+                        ->setFrom($this->container->getParameter('noreply_address'))
+                        ->setTo($this->container->getParameter('orders_address'))
+                        ->setBody($this->renderView('ElmetAdminBundle:CurtainStock:email.html.twig', array('title' => 'Out Of Stock', 'message' => 'The following curtain designs and colours have been put out of stock:', 'curtainColours' => $outOfStockCurtainColours)),'text/html');
+
+        $this->get('mailer')->send($message);
+        
+    }
+}
 ?>
