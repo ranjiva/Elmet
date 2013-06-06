@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <title>Notice of Order Dispatch</title>
+    </head>
+    <body>
+        <div id="email" style="width:723px; margin:0px auto; padding:23px 10px 10px 10px; background-color:#a8b758; font-family:Arial, Helvetica, sans-serif; font-size:12px;">
+            <div>
+               <img src="{{webroot}}/img/logo.jpg" alt="" width="280" height="32" /><img src="{{webroot}}/img/topright.jpg" alt="" width="407" height="32" />
+            </div>
+
+            <div style="padding-top:34px; text-align:center; font-size:16px; font-weight:bold; height:24px; color:#FFF">
+                ::&nbsp;&nbsp;Dispatch of Your Order&nbsp;&nbsp;::
+            </div>
+            <div style="background-color:#FFF; padding:15px;">
+                <div style="padding-top:10px; padding-bottom:10px; line-height:20px;">
+                    <p>Dear {{trackingDetail.order.firstName}}</p>
+                    <p>We are pleased to inform you that the items you ordered below have been dispatched on 
+                       <strong>{{trackingDetail.shipmentDate|date("l jS F")}}</strong> to:
+                    </p>
+                    <div style="padding-top:10px; padding-bottom:10px; line-height:20px;">
+                        {{trackingDetail.order.deliveryAddress}}<br/>
+                        {% if (trackingDetail.order.deliveryAddress2 != null) %}
+                            {{trackingDetail.order.deliveryAddress2}}<br/>
+                        {% endif %}
+                        {{trackingDetail.order.deliveryTown}} <br/>
+                        {{trackingDetail.order.deliveryPostcode}}
+                    </div>
+                    <p>using Parcelforce. Your Parcelforce tracking number is <strong>{{trackingDetail.trackingNumber}}</strong>
+                      and you can track your shipment at <strong>{{parcelforce}}</strong>
+                    </p>
+                    <p>
+                      This completes your order. If you have queries regarding the items dispatched, please reply to this email.
+                      We thank you for your order and look forward to your custom once again in the near future.
+                    </p>
+                    <p>Elmet Curtains</p>
+                </div>
+
+                <div id="item_headings" style="border-bottom:1px solid #e5e5e5; font-family:Arial, Helvetica, sans-serif; font-size:12px; padding-top:10px; padding-bottom:3px; margin-bottom:15px;">
+                    <div id="order_item" style="float:left; width:305px; margin-right:20px;"><strong>Item</strong></div>
+                    <div id="order_dropattraction" style="float:left; width:100px; margin-right:20px;">
+                        <strong>Drop Alteration</strong>
+                    </div>
+                    <div id="order_quantity" style="float:left; width:60px; margin-right:15px;"><strong>Quantity</strong></div>
+                    <div style="clear:both;"></div>
+                </div>
+
+                {% for orderItem in trackingDetail.order.orderItems %}
+                   <div id="item_headings" style ="border-bottom:1px solid #e5e5e5; font-family:Arial, Helvetica, sans-serif; font-size:12px; padding-bottom:3px; margin-bottom:15px;">
+                       <div id="order_item" style="float:left; width:305px; margin-right:20px;">
+                           <div class="item_img" style="float:left; margin-right:10px; padding-bottom:10px;">
+                               <img src="{{webroot}}{{orderItem.itemFilepath}}" width="47" height="61" alt=""/>  
+                           </div>
+                           <div class="item_details" style="float:left;"><strong>{{orderItem.name}}</strong><br/>
+                               {{orderItem.size}} {{orderItem.description}}<br/>
+                               {{orderItem.colour}}<br/>
+                       </div>
+                   </div>
+                   <div id="order_dropattraction" style="float:left; width:100px; margin-right:20px;">
+                      {% if (orderItem.dropAlteration == null) %}
+                        n/a
+                      {% else %}
+                         {{orderItem.dropAlteration}}
+                      {% endif %}
+                   </div>
+                   <div id="order_quantity" style="float:left; width:60px; margin-right:15px;">
+                       {{orderItem.quantity}}
+                   </div>
+                   <div style="clear:both;"></div>
+                {% endfor %}
+            </div>
+        </div> 
+    </body>
+</html>

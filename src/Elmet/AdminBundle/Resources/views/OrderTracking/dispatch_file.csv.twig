@@ -1,0 +1,3 @@
+{% for trackingDetail in trackingDetails %}
+{{trackingDetail.order.deliveryName}},{{trackingDetail.order.deliveryAddress}},{{trackingDetail.order.deliveryAddress2}},{{trackingDetail.order.deliveryTown}},{{trackingDetail.order.deliveryPostcode}},{{trackingDetail.order.email}},{{dispatchDate}},{{trackingDetail.order.id}}
+{% endfor %}

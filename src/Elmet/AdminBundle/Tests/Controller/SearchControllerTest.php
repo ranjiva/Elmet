@@ -25,7 +25,7 @@ class SearchControllerTest extends WebTestCase
         $order->setDeliveryAddress("8 Southwood Close");
         $order->setDeliveryAddress2("Great Lever");
         $order->setDeliveryName("Ranjiva Prasad");
-        $order->setDeliveryPostcode("BL3 2DJ");
+        $order->setDeliveryPostcode($postCode);
         $order->setDeliveryTown("Bolton");
         $order->setEmail($email);
         $order->setFirstName("Ranjiva");
@@ -331,6 +331,20 @@ class SearchControllerTest extends WebTestCase
         $this->assertTrue($resultsCrawler->filter('td:contains("'.$order1->getId().'")')->count() > 0);
         $this->assertTrue($resultsCrawler->filter('td:contains("'.$order2->getId().'")')->count() > 0);
         $this->assertTrue($resultsCrawler->filter('td:contains("'.$order3->getId().'")')->count() == 0);
+   }
+   
+   public function testViewDetails() {
+       
+       $order = $this->orders[2];
+       
+       $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'admin',
+            'PHP_AUTH_PW'   => 'adminpass'));
+
+        $client->request('GET', 'admin/order/details/'.$order->getId());  
+        $detailsCrawler = $client->followRedirect();     
+        
+        $this->assertTrue($detailsCrawler->filterXPath('//div[contains(string(),": '.$order->getDeliveryPostCode().'")]')->count() > 0);
    }
   
 }

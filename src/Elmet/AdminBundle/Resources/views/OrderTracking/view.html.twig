@@ -1,0 +1,99 @@
+{% extends 'ElmetAdminBundle::layout.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="/js/datepickr.js"></script>
+    <script type="text/javascript" src="/js/popup.js"></script>
+    <script type="text/javascript" src="/js/ordermanagement.js"></script>
+{% endblock %}
+{% block css %}
+    {{ parent() }}
+    <link href="/css/datepickr.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block breadcrumb %}    
+    <span>
+         <a href="/admin/ordertracking/view">Manage Current Orders</a>
+     </span>
+{% endblock %}
+{% block body %}
+    <form method="post" action="/admin/ordertracking/update" enctype="multipart/form-data" style="width: 850px">
+         <table>
+             <thead>
+                 <tr>
+                     <th style="width: 70px">Order No</th>
+                     <th style="width: 70px">Item No</th>
+                     <th style="width: 100px">Batch</th>
+                     <th style="width: 150px">Name</th>
+                     <th style="width: 100px">Status</th>
+                     <th style="width: 120px">Received Date</th>
+                     <th style="width: 120px">Estimated Date</th>
+                 </tr>
+             </thead>
+             <tbody>    
+                 {%set i = 1 %}
+                 {% for trackingDetail in trackingDetails %}
+                    <input type="hidden" name="order_{{trackingDetail.id}}" value="notselected"/>
+                    <tr class="{{ cycle(['odd', 'even'], i) }}" id="order_{{trackingDetail.id}}">
+                        <td>{{trackingDetail.order.id}}</td>
+                        <td>{{trackingDetail.itemId}}</td>
+                        <td>
+                            {% if (trackingDetail.batch == null) %}
+                                &nbsp;
+                            {% else %}
+                                {{trackingDetail.batch.batchStatus}}
+                            {% endif %}
+                        </td>
+                        <td>{{trackingDetail.order.deliveryName}}</td>
+                        <td id="status_{{trackingDetail.order.id}}">{{trackingDetail.trackingStatus}}</td>
+                        <td>{{trackingDetail.order.created|date("d/m/y") }}</td>
+                        <td>{{trackingDetail.estimatedDispatchDate|date("d/m/y") }}</td>
+                        <td class="edit"><a href="/admin/ordertracking/details/{{trackingDetail.order.id}}" class="popup" title="Order Details">view</a></td>
+                        <td class="edit"><a href="/admin/ordertracking/email/{{trackingDetail.order.id}}">email</a></td>
+                        <td class="edit"><a href="/admin/ordertracking/message/{{trackingDetail.id}}" class="popup" title="Send Message">message</a></td>
+                        <td class="edit"><a href="/admin/ordertracking/cancel/{{trackingDetail.id}}"  class="confirm">cancel</a></td>
+                    </tr>
+                 {%set i = i + 1 %}    
+                 {% endfor %}
+             </tbody>
+         </table>
+         <br/>
+         
+         {% if(trackingDetails != null) %}
+         
+             <table>   
+                 <tr>
+                     <td><input id="submitAll" name="process" class="submitAll" type="submit" value="Process Selected"/></td>
+                     <td>Batch:</td>
+                     <td>
+                         <select name="batch">
+                            <option value="Current" selected="true">Current</option>
+                            <option value="Next">Next</option>    
+                         </select>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td><input id="submitAll" name="dispatch" class="submitAll" type="submit" value="Dispatch Selected"/></td>
+                     <td>Dispatch Date:</td>
+                     <td><input type=text" name="dispatch_date" id="datepick" readonly="true"/></td>
+                     <td id="error_date" class="error" style="display: none; width: 200px">Date should not be empty</td>
+                 </tr>
+                 <tr>
+                     <td><input id="submitAll" name="load" class="submitAll" type="submit" value="Send Dispatch Emails"/></td>
+                     <td>Tracking Number File:</td>
+                     <td><input type="file" name="tracking_file"/></td>
+                     <td id="error_file" class="error" style="display: none; width: 200px">Please specify a file</td>
+                 </tr>
+             </table>
+             <br/>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="edit"><a href="/admin/ordertracking/worksheet/Current" class="popup" title="Current Batch Order Items">View Current Batch Order Items</a></td>
+                    </tr>
+                    <tr>
+                        <td class="edit"><a href="/admin/ordertracking/worksheet/Next" class="popup" title="Next Batch Order Items">View Next Batch Order Items</a></td>
+                    </tr>
+                </tbody>
+            </table>
+         {% endif %}
+     </form>
+{% endblock %}

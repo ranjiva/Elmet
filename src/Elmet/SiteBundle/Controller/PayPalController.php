@@ -5,6 +5,7 @@ namespace Elmet\SiteBundle\Controller;
 use Elmet\SiteBundle\Controller\BaseController;
 use Symfony\Component\HttpFoundation\Response;
 use \Elmet\SiteBundle\Entity\InstantPaymentNotification;
+use \Elmet\AdminBundle\Entity\OrderTracking;
 
 class PayPalController extends BaseController
 {
@@ -55,16 +56,27 @@ class PayPalController extends BaseController
             $order = $em->merge($order);
             $em->persist($ipn);
             $em->flush();
-
+            
             $this->sendEmails($order);
-            $curtainColours = $this->updateStock($order);
             
-            if (!empty($curtainColours['low'])) {
-                $this->sendLowStockNotification($curtainColours['low']);
-            }
+            if ($ipn->getPaymentStatus() == 'Completed') {
             
-            if (!empty($curtainColours['out'])) {
-                $this->sendOutOfStockNotification($curtainColours['out']);
+                $orderTracking = new OrderTracking();
+                $orderTracking->setOrder($order);
+                $orderTracking->setTrackingStatus('Received');
+                $orderTracking->setEstimatedDispatchDate($this->calculateDispatchDate());
+                $em->persist($orderTracking);
+                $em->flush();
+
+                $curtainColours = $this->updateStock($order);
+
+                if (!empty($curtainColours['low'])) {
+                    $this->sendLowStockNotification($curtainColours['low']);
+                }
+
+                if (!empty($curtainColours['out'])) {
+                    $this->sendOutOfStockNotification($curtainColours['out']);
+                }
             }
             
             $status = "Success";
@@ -321,6 +333,17 @@ class PayPalController extends BaseController
 
         $this->get('mailer')->send($message);
         
+    }
+    
+    public function calculateDispatchDate() {
+        
+        $repository = $this->getDoctrine()->getRepository('ElmetAdminBundle:DispatchDateOffset');
+        
+        $day_of_week = date("w");
+        
+        $dispatchDateOffset = $repository->findOneBy(array('day_of_week' => $day_of_week));
+        
+        return $dispatchDateOffset->getDispatchDate();
     }
 }
 ?>

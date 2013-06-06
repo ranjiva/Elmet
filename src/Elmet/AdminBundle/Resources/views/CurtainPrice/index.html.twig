@@ -95,7 +95,7 @@
                              </select>
                          </td>
                          <td>
-                             <input type="number" name="price_new" value=""/>
+                             <input type="text" name="price_new" value=""/>
                          </td>
                          <td class="edit" id="undo_new" onclick="undoCreate()">undo</td>
                          <td><input class="submit" type="submit" name="save_new" value="Save"/></td> 
@@ -144,11 +144,11 @@
                             {{curtainPrice.type}}
                          </td>
                          <td>
-                             <input type="number" name="single:price_{{curtainPrice.id}}" value="{{curtainPrice.price}}"/>
+                             <input type="text" name="single:price_{{curtainPrice.id}}" value="{{curtainPrice.price}}"/>
                          </td>
                          <td class="edit" onclick="undo({{curtainPrice.id}})">undo</td>
                          <td><input class="submit" type="submit" name="save_{{curtainPrice.id}}" value="Save"/></td>
-                         <td id="error_{{curtainPrice.id}}" class="error" style="display: none; width: 200px">Price is not numeric</price>
+                         <td id="error_{{curtainPrice.id}}" class="error" style="display: none; width: 200px">Price is not numeric</td>
                      </tr>
 
                      <tr id="editAll_{{curtainPrice.id}}" class="{{ cycle(['odd', 'even'], i) }}" style="display:none">
@@ -167,7 +167,7 @@
                             {{curtainPrice.type}}
                          </td>
                          <td>
-                             <input type="number" name="all:price_{{curtainPrice.id}}" value="{{curtainPrice.price}}"/>
+                             <input type="text" name="all:price_{{curtainPrice.id}}" value="{{curtainPrice.price}}"/>
                          </td>
                          <td id="error_{{curtainPrice.id}}" class="error" style="display: none; width: 200px">Price is not numeric</price>
                      </tr>

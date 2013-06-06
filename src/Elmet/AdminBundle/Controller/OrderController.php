@@ -12,6 +12,15 @@ class OrderController extends Controller
          return $this->render('ElmetAdminBundle:Order:search.html.twig');
     }
     
+    public function detailsAction($id) {
+        
+        $repository = $this->getDoctrine()->getRepository('ElmetSiteBundle:Order');
+        $order = $repository->findOneById($id);
+        
+        return $this->render('ElmetSiteBundle:PayPal:email.html.php',array('order' => $order));
+        
+    }
+    
     public function resultsAction()
     {
         //search by the most restrictive criteria first. If that does not return any results then

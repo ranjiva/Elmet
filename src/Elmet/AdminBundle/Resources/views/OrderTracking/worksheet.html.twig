@@ -1,0 +1,82 @@
+ <html>
+    <head>
+        <title>Order Items for {{type}} Batch</title>
+        <link href="/css/admin.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <p>Order Items for {{type}} Batch</p>
+         <table>
+             <thead>
+                 <tr>
+                     <th style="width: 50px">Item No</th>
+                     <th style="width: 100px">Name</th>
+                     <th style="width: 350px">Order Items</th>
+                 </tr>
+             </thead>
+             <tbody>    
+                 {%set i = 1 %}
+                 {% for trackingDetail in trackingDetails %}
+                    <tr class="{{ cycle(['odd', 'even'], i) }}">
+                        {% if trackingDetail.trackingStatus == 'Cancelled' %}
+                        <td class="strikethrough">{{trackingDetail.itemId}}</td>
+                        <td class="strikethrough">{{trackingDetail.order.billingName}}</td>
+                        {% else %}
+                        <td>{{trackingDetail.itemId}}</td>
+                        <td>{{trackingDetail.order.billingName}}</td>
+                        {% endif %}
+                        <td>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th style="width: 75px">Design</th>
+                                        <th style="width: 50px">Colour</th>
+                                        <th style="width: 50px">Item</th>
+                                        <th style="width: 75px">Tape/Eyelet</th>
+                                        <th style="width: 75px">Size</th>
+                                        <th style="width: 100px">Drop Alteration</th>
+                                        <th style="width: 50px">Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% set j = 1 %}
+                                    {% for item in trackingDetail.order.orderItems %}
+                                         {% if trackingDetail.trackingStatus == 'Cancelled' %}
+                                         <tr class="{{ cycle(['odd_strikethrough', 'even_strikethrough'], j) }}">
+                                         {% else %}
+                                         <tr class="{{ cycle(['odd', 'even'], j) }}">
+                                         {% endif %}
+                                            <td>{{item.name|replace({'Ready-made (Jacquard) Curtains':"",'with Eyelets':""})}}</td>
+                                            <td>{{item.colour}}</td>
+                                            <td>{{item.productType}}</td>
+                                            <td>
+                                                {% if item.productType == 'Curtain'%}
+                                                    {% if 'Eyelets' in item.name %}
+                                                        Eyelet
+                                                    {% else %}
+                                                        Tape
+                                                    {% endif %}
+                                                {% else %}
+                                                N/A
+                                                {% endif %}
+                                            <td>{{item.size}}</td>
+                                            <td>
+                                                {% if item.dropAlteration == "" %}
+                                                    N/A
+                                                {% else %}
+                                                    {{item.dropAlteration}}
+                                                {% endif %}
+                                            </td>
+                                            <td>{{item.quantity}}</td>
+                                        </tr>
+                                    {% set j = j + 1 %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                 {%set i = i + 1 %}    
+                 {% endfor %}
+             </tbody>
+         </table>
+    </body>
+</html>

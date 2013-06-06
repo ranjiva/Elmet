@@ -165,7 +165,11 @@ ElmetAdminBundle_order_search_page:
 ElmetAdminBundle_order_results_page:
     pattern:  /order/results
     defaults: { _controller: ElmetAdminBundle:Order:results }
-    
+
+ElmetAdminBundle_order_details_page:
+    pattern:  /order/details/{id}
+    defaults: { _controller: ElmetAdminBundle:Order:details } 
+ 
 ElmetAdminBundle_stock_view_page:
     pattern:  /curtainstock/view
     defaults: { _controller: ElmetAdminBundle:CurtainStock:view }
@@ -173,3 +177,39 @@ ElmetAdminBundle_stock_view_page:
 ElmetAdminBundle_stock_update_page:
     pattern:  /curtainstock/update
     defaults: { _controller: ElmetAdminBundle:CurtainStock:update }
+
+ElmetAdminBundle_order_tracking_view_page:
+    pattern:  /ordertracking/view
+    defaults: { _controller: ElmetAdminBundle:OrderTracking:view }
+
+ElmetAdminBundle_order_tracking_details_page:
+    pattern:  /ordertracking/details/{id}
+    defaults: { _controller: ElmetAdminBundle:OrderTracking:details }
+
+ElmetAdminBundle_order_tracking_email_page:
+    pattern:  /ordertracking/email/{id}
+    defaults: { _controller: ElmetAdminBundle:OrderTracking:email }
+
+ElmetAdminBundle_order_tracking_message_page:
+    pattern:  /ordertracking/message/{id}
+    defaults: { _controller: ElmetAdminBundle:OrderTracking:message }
+
+ElmetAdminBundle_order_tracking_update_page:
+    pattern:  /ordertracking/update
+    defaults: { _controller: ElmetAdminBundle:OrderTracking:update }
+    
+ElmetAdminBundle_order_tracking_message_page:
+    pattern:  /ordertracking/message/{id}
+    defaults: { _controller: ElmetAdminBundle:OrderTracking:message }
+
+ElmetAdminBundle_order_tracking_send_page:
+    pattern:  /ordertracking/send
+    defaults: { _controller: ElmetAdminBundle:OrderTracking:send }
+
+ElmetAdminBundle_order_tracking_cancel_page:
+    pattern:  /ordertracking/cancel/{id}
+    defaults: { _controller: ElmetAdminBundle:OrderTracking:cancel }
+
+ElmetAdminBundle_order_tracking_worksheet_page:
+    pattern:  /ordertracking/worksheet/{type}
+    defaults: { _controller: ElmetAdminBundle:OrderTracking:worksheet }

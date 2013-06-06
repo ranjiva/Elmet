@@ -22,6 +22,22 @@
                     background-color: #F8F8FF;
                     color:black;
                 }
+                
+                tr.odd_strikethrough {
+                    background-color:#DCDCDC;
+                    color:black;
+                    text-decoration: line-through
+                }
+                tr.even_strikethrough {
+                    background-color: #F8F8FF;
+                    color:black;
+                    text-decoration: line-through
+                }
+                
+                td.strikethrough {
+                    text-decoration: line-through
+                }
+                
                 td.edit {
                     font-weight: bold;
                     color: #556B2F;

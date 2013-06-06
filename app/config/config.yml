@@ -20,7 +20,10 @@ framework:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
-
+    globals:
+        webroot:      %webroot%
+        parcelforce:  %parcelforce_url%
+        orders_email: %orders_address%
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%

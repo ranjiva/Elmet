@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>{{subject}}</title>
+    </head>
+    <body>
+        <div id="email" style="width:723px; margin:0px auto; padding:23px 10px 10px 10px; background-color:#a8b758; font-family:Arial, Helvetica, sans-serif; font-size:12px;">
+            <div>
+               <img src="{{webroot}}/img/logo.jpg" alt="" width="280" height="32" /><img src="{{webroot}}/img/topright.jpg" alt="" width="407" height="32" />
+            </div>
+
+            <div style="padding-top:34px; text-align:center; font-size:16px; font-weight:bold; height:24px; color:#FFF">
+                ::&nbsp;&nbsp;{{subject}}&nbsp;&nbsp;::
+            </div>
+            <div style="background-color:#FFF; padding:15px;">
+                <div style="padding-top:10px; padding-bottom:10px; line-height:20px;">
+                    <textarea rows="30" cols="100" readonly="true" style="overflow: auto;">{{message}}</textarea>
+                </div>
+            </div>
+        </div> 
+    </body>
+</html>

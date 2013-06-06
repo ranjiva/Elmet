@@ -46,7 +46,7 @@
                              </select>
                          </td>
                          <td>
-                             <input type="number" name="price_new" value=""/>
+                             <input type="text" name="price_new" value=""/>
                          </td>
                          <td class="edit" onclick="undoCreate()">undo</td>
                          <td><input class="submit" type="submit" name="save_new" value="Save"/></td> 
@@ -106,7 +106,7 @@
 
                          </td>
                          <td>
-                             <input type="number" name="single:price_{{pelmet.id}}" value="{{pelmet.price}}"/>
+                             <input type="text" name="single:price_{{pelmet.id}}" value="{{pelmet.price}}"/>
                          </td>
                          <td class="edit" onclick="undo({{pelmet.id}})">undo</td>
                          <td><input class="submit" type="submit" name="save_{{pelmet.id}}" value="Save"/></td>
@@ -148,7 +148,7 @@
 
                          </td>
                          <td>
-                             <input type="number" name="all:price_{{pelmet.id}}" value="{{pelmet.price}}"/>
+                             <input type="text" name="all:price_{{pelmet.id}}" value="{{pelmet.price}}"/>
                          </td>
                          <td id="error_{{pelmet.id}}" class="error" style="display: none; width: 200px">Price is not numeric</price>
                      </tr>

@@ -1,4 +1,8 @@
 {% extends 'ElmetAdminBundle::layout.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="/js/popup.js"></script>
+{% endblock %}
 {% block breadcrumb %}    
     <span>
          <a href="/admin/order/search">Search Orders</a> -> Results
@@ -8,11 +12,11 @@
      <table>
          <thead>
              <tr>
-                 <th style="width: 50px">Order No</th>
+                 <th style="width: 75px">Order No</th>
                  <th style="width: 100px">Name</th>
                  <th style="width: 150px">Email</th>
-                 <th style="width: 100px">Address</th>
-                 <th style="width: 350px">Order</th>
+                 <th style="width: 200px">Address</th>
+                 <th style="width: 50px">Status</th>
              </tr>
          </thead>
          <tbody>    
@@ -31,38 +35,10 @@
                         {{order.billingPostcode}}
                     </td>
                     <td>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th style="width: 150px">Design</th>
-                                    <th style="width: 150px">Item</th>
-                                    <th style="width: 50px">Colour</th>
-                                    <th style="width: 50px">Size</th>
-                                    <th style="width: 50px">Drop Alteration</th>
-                                    <th style="width: 50px">Quantity</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% set j = 1 %}
-                                {% for item in order.orderItems %}    
-                                    <tr class="{{ cycle(['odd', 'even'], j) }}">
-                                        <td>{{item.name}}</td>
-                                        <td>{{item.description}}</td>
-                                        <td>{{item.colour}}</td>
-                                        <td>{{item.size}}</td>
-                                        <td>
-                                            {% if item.dropAlteration == "" %}
-                                                N/A
-                                            {% else %}
-                                                {{item.dropAlteration}}
-                                            {% endif %}
-                                        </td>
-                                        <td>{{item.quantity}}</td>
-                                    </tr>
-                                {% set j = j + 1 %}
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                        {{order.orderStatus}}
+                    </td>
+                    <td>
+                        <td class="edit"><a href="/admin/order/details/{{order.id}}" class="popup" title="Order Details">view</a></td>
                     </td>
                 </tr>
              {%set i = i + 1 %}    
