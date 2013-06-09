@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>Shipping Details</title>
+        <link href="/css/admin.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body> 
+         <table style="width: 500px">
+             <tr>
+                 <td>Delivery Name:</td>
+                 <td>
+                     {{trackingDetail.order.deliveryName}}
+                 </td>
+             </tr>
+             <tr>
+                 <td>Delivery Address:</td>
+                 <td>
+                     {{trackingDetail.order.deliveryAddress}}<br/>
+                     {% if trackingDetail.order.deliveryAddress2 != null %}
+                        {{trackingDetail.order.deliveryAddress2}}<br/>
+                     {% endif %}
+                     {{trackingDetail.order.deliveryTown}}<br/>
+                     {{trackingDetail.order.deliveryPostcode}}<br/>
+                 </td>
+             </tr> 
+             <tr>
+                 <td>Tracking Number:</td>
+                 <td>{{trackingDetail.trackingNumber}}</td>
+             </tr>
+             <tr>
+                 <td>Dispatch Date:</td>
+                 <td>{{trackingDetail.shipmentDate|date("l jS F Y")}}</td>
+             </tr>
+         </table>
+    </body>
+</html>

@@ -213,3 +213,7 @@ ElmetAdminBundle_order_tracking_cancel_page:
 ElmetAdminBundle_order_tracking_worksheet_page:
     pattern:  /ordertracking/worksheet/{type}
     defaults: { _controller: ElmetAdminBundle:OrderTracking:worksheet }
+
+ElmetAdminBundle_order_tracking_shipping_page:
+    pattern:  /ordertracking/shipping/{id}
+    defaults: { _controller: ElmetAdminBundle:OrderTracking:shipping }

@@ -42,7 +42,7 @@
                                 {{trackingDetail.batch.batchStatus}}
                             {% endif %}
                         </td>
-                        <td>{{trackingDetail.order.deliveryName}}</td>
+                        <td>{{trackingDetail.order.firstName}} {{trackingDetail.order.lastName}}</td>
                         <td id="status_{{trackingDetail.order.id}}">{{trackingDetail.trackingStatus}}</td>
                         <td>{{trackingDetail.order.created|date("d/m/y") }}</td>
                         <td>{{trackingDetail.estimatedDispatchDate|date("d/m/y") }}</td>

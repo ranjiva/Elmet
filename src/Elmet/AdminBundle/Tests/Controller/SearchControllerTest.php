@@ -146,8 +146,6 @@ class SearchControllerTest extends WebTestCase
      
         $resultsCrawler = $client->submit($form);
         
-        $this->assertTrue($resultsCrawler->filter('td:contains("GU51 3UP")')->count() == 2);
-        $this->assertTrue($resultsCrawler->filterXPath('//div/table/tbody/tr')->count() == 2);
         $this->assertTrue($resultsCrawler->filter('td:contains("ranjiva.prasad@gmail.com")')->count() == 1);
         $this->assertTrue($resultsCrawler->filter('td:contains("orders@elmetcurtains.co.uk")')->count() == 1);
         
@@ -169,9 +167,28 @@ class SearchControllerTest extends WebTestCase
         
         $resultsCrawler = $client->submit($form);
         
-        $this->assertTrue($resultsCrawler->filter('td:contains("S Prasad")')->count() == 2);
-        $this->assertTrue($resultsCrawler->filterXPath('//div/table/tbody/tr')->count() == 2);
         $this->assertTrue($resultsCrawler->filter('td:contains("ranjiva.prasad@gmail.com")')->count() == 1);
+        $this->assertTrue($resultsCrawler->filter('td:contains("orders@elmetcurtains.co.uk")')->count() == 1);
+        
+    }
+    
+    public function testSearchByDeliveryName() {
+        
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'admin',
+            'PHP_AUTH_PW'   => 'adminpass'));
+
+        $client->request('GET', 'admin/order/search');  
+        $searchCrawler = $client->followRedirect();
+        
+        $searchCrawlerNode = $searchCrawler->selectButton('Search');
+        $form = $searchCrawlerNode->form();
+        
+        $form['name'] = 'Ranjiva Prasad';
+        
+        $resultsCrawler = $client->submit($form);
+        
+        $this->assertTrue($resultsCrawler->filter('td:contains("ranjiva.prasad@gmail.com")')->count() == 2);
         $this->assertTrue($resultsCrawler->filter('td:contains("orders@elmetcurtains.co.uk")')->count() == 1);
         
     }
@@ -271,8 +288,6 @@ class SearchControllerTest extends WebTestCase
      
         $resultsCrawler = $client->submit($form);
         
-        $this->assertTrue($resultsCrawler->filter('td:contains("GU51 3UP")')->count() == 2);
-        $this->assertTrue($resultsCrawler->filterXPath('//div/table/tbody/tr')->count() == 2);
         $this->assertTrue($resultsCrawler->filter('td:contains("ranjiva.prasad@gmail.com")')->count() == 1);
         $this->assertTrue($resultsCrawler->filter('td:contains("orders@elmetcurtains.co.uk")')->count() == 1);
         
@@ -298,8 +313,6 @@ class SearchControllerTest extends WebTestCase
         
         $resultsCrawler = $client->submit($form);
         
-        $this->assertTrue($resultsCrawler->filter('td:contains("S Prasad")')->count() == 2);
-        $this->assertTrue($resultsCrawler->filterXPath('//div/table/tbody/tr')->count() == 2);
         $this->assertTrue($resultsCrawler->filter('td:contains("ranjiva.prasad@gmail.com")')->count() == 1);
         $this->assertTrue($resultsCrawler->filter('td:contains("orders@elmetcurtains.co.uk")')->count() == 1);
         

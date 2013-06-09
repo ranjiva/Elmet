@@ -333,4 +333,17 @@ class OrderTrackingController extends Controller
         
         return $this->render('ElmetAdminBundle:OrderTracking:worksheet.html.twig',array('trackingDetails' => $trackingDetails, 'type' => $type));
     }
+    
+    public function shippingAction($id) {
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $query = $em->createQuery('SELECT ot FROM ElmetAdminBundle:OrderTracking ot JOIN ot.order o WHERE o.id= :id');
+        
+        $query->setParameter('id',intval($id));
+                 
+        $trackingDetail = $query->getSingleResult();
+                                          
+        return $this->render('ElmetAdminBundle:OrderTracking:shipping.html.twig',array('trackingDetail' => $trackingDetail));
+    }
+    
 }

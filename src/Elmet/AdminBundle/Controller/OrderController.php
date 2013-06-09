@@ -83,9 +83,24 @@ class OrderController extends Controller
             
             if ($name != null) {
             
+                $names =  explode(" ", $name);
+                
                 $em = $this->getDoctrine()->getEntityManager();
-                $query = $em->createQuery('SELECT o FROM ElmetSiteBundle:Order o WHERE o.billing_name = :name');
+                $query = $em->createQuery('SELECT o FROM ElmetSiteBundle:Order o WHERE (o.billing_name = :name) or (o.delivery_name = :name) or ((o.first_name = :firstname) and (o.last_name = :lastname))');
                 $query->setParameter('name',$name);
+                
+                if (count($names) > 0) {
+                    $query->setParameter('firstname',$names[0]);
+                } else {
+                    $query->setParameter('firstname',null);
+                }
+                
+                if (count($names) > 1) {
+                    $query->setParameter('lastname',$names[1]);
+                } else {
+                    $query->setParameter('lastname',null);
+                }
+             
                 $orders = $query->getResult();     
                
                 if (count($orders) > 0) {

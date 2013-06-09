@@ -15,7 +15,6 @@
                  <th style="width: 75px">Order No</th>
                  <th style="width: 100px">Name</th>
                  <th style="width: 150px">Email</th>
-                 <th style="width: 200px">Address</th>
                  <th style="width: 50px">Status</th>
              </tr>
          </thead>
@@ -24,22 +23,17 @@
              {% for order in orders %}
                 <tr class="{{ cycle(['odd', 'even'], i) }}">
                     <td>{{order.id}}</td>
-                    <td>{{order.billingName}}</td>
+                    <td>{{order.firstName}} {{order.lastName}}</td>
                     <td>{{order.email}}</td>
-                    <td>
-                        {{order.billingAddress}}<br/>
-                        {% if order.billingAddress2 != "" %}
-                            {{order.billingAddress2}}<br/>
-                        {% endif %}
-                        {{order.billingTown}}<br/>
-                        {{order.billingPostcode}}
-                    </td>
                     <td>
                         {{order.orderStatus}}
                     </td>
                     <td>
                         <td class="edit"><a href="/admin/order/details/{{order.id}}" class="popup" title="Order Details">view</a></td>
                     </td>
+                    {% if(order.orderStatus == 'Dispatched') %}
+                        <td class="edit"><a href="/admin/ordertracking/shipping/{{order.id}}" class="popup" title="Delivery Details">shipping</a></td>
+                    {% endif %}
                 </tr>
              {%set i = i + 1 %}    
              {% endfor %}

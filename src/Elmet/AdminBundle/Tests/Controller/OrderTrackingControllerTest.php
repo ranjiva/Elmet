@@ -168,12 +168,15 @@ class OrderTrackingControllerTest extends WebTestCase
         $form['tracking_file']->upload('temp.jpg');
         
         $updateCrawler = $client->submit($form);
+                
+        $firstItemId = trim(preg_replace('/\s\s+/', '', $updateCrawler->filter('td:contains("'.$this->trackingDetails[0]->getOrder()->getId().'")')->siblings()->eq(0)->text()));
+        $secondItemId = trim(preg_replace('/\s\s+/', '', $updateCrawler->filter('td:contains("'.$this->trackingDetails[2]->getOrder()->getId().'")')->siblings()->eq(0)->text()));
         
-        $this->assertTrue(trim(preg_replace('/\s\s+/', '', $updateCrawler->filter('td:contains("'.$this->trackingDetails[0]->getOrder()->getId().'")')->siblings()->eq(0)->text())) == '1');
+        $this->assertTrue(($firstItemId == '1') || ($secondItemId == '1'));
+        $this->assertTrue(($firstItemId == '2') || ($secondItemId == '2'));
         $this->assertTrue(trim(preg_replace('/\s\s+/', '', $updateCrawler->filter('td:contains("'.$this->trackingDetails[0]->getOrder()->getId().'")')->siblings()->eq(1)->text())) == 'Current');
         $this->assertTrue(trim(preg_replace('/\s\s+/', '', $updateCrawler->filter('td:contains("'.$this->trackingDetails[0]->getOrder()->getId().'")')->siblings()->eq(3)->text())) == 'In Progress');
         $this->assertTrue(trim(preg_replace('/\s\s+/', '', $updateCrawler->filter('td:contains("'.$this->trackingDetails[1]->getOrder()->getId().'")')->siblings()->eq(3)->text())) == 'Received');
-        $this->assertTrue(trim(preg_replace('/\s\s+/', '', $updateCrawler->filter('td:contains("'.$this->trackingDetails[2]->getOrder()->getId().'")')->siblings()->eq(0)->text())) == '2');
         $this->assertTrue(trim(preg_replace('/\s\s+/', '', $updateCrawler->filter('td:contains("'.$this->trackingDetails[2]->getOrder()->getId().'")')->siblings()->eq(1)->text())) == 'Current');
         $this->assertTrue(trim(preg_replace('/\s\s+/', '', $updateCrawler->filter('td:contains("'.$this->trackingDetails[2]->getOrder()->getId().'")')->siblings()->eq(3)->text())) == 'In Progress');
     }
@@ -282,7 +285,7 @@ class OrderTrackingControllerTest extends WebTestCase
         $updateCrawler = $client->submit($form);
         
         $body = $client->getResponse()->getContent();
-        
+                
         $lines = explode("\n",$body);
 
         $firstLine = $lines[0];
@@ -291,23 +294,23 @@ class OrderTrackingControllerTest extends WebTestCase
         $secondLine = $lines[1];
         $secondLineElements = explode(",",$secondLine);
         
-        $this->assertTrue($firstLineElements[0] == $this->trackingDetails[0]->getOrder()->getDeliveryName());
-        $this->assertTrue($firstLineElements[1] == $this->trackingDetails[0]->getOrder()->getDeliveryAddress());
-        $this->assertTrue($firstLineElements[2] == $this->trackingDetails[0]->getOrder()->getDeliveryAddress2());
-        $this->assertTrue($firstLineElements[3] == $this->trackingDetails[0]->getOrder()->getDeliveryTown());
-        $this->assertTrue($firstLineElements[4] == $this->trackingDetails[0]->getOrder()->getDeliveryPostcode());
-        $this->assertTrue($firstLineElements[5] == $this->trackingDetails[0]->getOrder()->getEmail());
-        $this->assertTrue($firstLineElements[6] == '05/06/13');
-        $this->assertTrue($firstLineElements[7] == $this->trackingDetails[0]->getOrder()->getId());
-        
-        $this->assertTrue($secondLineElements[0] == $this->trackingDetails[2]->getOrder()->getDeliveryName());
-        $this->assertTrue($secondLineElements[1] == $this->trackingDetails[2]->getOrder()->getDeliveryAddress());
-        $this->assertTrue($secondLineElements[2] == $this->trackingDetails[2]->getOrder()->getDeliveryAddress2());
-        $this->assertTrue($secondLineElements[3] == $this->trackingDetails[2]->getOrder()->getDeliveryTown());
-        $this->assertTrue($secondLineElements[4] == $this->trackingDetails[2]->getOrder()->getDeliveryPostcode());
-        $this->assertTrue($secondLineElements[5] == $this->trackingDetails[2]->getOrder()->getEmail());
-        $this->assertTrue($secondLineElements[6] == '05/06/13');
-        $this->assertTrue($secondLineElements[7] == $this->trackingDetails[2]->getOrder()->getId());
+        $this->assertTrue(($firstLineElements[0] == $this->trackingDetails[0]->getOrder()->getDeliveryName()) || ($secondLineElements[0] == $this->trackingDetails[0]->getOrder()->getDeliveryName()));
+        $this->assertTrue(($firstLineElements[1] == $this->trackingDetails[0]->getOrder()->getDeliveryAddress()) || ($secondLineElements[1] == $this->trackingDetails[0]->getOrder()->getDeliveryAddress()));
+        $this->assertTrue(($firstLineElements[2] == $this->trackingDetails[0]->getOrder()->getDeliveryAddress2()) || ($secondLineElements[2] == $this->trackingDetails[0]->getOrder()->getDeliveryAddress2()));
+        $this->assertTrue(($firstLineElements[3] == $this->trackingDetails[0]->getOrder()->getDeliveryTown()) || ($secondLineElements[3] == $this->trackingDetails[0]->getOrder()->getDeliveryTown()));
+        $this->assertTrue(($firstLineElements[4] == $this->trackingDetails[0]->getOrder()->getDeliveryPostcode()) || ($secondLineElements[4] == $this->trackingDetails[0]->getOrder()->getDeliveryPostcode()));
+        $this->assertTrue(($firstLineElements[5] == $this->trackingDetails[0]->getOrder()->getEmail()) || ($secondLineElements[5] == $this->trackingDetails[0]->getOrder()->getEmail()));
+        $this->assertTrue(($firstLineElements[6] == '05/06/13') || ($secondLineElements[6] == '05/06/13'));
+        $this->assertTrue(($firstLineElements[7] == $this->trackingDetails[0]->getOrder()->getId()) || ($secondLineElements[7] == $this->trackingDetails[0]->getOrder()->getId()));
+   
+        $this->assertTrue(($firstLineElements[0] == $this->trackingDetails[2]->getOrder()->getDeliveryName()) || ($secondLineElements[0] == $this->trackingDetails[2]->getOrder()->getDeliveryName()));
+        $this->assertTrue(($firstLineElements[1] == $this->trackingDetails[2]->getOrder()->getDeliveryAddress()) || ($secondLineElements[1] == $this->trackingDetails[2]->getOrder()->getDeliveryAddress()));
+        $this->assertTrue(($firstLineElements[2] == $this->trackingDetails[2]->getOrder()->getDeliveryAddress2()) || ($secondLineElements[2] == $this->trackingDetails[2]->getOrder()->getDeliveryAddress2()));
+        $this->assertTrue(($firstLineElements[3] == $this->trackingDetails[2]->getOrder()->getDeliveryTown()) || ($secondLineElements[3] == $this->trackingDetails[2]->getOrder()->getDeliveryTown()));
+        $this->assertTrue(($firstLineElements[4] == $this->trackingDetails[2]->getOrder()->getDeliveryPostcode()) || ($secondLineElements[4] == $this->trackingDetails[2]->getOrder()->getDeliveryPostcode()));
+        $this->assertTrue(($firstLineElements[5] == $this->trackingDetails[2]->getOrder()->getEmail()) || ($secondLineElements[5] == $this->trackingDetails[2]->getOrder()->getEmail()));
+        $this->assertTrue(($firstLineElements[6] == '05/06/13') || ($secondLineElements[6] == '05/06/13'));
+        $this->assertTrue(($firstLineElements[7] == $this->trackingDetails[2]->getOrder()->getId()) || ($secondLineElements[7] == $this->trackingDetails[2]->getOrder()->getId()));
         
     }
     
@@ -472,5 +475,70 @@ class OrderTrackingControllerTest extends WebTestCase
         $this->em->remove($nextBatch);
         $this->em->flush();
     }
+    
+    public function testShippingDetails() {
+            
+        $firstTrackingDetail = $this->trackingDetails[0];
+        $secondTrackingDetail = $this->trackingDetails[2];
+        $thirdTrackingDetail = $this->trackingDetails[1];
+        
+        $firstTrackingDetail->setTrackingStatus("Processed");
+        $firstTrackingDetail->setItemId(1);
+        $secondTrackingDetail->setTrackingStatus("Processed");
+        $secondTrackingDetail->setItemId(2);
+        $thirdTrackingDetail->setTrackingStatus("In Progress");
+        $thirdTrackingDetail->setItemId(1);
+        
+        $firstTrackingDetail->setBatch($this->newCurrentBatch);
+        $secondTrackingDetail->setBatch($this->newCurrentBatch);
+        $thirdTrackingDetail->setBatch($this->newNextBatch);
+        
+        $this->newCurrentBatch->setNextItemId(3);
+        $this->newNextBatch->setNextItemId(2);
+        
+        $this->em->merge($firstTrackingDetail);
+        $this->em->merge($secondTrackingDetail);
+        $this->em->merge($thirdTrackingDetail);
+        $this->em->merge($this->newCurrentBatch);
+        $this->em->merge($this->newNextBatch);
+        $this->em->flush();
+       
+        $firstLine = $firstTrackingDetail->getOrder()->getId().',05/06/2013,JA1';
+        
+        $file = "tracking.txt";
+        $fh = fopen($file, 'w');
+        fwrite($fh, $firstLine);
+        fclose($fh);
+        
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'admin',
+            'PHP_AUTH_PW'   => 'adminpass'));
+
+        $client->request('GET', 'admin/ordertracking/view');  
+        $viewCrawler = $client->followRedirect();
+        
+        $loadCrawlerNode = $viewCrawler->selectButton('load');
+        $form = $loadCrawlerNode->form();
+        
+        $form['tracking_file']->upload('tracking.txt');
+        $updateCrawler = $client->submit($form);
+        
+        $client2 = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'admin',
+            'PHP_AUTH_PW'   => 'adminpass')); 
+        
+        $client2->request('GET', 'admin/ordertracking/shipping/'.$firstTrackingDetail->getOrder()->getId());  
+        $shippingCrawler = $client2->followRedirect();
+        
+        $this->assertTrue($shippingCrawler->filter('td:contains("JA1")')->count() > 0);
+        
+        $repository = $this->em->getRepository('ElmetAdminBundle:Batch');
+        
+        $nextBatch = $repository->findOneBy(array('batch_status' => 'Next'));
+        
+        $this->em->remove($nextBatch);
+        $this->em->flush();
+    }
+    
 }
 
