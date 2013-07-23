@@ -13,7 +13,7 @@ class PayPalController extends BaseController
     public function sendAction()
     {
         $valid = $this->sendResponseToPayPal();
-     
+       
         if ($valid == true) {
             $status = "SUCCESS";
         } else {
@@ -32,7 +32,7 @@ class PayPalController extends BaseController
         {
             $repository = $this->getDoctrine()->getRepository('ElmetSiteBundle:Order');
             $order = $repository->findOneById($ipn->getCustom());
-            
+        
             $order->setFirstName($ipn->getFirstName());
             $order->setLastName($ipn->getLastName());
             $order->setDeliveryName($ipn->getAddressName());
@@ -47,6 +47,18 @@ class PayPalController extends BaseController
             
             if ($ipn->getPaymentStatus() == 'Completed') {
                 $order->setOrderStatus("Paid");
+            } elseif ($ipn->getPaymentStatus() == 'Refunded') {
+                $order->setOrderStatus("Cancelled");
+            } elseif ($ipn->getPaymentStatus() == 'Reversed') {
+                $order->setOrderStatus("Disputed");
+            } elseif ($ipn->getPaymentStatus() == 'Canceled_Reversal') {
+                
+                if ($this->hasOrderBeenDispatched($ipn->getCustom())) {
+                      $order->setOrderStatus("Dispatched");
+                } else {
+                      $order->setOrderStatus("Paid");
+                }
+                
             } else {
                 $order->setOrderStatus("Error");
             }
@@ -54,10 +66,14 @@ class PayPalController extends BaseController
             $em = $this->getDoctrine()->getEntityManager();
             
             $order = $em->merge($order);
-            $em->persist($ipn);
-            $em->flush();
             
-            $this->sendEmails($order);
+            if ($ipn->getPaymentStatus() <> 'Canceled_Reversal') {
+                $em->persist($ipn);
+            }
+                        
+            $em->flush();
+                        
+            $this->sendBackOfficeEmail($order);
             
             if ($ipn->getPaymentStatus() == 'Completed') {
             
@@ -67,6 +83,8 @@ class PayPalController extends BaseController
                 $orderTracking->setEstimatedDispatchDate($this->calculateDispatchDate());
                 $em->persist($orderTracking);
                 $em->flush();
+                
+                $this->sendCustomerEmail($orderTracking);
 
                 $curtainColours = $this->updateStock($order);
 
@@ -80,6 +98,7 @@ class PayPalController extends BaseController
             }
             
             $status = "Success";
+            
         }
         else {
             $status = "Failure";;
@@ -110,6 +129,8 @@ class PayPalController extends BaseController
         $payment_status = $this->getRequest()->get('payment_status');
         $mc_gross = $this->getRequest()->get('mc_gross');
         $mc_currency = $this->getRequest()->get('mc_currency');
+        $mc_fee = $this->getRequest()->get('mc_fee');
+        $contact_phone = $this->getRequest()->get('contact_phone');
         
         //check that the receiver email is correct
         
@@ -126,7 +147,7 @@ class PayPalController extends BaseController
         } else {
             $valid = false;
         }
-        
+                
         //check that the notification is for a known order
         
         if ($valid and ($custom <> null) and is_numeric($custom))
@@ -147,7 +168,13 @@ class PayPalController extends BaseController
         
         //check that the amount of the order is correct
         
-        if ($valid and ($order->getAmountPaid() == $mc_gross)) {
+        if (($payment_status == 'Reversed') or ($payment_status == 'Canceled_Reversal') ) {
+            $amount = abs($mc_gross + $mc_fee);
+        } else {
+            $amount = abs(floatval($mc_gross));
+        }
+        
+        if ($valid and (abs($order->getAmountPaid() - $amount)) < 0.01 ) {
             $valid = true;
         } else {
             $valid = false;
@@ -163,7 +190,7 @@ class PayPalController extends BaseController
         
         //check that the instant payment notification has not been sent already
         
-        if ($valid) {
+        if ($valid and ($payment_status <> 'Canceled_Reversal')) {
             
             $repository = $this->getDoctrine()->getRepository('ElmetSiteBundle:InstantPaymentNotification');
             $ipn = $repository->findBy(array('txn_id' => $txn_id));
@@ -173,7 +200,7 @@ class PayPalController extends BaseController
             } else {
                 $valid = false;
             }
-        }
+        }        
         
         if ($valid) {
             
@@ -192,10 +219,14 @@ class PayPalController extends BaseController
             $ipn->setAddressStreet($address_street);
             $ipn->setAddressZip($address_zip);
             $ipn->setPaymentStatus($payment_status);
-            $ipn->setMcGross($mc_gross);
+            $ipn->setMcGross($amount);
             $ipn->setMcCurrency($mc_currency);
             $ipn->setId($txn_id);
             
+            if ($contact_phone <> null) {
+                $ipn->setContactPhone($contact_phone);
+            }
+                     
             return $ipn;
             
         } else {
@@ -239,7 +270,7 @@ class PayPalController extends BaseController
         
     }
     
-    public function sendEmails($order)
+    public function sendBackOfficeEmail($order)
     {
         $message = \Swift_Message::newInstance()
                         ->setSubject('Elmet Curtains - Online Customer Order')
@@ -248,12 +279,15 @@ class PayPalController extends BaseController
                         ->setBody($this->renderView('ElmetSiteBundle:PayPal:email.html.php', array('order' => $order)),'text/html');
 
         $this->get('mailer')->send($message);
-        
+    }
+    
+    public function sendCustomerEmail($trackingDetail)
+    {
         $message = \Swift_Message::newInstance()
                         ->setSubject('Elmet Curtains - Online Customer Order')
                         ->setFrom($this->container->getParameter('orders_address'))
-                        ->setTo($order->getEmail())
-                        ->setBody($this->renderView('ElmetSiteBundle:PayPal:email.html.php', array('order' => $order)),'text/html');
+                        ->setTo($trackingDetail->getOrder()->getEmail())
+                        ->setBody($this->renderView('ElmetSiteBundle:PayPal:customer_email.html.twig', array('trackingDetail' => $trackingDetail)),'text/html');
 
         $this->get('mailer')->send($message);
     }
@@ -274,10 +308,11 @@ class PayPalController extends BaseController
             if (($productType == "Curtain") || ($productType == "Fabric")) {
                 
                 $curtainColour = $colourRepository->findOneById($orderItem->getProductCategoryId());
-                
+                 
                 if ($productType == "Curtain") {
                     
                     $curtainMeterage = $meterageRepository->findOneBySize($orderItem->getSize());
+                    
                     $meterageUsed  = $curtainMeterage->getMeterage() * $orderItem->getQuantity();
                 } else {
                     $meterageUsed = $orderItem->getQuantity();
@@ -306,7 +341,7 @@ class PayPalController extends BaseController
         }
         
         $em->flush();
-   
+        
         return array('low' => $lowStockCurtainColours, 'out' => $outOfStockCurtainColours);
           
     }
@@ -344,6 +379,32 @@ class PayPalController extends BaseController
         $dispatchDateOffset = $repository->findOneBy(array('day_of_week' => $day_of_week));
         
         return $dispatchDateOffset->getDispatchDate();
+    }
+    
+    public function hasOrderBeenDispatched($order_id) {
+        
+        $dispatched = false;
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $query = $em->createQuery('SELECT ot FROM ElmetAdminBundle:OrderTracking ot JOIN ot.order o WHERE o.id = :id');
+
+        $query->setParameter('id',intval($order_id));
+                 
+         try {
+            $trackingDetail = $query->getSingleResult();
+         }
+         catch (\Doctrine\ORM\NoResultException $e) {
+            $trackingDetail = null;
+         }
+
+         if ($trackingDetail != null) {
+             
+             if ($trackingDetail->getTrackingStatus() == 'Dispatched') {
+                 $dispatched = true;
+             }
+         } 
+         
+         return $dispatched;
     }
 }
 ?>

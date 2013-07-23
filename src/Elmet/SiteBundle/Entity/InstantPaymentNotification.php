@@ -96,6 +96,12 @@ class InstantPaymentNotification
      protected $mc_currency;
      
      /**
+     * @ORM\Column(type="string", length=20) 
+     */
+     protected $contact_phone;
+     
+     
+     /**
      * Set id
      *
      * @return string 
@@ -433,5 +439,25 @@ class InstantPaymentNotification
     public function getMcCurrency()
     {
         return $this->mc_currency;
+    }
+
+    /**
+     * Set contact_phone
+     *
+     * @param string $contactPhone
+     */
+    public function setContactPhone($contactPhone)
+    {
+        $this->contact_phone = $contactPhone;
+    }
+
+    /**
+     * Get contact_phone
+     *
+     * @return string 
+     */
+    public function getContactPhone()
+    {
+        return $this->contact_phone;
     }
 }

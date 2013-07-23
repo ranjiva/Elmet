@@ -154,3 +154,7 @@ ElmetSiteBundle_paypal_ipn_respond:
 ElmetSiteBundle_paypal_ipn_convert:
     pattern:  /generate_ipn/convert
     defaults: { _controller: ElmetSiteBundle:IPNGenerator:convert }
+
+ElmetSiteBundle_paypal_ipn_send:
+    pattern:  /generate_ipn/send
+    defaults: { _controller: ElmetSiteBundle:IPNGenerator:send }

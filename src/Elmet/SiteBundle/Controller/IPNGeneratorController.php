@@ -6,14 +6,16 @@ use Elmet\SiteBundle\Entity\Order;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-
+/**
+ * @codeCoverageIgnore
+ */
 class IPNGeneratorController extends Controller
 {
     
     public function generateAction($id)
     {
         $req = $this->getReq($id);
-        
+           
         //write id to a file so that it can be picked up by the respond Action
         
         $file = "order_id.txt";
@@ -25,6 +27,40 @@ class IPNGeneratorController extends Controller
         curl_setopt($ch, CURLOPT_POST, TRUE);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); 
         curl_setopt($ch, CURLOPT_POSTFIELDS, $req);
+        
+        $res = curl_exec($ch);
+        curl_close($ch);
+        
+        return new Response("<html><head><title></title></head><body><h1>".$res."</h1></body></html>");
+        
+    }
+    
+    public function sendAction() {
+        
+        $req_params = "";
+        
+        if ($this->getRequest()->getMethod() == "GET") {
+            $params = $this->getRequest()->query->all();
+        } else {
+            $params = $this->getRequest()->request->all();
+        }
+        
+        $keys = array_keys($params);
+        
+        foreach($keys as $key) {
+            $param = $params[$key];
+            
+            if ($req_params == "") {
+                $req_params = $key."=".urlencode($param);
+            } else {
+                $req_params = $req_params."&".$key."=".urlencode($param);
+            }
+        }
+        
+        $ch = curl_init("http://localhost/paypal_ipn/process");
+        curl_setopt($ch, CURLOPT_POST, TRUE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); 
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $req_params);
         
         $res = curl_exec($ch);
         curl_close($ch);
@@ -96,6 +132,7 @@ class IPNGeneratorController extends Controller
     
     public function respondAction($type)
     {
+        
         if ($type == 'local') {
             
             $file = "order_id.txt";
@@ -104,15 +141,20 @@ class IPNGeneratorController extends Controller
             fclose($fh);
 
             $req = $this->getReq($id);
-        } else {
+        } elseif ($type == 'remote') {
             
             $file = "paypal.txt";
             $fh = fopen($file, 'r');
             $req = fread($fh, filesize($file));
             fclose($fh);
+        } else {
+            
+            $file = "paypal_test.txt";
+            $fh = fopen($file, 'r');
+            $req = fread($fh, filesize($file));
+            fclose($fh);
         }
-        
-        
+         
         $req_params = "";
         
         if ($this->getRequest()->getMethod() == "GET") {
@@ -129,7 +171,7 @@ class IPNGeneratorController extends Controller
             $req_params = $req_params."&".$key."=".urlencode($param);
            
         }
-        
+     
         if (strcmp($req_params,"&cmd=_notify-validate&".$req) == 0) {
             return new Response("VERIFIED");
         } else {
@@ -149,7 +191,7 @@ class IPNGeneratorController extends Controller
         $item_name = $this->container->getParameter('paypal_item_name');
         $custom = $id;
         $txn_id = "TXN".$id;
-        $payer_email = $this->container->getParameter('paypal_business');
+        $payer_email = "ranjiva@yahoo.com";
         $first_name = "Ranjiva";
         $last_name = "Prasad";
         $address_city = "Fleet";

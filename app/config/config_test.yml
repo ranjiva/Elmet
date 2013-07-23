@@ -1,5 +1,5 @@
 imports:
-    - { resource: config_dev.yml }
+    - { resource: config.yml }
 
 framework:
     test: ~
@@ -18,3 +18,15 @@ security:
             secured_area:
                 pattern:    ^/admin
                 http_basic:
+
+monolog:
+    handlers:
+        main:
+            type:         fingers_crossed
+            action_level: info
+            handler:      nested
+        nested:
+            type:  stream
+            path:  %kernel.logs_dir%/%kernel.environment%.log
+            level: debug
+

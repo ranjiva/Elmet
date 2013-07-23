@@ -217,3 +217,12 @@ ElmetAdminBundle_order_tracking_worksheet_page:
 ElmetAdminBundle_order_tracking_shipping_page:
     pattern:  /ordertracking/shipping/{id}
     defaults: { _controller: ElmetAdminBundle:OrderTracking:shipping }
+
+ElmetAdminBundle_delivery_view_page:
+    pattern:  /delivery/view/{id}
+    defaults: { _controller: ElmetAdminBundle:Delivery:view }
+
+ElmetAdminBundle_delivery_update_page:
+    pattern:  /delivery/update
+    defaults: { _controller: ElmetAdminBundle:Delivery:update }
+    

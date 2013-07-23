@@ -15,16 +15,17 @@
   <input type="hidden" value="<?php echo $view->container->parameters['paypal_item_name']?>" name="item_name"/>
   <input type="hidden" value="GBP" name="currency_code"/>
   <input type="hidden" value="GB" name="lc"/>
+  <input type="hidden" value="44" name="night_phone_a"/>
   <input type="hidden" value="<?php echo $order->getId()?>" name="custom"/>
   <input type="hidden" name="notify_url" value="<?php echo $view->container->parameters['paypal_notify_url']?>" />
   <input type="hidden" name="return" value="<?php echo $view->container->parameters['paypal_return']?>" />
 
-  <div class="input text"><label for="first_name">First Name</label><input name="first_name" type="text" value="" id="first_name" /></div>  <div class="input text"><label for="last_name">Last Name</label><input name="last_name" type="text" value="" id="last_name" /></div>  <div class="input text"><label for="email">Email</label><input name="email" type="text" value="" id="email" /></div>  <div class="input text"><label for="telephone">Telephone</label><input name="telephone" type="text" value="" id="telephone" /></div><div class="clr"></div>
+  <div class="input text"><label for="first_name">First Name</label><input name="first_name" type="text" value="" id="first_name" /></div>  <div class="input text"><label for="last_name">Last Name</label><input name="last_name" type="text" value="" id="last_name" /></div>  <div class="input text"><label for="email">Email</label><input name="email" type="text" value="" id="email" /></div>  <div class="input text"><label for="telephone">Telephone</label><input name="night_phone_b" type="text" value="" id="telephone" /></div><div class="clr"></div>
 <br/><br/>
 
   <h2>Billing & Delivery</h2>
 
-  <div class="input text"><label for="address1">Address</label><input name="data[address1]" type="text" value="" id="address1" /></div>  <div class="input text"><label for="address2"></label><input name="address2" type="text" value="" id="address2" /></div>  <div class="input text"><label for="city">Town/City</label><input name="data[city]" type="text" value="" id="city" /></div>  <div class="input text"><label for="zip">Post Code</label><input name="data[zip]" type="text" value="" id="zip" /></div><div class="clr"></div>
+  <div class="input text"><label for="address1">Address</label><input name="address1" type="text" value="" id="address1" /></div>  <div class="input text"><label for="address2"></label><input name="address2" type="text" value="" id="address2" /></div>  <div class="input text"><label for="city">Town/City</label><input name="city" type="text" value="" id="city" /></div>  <div class="input text"><label for="zip">Post Code</label><input name="zip" type="text" value="" id="zip" /></div><div class="clr"></div>
 <br/><br/>
 
 <div id="card-box">

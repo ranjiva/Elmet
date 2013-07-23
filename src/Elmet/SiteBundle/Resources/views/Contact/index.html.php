@@ -12,7 +12,7 @@
   Higher Swan Lane Mill<br />
   Bolton<br />
   BL3 3BJ</p>
-  <p><b>Tel:</b> 01204 657 000</p>
+  <!--<p><b>Tel:</b> 01204 657 000</p>-->
   <p><b>Email:</b> <a href="mailto:enquiries@elmetcurtains.co.uk">enquiries@elmetcurtains.co.uk</a></p>
 </div>
 

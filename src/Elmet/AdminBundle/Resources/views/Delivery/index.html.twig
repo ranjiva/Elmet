@@ -1,0 +1,54 @@
+ <html>
+    <head>
+        <title>Delivery Details for {{order.firstName}} {{order.lastName}}</title>
+        <script type="text/javascript" src="/js/jquery.js"></script>
+        <script type="text/javascript" src="/js/admin.js"></script>
+        <script type="text/javascript" src="/js/admindelivery.js"></script>
+        <link href="/css/admin.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <form method="post" action="/admin/delivery/update" style="width: 550px" class="inputform">
+            <span id="edit" class="editAll" onclick="edit()">Edit</span>
+            <span id="undoEdit" class="editAll" onclick="undoEdit()" style="display:none">Undo</span>
+            <input type="hidden" name="id" value="{{order.id}}"/>
+            <table style="width: 500px">
+                <tr>
+                    <td><label for="name">Delivery Name:</label></td>
+                    <td>
+                        <input type="text" id="name" name="name" readonly="readonly" value="{{order.deliveryName}}"/>
+                    </td>
+                    <td id="error_name" class="error" style="display: none; width: 100px">Delivery name should not be empty</td>
+                </tr>
+                <tr>
+                    <td><label for="address1">Delivery Address Line 1:</label></td>
+                    <td>
+                        <input type="text" id="address1" name="address1" readonly="readonly" value="{{order.deliveryAddress}}"/>
+                    </td>
+                    <td id="error_address1" class="error" style="display: none; width: 100px">Delivery address line 1 should not be empty</td>
+                </tr> 
+                <tr>
+                    <td><label for="address2">Delivery Address Line 2:</label></td>
+                    <td>
+                        <input type="text" id="address2" name="address2" readonly="readonly" value="{{order.deliveryAddress2}}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="name">Delivery Town:</label></td>
+                    <td>
+                        <input type="text" id="town" name="town" readonly="readonly" value="{{order.deliveryTown}}"/>
+                    </td>
+                    <td id="error_town" class="error" style="display: none; width: 100px">Delivery town should not be empty</td>
+                </tr>
+                <tr>
+                    <td><label for="name">Delivery Postcode:</label></td>
+                    <td>
+                        <input type="text" id="postcode" name="postcode" readonly="readonly" value="{{order.deliveryPostcode}}"/>
+                    </td>
+                    <td id="error_postcode" class="error" style="display: none; width: 100px">Delivery postcode should not be empty</td>
+                </tr>
+            </table>
+            <br/><input id="submit" name="submit" class="submitAll" type="submit" value="Save" style="display:none"/>
+        </form>
+        <h1>{{message}}</h1>
+    </body>
+</html>

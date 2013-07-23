@@ -18,11 +18,12 @@
 </div>
 
 <div style="clear:left;"></div>
-
+  
 <div class="order_headings">
     <div class="order_item">
         <strong>Item</strong>
     </div>
+    <div class="order_quantity"><strong>Quantity</strong></div>
     <div class="order_dropattraction">
         <strong>
             Drop Alteration?<br/>
@@ -30,11 +31,11 @@
         </strong>
     </div>
     <div class="order_quantity">&nbsp;</div>
-    <div class="order_quantity"><strong>Quantity</strong></div>
     <div class="order_price"><strong>Price</strong></div>
     <div class="order_sub_total"><strong>Sub Total</strong></div>
     <div style="clear:both;"></div>
 </div>
+  
 
 
 <form id="CurtainOrderFormForm" method="post" action="/order/submit">
@@ -49,12 +50,36 @@
             echo "<div class=\"item_img\"><img src=\"".$orderItem->getItemFilepath()."\"></div>\n";   
             echo "<div class=\"item_details\"><strong>".$orderItem->getName()."</strong><br/>\n";
             echo $orderItem->getSize()." ".$orderItem->getDescription()."<br/>\n";
-            echo $orderItem->getColour().":".$orderItem->getQuantity()." <br/>\n";
+            echo $orderItem->getColour()." <br/>\n";
             if ($orderItem->getCurtainColour()->getInStock() == 1)
-                echo "<strong><span class=\"cart-item-in-stock\">In Stock</span></strong>\n";
+                echo "<strong><span class=\"cart-item-in-stock\">In Stock</span></strong><br/>\n";
             else
-                echo "<strong><span class=\"cart-item-out-stock\">Out of Stock</span></strong>\n";
+                echo "<strong><span class=\"cart-item-out-stock\">Out of Stock</span></strong><br/>\n";
+            if ($orderItem->getProductType() == "Curtain") {
+                echo "<img src=\"/img/information.png\" class=\"description\" title=\"<p>Please note that the curtain size displayed is for a <strong>single</strong> curtain but that our curtains are priced and packed in pairs.</p>\">\n";
+            }
             echo "</div>\n</div>\n";
+            
+            if ($orderItem->getProductType() == "Curtain" || $orderItem->getProductType() == "Tieback")
+            {
+                if ($orderItem->getQuantity() > 1) {
+                    echo "<div class=\"order_quantity\">".$orderItem->getQuantity()." pairs<br/></div>\n";
+                } else {
+                    echo "<div class=\"order_quantity\">".$orderItem->getQuantity()." pair<br/></div>\n";
+                }
+            } else {
+                if ($orderItem->getProductType() == "Fabric") {
+                    
+                    if (abs($orderItem->getQuantity() - 1) < 0.0001) {
+                        echo "<div class=\"order_quantity\">".$orderItem->getQuantity()." metre<br/></div>\n";
+                    } else {
+                        echo "<div class=\"order_quantity\">".$orderItem->getQuantity()." metres<br/></div>\n";
+                    }
+                }    
+                else {
+                    echo "<div class=\"order_quantity\">".$orderItem->getQuantity()."<br/></div>\n";
+                }
+            }
             echo "<div class=\"order_dropattraction\">\n";
             
             if ($orderItem->getProductType() == "Curtain")
@@ -66,11 +91,16 @@
                 echo "<div class=\"blank-drop-alteration\">&nbsp;</div>\n";
             
             echo "</div>\n";
-            echo "<div class=\"order_price1\">\n";
-            echo "<input type=\"image\" src=\"/img/update.jpg\"/>\n";
-            echo "</div>\n";
-           
-            echo "<div class=\"order_quantity\">".$orderItem->getQuantity()."<br/></div>\n"; 
+            
+            if ($orderItem->getProductType() == "Curtain")
+            {
+                echo "<div class=\"order_price1\">\n";
+                echo "<input type=\"image\" src=\"/img/update.jpg\"/>\n";
+                echo "</div>\n";
+            }
+            else
+                echo "<div class=\"order_price1\">&nbsp;</div>\n";
+            
             echo "<div class=\"order_price1\">".$orderItem->getPrice()."</div>\n";
             echo "<div class=\"order_sub_total1\">".$orderItem->getSubTotal()."</div>\n";
             echo "<div class=\"order_price1\" style=\"margin-right:0px;\">\n";

@@ -137,8 +137,7 @@ class OrderControllerTest extends WebTestCase
         $form = $confirmCrawler->form();
         $form['confirm'] = 'confirm';
         $submitCrawler = $this->client->submit($form);
-        $crawler1 = $submitCrawler->filter('input[type=hidden]')->eq(8);
-        $custom1 = $crawler1->attr('value');
+        $custom1 = $submitCrawler->filter('input[name="custom"]')->attr('value');
         
         $selectCrawler = $this->client->request('GET','/curtains/select/malta_flowers/Black');
         $addCrawlerNode = $selectCrawler->selectButton('Add to Basket');
@@ -156,8 +155,7 @@ class OrderControllerTest extends WebTestCase
         $form = $secondConfirmCrawler->form();
         $form['confirm'] = 'confirm';
         $secondSubmitCrawler = $this->client->submit($form);
-        $crawler2 = $secondSubmitCrawler->filter('input[type=hidden]')->eq(8);
-        $custom2 = $crawler2->attr('value');
+        $custom2 = $secondSubmitCrawler->filter('input[name="custom"]')->attr('value');
         
         $this->assertTrue($secondSubmitCrawler->filter('div.summ_total_price:contains("433.3")')->count() > 0);
         $this->assertEquals(intval($custom1)+1,intval($custom2));
@@ -169,8 +167,7 @@ class OrderControllerTest extends WebTestCase
         $form = $confirmCrawler->form();
         $form['confirm'] = 'confirm';
         $submitCrawler = $this->client->submit($form);
-        $crawler1 = $submitCrawler->filter('input[type=hidden]')->eq(8);
-        $custom1 = $crawler1->attr('value');
+        $custom1 = $submitCrawler->filter('input[name="custom"]')->attr('value');
         
         $viewCrawler = $this->client->request('GET','/order/view');
         $removeCrawler = $this->client->request('GET', '/order/remove/6_Natural:2:140');
@@ -182,8 +179,7 @@ class OrderControllerTest extends WebTestCase
         $form = $secondConfirmCrawler->form();
         $form['confirm'] = 'confirm';
         $secondSubmitCrawler = $this->client->submit($form);
-        $crawler2 = $secondSubmitCrawler->filter('input[type=hidden]')->eq(8);
-        $custom2 = $crawler2->attr('value');
+        $custom2 = $secondSubmitCrawler->filter('input[name="custom"]')->attr('value');
         
         $this->assertTrue($secondSubmitCrawler->filter('div.summ_total_price:contains("340.35")')->count() > 0);
         $this->assertEquals(intval($custom1)+1,intval($custom2));
@@ -197,8 +193,7 @@ class OrderControllerTest extends WebTestCase
         $form['confirm'] = 'confirm';
         $submitCrawler = $this->client->submit($form);
       
-        $crawler = $submitCrawler->filter('input[type=hidden]')->eq(8);
-        $custom = $crawler->attr('value');
+        $custom = $submitCrawler->filter('input[name="custom"]')->attr('value');
         
         $secondClient = static::createClient();
         
