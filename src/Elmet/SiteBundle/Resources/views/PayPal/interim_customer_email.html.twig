@@ -1,0 +1,92 @@
+<html>
+    <head>
+        <title>Receipt of Your Order</title>
+    </head>
+    <body>
+        <div id="email" style="width:723px; margin:0px auto; padding:23px 10px 10px 10px; background-color:#a8b758; font-family:Arial, Helvetica, sans-serif; font-size:12px;">
+            <div>
+               <img src="{{webroot}}/img/logo.jpg" alt="" width="280" height="32" /><img src="{{webroot}}/img/topright.jpg" alt="" width="407" height="32" />
+            </div>
+
+            <div style="padding-top:34px; text-align:center; font-size:16px; font-weight:bold; height:24px; color:#FFF">
+                ::&nbsp;&nbsp;Receipt of Your Order&nbsp;&nbsp;::
+            </div>
+            <div style="background-color:#FFF; padding:15px;">
+                <div style="padding-top:10px; padding-bottom:10px; line-height:20px;">
+                    <p>Dear {{order.firstName}}</p>
+                    <p>Thank you for placing your order with Elmet Curtains, the details of which are below. We are waiting for your payment to clear and once we have received confirmation
+                       that it has, we will begin processing your order. We will send you a further email, once your payment has cleared
+                       with details of an estimated dispatch date
+                    </p>
+                    <p>Elmet Curtains</p>
+                    <p>
+                        <font face="Arial, Helvetica, sans-serif" style="font-size:16px; color:#6b7a1f;"><strong>Your Order</font>
+                    </p>
+                </div>
+                
+                <table style="font-family:Arial, Helvetica, sans-serif; font-size:12px;text-align: left;vertical-align: top">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;text-align: left; padding:5px">Design</th>
+                            <th style="width: 75px;text-align: left; padding:5px">&nbsp;</th>
+                            <th style="width: 50px;text-align: left; padding:5px">Colour</th>
+                            <th style="width: 50px;text-align: left; padding:5px">Item</th>
+                            <th style="width: 75px;text-align: left; padding:5px">Tape/Eyelet</th>
+                            <th style="width: 75px;text-align: left; padding:5px">Size</th>
+                            <th style="width: 100px;text-align: left; padding:5px">Drop Alteration</th>
+                            <th style="width: 50px;text-align: left; padding:5px">Quantity</th>
+                        </tr>
+                   </thead>
+                   <tbody>
+                       {% for item in order.orderItems %}
+                           <tr>
+                                <td style="vertical-align: top; padding:5px"><img src="{{webroot}}{{item.itemFilepath}}" width="47" height="61" alt=""/></td>
+                                <td style="vertical-align: top; padding:5px">{{item.name|replace({'Ready-made (Jacquard) Curtains':"",'with Eyelets':""})}}</td>
+                                <td style="vertical-align: top; padding:5px">{{item.colour}}</td>
+                                <td style="vertical-align: top; padding:5px">{{item.productType}}</td>
+                                <td style="vertical-align: top; padding:5px">
+                                    {% if item.productType == 'Curtain'%}
+                                        {% if 'Eyelets' in item.name %}
+                                            Eyelet
+                                        {% else %}
+                                            Tape
+                                        {% endif %}
+                                    {% else %}
+                                    N/A
+                                    {% endif %}
+                                <td style="vertical-align: top; padding:5px">{{item.size}}</td>
+                                <td style="vertical-align: top; padding:5px">
+                                    {% if item.dropAlteration == "" %}
+                                        N/A
+                                    {% else %}
+                                        {{item.dropAlteration}}
+                                    {% endif %}
+                                </td>
+                                <td style="vertical-align: top; padding:5px">
+                                    {{item.quantity}}
+                                    {% if ((item.productType == 'Curtain') or (item.productType == 'Tieback'))%}
+                                        {% if (item.quantity > 1) %}
+                                            &nbsp;pairs
+                                        {% else %}
+                                            &nbsp;pair
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if (item.productType == 'Fabric')%}
+                                        {% if ((item.quantity - 1)|abs < 0.0001) %}
+                                            &nbsp;metre
+                                        {% else %}
+                                            &nbsp;metres
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                   </tbody>
+                </table>
+                <div style="font-size:12px;">
+                    Please note that the curtain sizes displayed are for a <strong>single</strong> curtain but that our curtains are priced and packed in <strong>pairs</strong>  
+                </div>
+            </div>
+        </div> 
+    </body>
+</html>

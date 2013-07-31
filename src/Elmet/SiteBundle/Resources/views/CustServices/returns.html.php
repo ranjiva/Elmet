@@ -26,7 +26,7 @@
 
 
 <p>
-<b>To avoid disappointment where design or colour is unsuitable we recommend that you send a S.A.E. for a free fabric sample of your selected design before placing your order.
+<b>To avoid disappointment where design or colour is unsuitable we recommend that you send a S.A.E. for a free fabric <a href="/customerservices/samples">sample</a> of your selected design before placing your order.
 </b>
 </p>
 

@@ -59,6 +59,9 @@ class PayPalController extends BaseController
                       $order->setOrderStatus("Paid");
                 }
                 
+            } elseif ($ipn->getPaymentStatus() == 'Pending') {
+                $order->setOrderStatus("Clearing");
+                $this->sendInterimCustomerEmail($order);
             } else {
                 $order->setOrderStatus("Error");
             }
@@ -67,9 +70,7 @@ class PayPalController extends BaseController
             
             $order = $em->merge($order);
             
-            if ($ipn->getPaymentStatus() <> 'Canceled_Reversal') {
-                $em->persist($ipn);
-            }
+            $em->persist($ipn);
                         
             $em->flush();
                         
@@ -132,6 +133,20 @@ class PayPalController extends BaseController
         $mc_fee = $this->getRequest()->get('mc_fee');
         $contact_phone = $this->getRequest()->get('contact_phone');
         
+        $id = $txn_id;
+        
+        //for certain type of ipn we may legitimately see the same txn id twice.
+        //In such cases modify the id to make it unique.
+        
+        if ($payment_status == 'Canceled_Reversal') {
+            $id = "CR_".$id;
+        }
+        
+        if ($payment_status == 'Pending') {
+            $id = "PEN_".$id;
+        }
+        
+        
         //check that the receiver email is correct
         
         if ($valid and ($receiver_email == $this->container->getParameter('paypal_business'))) {
@@ -190,10 +205,10 @@ class PayPalController extends BaseController
         
         //check that the instant payment notification has not been sent already
         
-        if ($valid and ($payment_status <> 'Canceled_Reversal')) {
+        if ($valid) {
             
             $repository = $this->getDoctrine()->getRepository('ElmetSiteBundle:InstantPaymentNotification');
-            $ipn = $repository->findBy(array('txn_id' => $txn_id));
+            $ipn = $repository->findBy(array('id' => $id));
         
             if ($ipn == null) {
                 $valid = true;
@@ -221,7 +236,7 @@ class PayPalController extends BaseController
             $ipn->setPaymentStatus($payment_status);
             $ipn->setMcGross($amount);
             $ipn->setMcCurrency($mc_currency);
-            $ipn->setId($txn_id);
+            $ipn->setId($id);
             
             if ($contact_phone <> null) {
                 $ipn->setContactPhone($contact_phone);
@@ -288,6 +303,17 @@ class PayPalController extends BaseController
                         ->setFrom($this->container->getParameter('orders_address'))
                         ->setTo($trackingDetail->getOrder()->getEmail())
                         ->setBody($this->renderView('ElmetSiteBundle:PayPal:customer_email.html.twig', array('trackingDetail' => $trackingDetail)),'text/html');
+
+        $this->get('mailer')->send($message);
+    }
+    
+    public function sendInterimCustomerEmail($order)
+    {
+        $message = \Swift_Message::newInstance()
+                        ->setSubject('Elmet Curtains - Online Customer Order')
+                        ->setFrom($this->container->getParameter('orders_address'))
+                        ->setTo($order->getEmail())
+                        ->setBody($this->renderView('ElmetSiteBundle:PayPal:interim_customer_email.html.twig', array('order' => $order)),'text/html');
 
         $this->get('mailer')->send($message);
     }

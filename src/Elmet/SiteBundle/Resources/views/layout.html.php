@@ -73,6 +73,21 @@
      
  </script>
 
+ <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-4166912-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>    
+
+
 </head>
 
 <body>
@@ -156,9 +171,11 @@
                                 <h2>Customer Services</h2>
                                 <ul>
                                         <li><a href="/testimonial">customer testimonials</a></li>
+                                        <li><a href="/customerservices/measuring">curtain measuring guide</a></li>
+                                        <li><a href="/customerservices/samples">requesting samples</a></li>
                                         <li><a href="/customerservices/delivery">delivery information</a></li>
+                                        <li><a href="/customerservices/colours">curtain colours</a></li>
                                         <li><a href="/customerservices/returns">returns policy</a></li>
-                                        <li><a href="/customerservices/privacy">privacy policy</a></li>
                                 </ul>
                         </div>
 			<!--
@@ -180,26 +197,6 @@
                          
                          </div>
                 </div>
-
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-var pageTracker = _gat._getTracker("UA-1418202-17");
-pageTracker._initData();
-pageTracker._trackPageview();
-</script>
-
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-var pageTracker = _gat._getTracker("UA-4166912-1");
-pageTracker._initData();
-pageTracker._trackPageview();
-</script>
-
+    
 </body>
 </html>
