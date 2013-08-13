@@ -218,7 +218,7 @@ class OrderItem {
      */
     public function setSubtotal($subtotal)
     {
-        $this->subtotal = $subtotal;
+        $this->subtotal = round($subtotal,2);
     }
 
     /**
@@ -350,4 +350,23 @@ class OrderItem {
     {
         return $this->product_category_id;
     }
+    
+    /**
+     * Quantity is stored as an integer but fabric quantity is a decimal
+     * So convert fabric quantity into an integer by multiplying by 100
+     */
+    public function setFabricQuantity($quantity) {
+        
+        $this->quantity = intVal(100*$quantity);
+    }
+    
+    /**
+     * Quantity is stored as an integer but fabric quantity is a decimal
+     * So convert fabric quantity into a decimal by dividing by 100
+     */
+    public function getFabricQuantity() {
+        
+       return doubleVal($this->quantity / 100);
+    }
+    
 }

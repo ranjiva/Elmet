@@ -54,20 +54,10 @@
   {
       echo "<div class=\"curtain-design\">";
       
-      $curtainColours = $design->getCurtainColours();
-      
-      $foundInStock = false;
-      $i=0;
-      
-      while((!$foundInStock) and ($i < count($curtainColours))  ) {
-          $firstColour = $curtainColours[$i];
-          
-          if ($firstColour->getInStock() == 1)
-              $foundInStock = true;
-          
-          $i=$i+1;
-      }
-      
+      $curtainColours = $design->getSortedCurtainColoursByIdInStock();
+
+      $firstColour = reset($curtainColours);
+       
       if ($design->getNew() == '1')
           echo "<span class=\"new-curtain\"></span>";
       

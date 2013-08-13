@@ -84,11 +84,17 @@
 		<h3>Colours</h3>
 		<table><tr>
                    <?php
-                    foreach ($curtainDesign->getCurtainColours() as $colour) {
+                    foreach ($curtainDesign->getSortedCurtainColoursByIdInStock() as $colour) {
                         
                         echo "<td><p><strong>".$colour->getName()."</strong></p>";
                         echo "<a href=\"/curtains/select/".$curtainDesign->getUrlName()."/".$colour->getName()."\">";
-                        echo "<img height=\"95\" border=\"0\" style=\"background-color: rgb(244, 244, 227);\" alt=\"".$curtainColour->getName()."\" src=\"/img/products/".$colour->getThumbnailFilepath()."\"/></a>";
+                        
+                        if ($colour->getName() == $curtainColour->getName()) {
+                            echo "<img height=\"95\" border=\"3\" style=\"background-color: rgb(244, 244, 227);\" alt=\"".$curtainColour->getName()."\" src=\"/img/products/".$colour->getThumbnailFilepath()."\"/></a>";
+                        } else {
+                            echo "<img height=\"95\" border=\"0\" style=\"background-color: rgb(244, 244, 227);\" alt=\"".$curtainColour->getName()."\" src=\"/img/products/".$colour->getThumbnailFilepath()."\"/></a>";
+                        }
+                        
                         echo "</td>";                
                     }
                    ?>

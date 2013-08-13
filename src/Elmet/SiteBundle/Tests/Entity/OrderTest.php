@@ -79,6 +79,15 @@ class OrderTest extends \PHPUnit_Framework_TestCase
          $this->assertEquals(76.50,$order->getAmountPaid());
     }
     
+    public function testFabricQuantity() {
+        
+        $orderItem = new OrderItem();
+        $orderItem->setFabricQuantity(2.25);
+        
+        $this->assertEquals(225,$orderItem->getQuantity());
+        $this->assertEquals(2.25,$orderItem->getFabricQuantity());
+        
+    }
 }
 
 

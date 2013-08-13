@@ -69,6 +69,17 @@ class CurtainColour
     }
 
     /**
+     * Set id
+     * Note that this only needed to support unit
+     * tests as this will be auto generated
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+    
+    
+    /**
      * Set name
      *
      * @param string $name

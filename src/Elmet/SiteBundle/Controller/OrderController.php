@@ -251,7 +251,7 @@ class OrderController extends BaseController {
             $orderItem->setPrice($curtainFabric->getPricePerMetre());
             $orderItem->setCurtainColour($curtainColour); 
             $orderItem->setProductType("Fabric");
-            $orderItem->setQuantity($quantity);
+            $orderItem->setFabricQuantity($quantity);
             $orderItem->setSize($curtainDesign->getFabricWidth());
             $orderItem->setSubtotal($quantity * $curtainFabric->getPricePerMetre());
             $orderItem->setOrder($order);

@@ -44,7 +44,12 @@
  
             echo "<div class=\"item_details\" style=\"float:left;\"><strong>".$orderItem->getName()."</strong><br />";
             echo $orderItem->getSize()." ".$orderItem->getDescription()."<br/>";
-            echo $orderItem->getColour().":".$orderItem->getQuantity()."<br/>";
+            
+            if ($orderItem->getProductType() == 'Fabric') {
+                echo $orderItem->getColour().":".$orderItem->getFabricQuantity()."<br/>";
+            } else {
+                echo $orderItem->getColour().":".$orderItem->getQuantity()."<br/>";
+            }
             
             echo "</div>\n";
             echo "</div>\n";
@@ -60,7 +65,11 @@
             echo "</div>\n";
             
             echo "<div id=\"order_quantity\" style=\"float:left; width:60px; margin-right:15px;\">";
-            echo $orderItem->getQuantity();
+            if ($orderItem->getProductType() == 'Fabric') {
+                echo $orderItem->getFabricQuantity()."<br/>";
+            } else {
+                echo $orderItem->getQuantity()."<br/>";
+            }
             echo "</div>\n";
             
             echo "<div id=\"order_price\" style=\"float:left; width:50px; margin-right:20px;\">";

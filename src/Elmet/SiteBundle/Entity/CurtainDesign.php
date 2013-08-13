@@ -360,4 +360,54 @@ class CurtainDesign
     {
         $this->curtain_colours[] = $curtainColours;
     }
+    
+    public function getSortedCurtainColoursById() {
+        
+        $colours = $this->curtain_colours->toArray();
+        
+        uasort($colours,array($this, 'comparatorId'));
+        
+        return $colours;
+    }
+    
+    public function getSortedCurtainColoursByIdInStock() {
+        
+        $colours = $this->curtain_colours->toArray();
+        
+        uasort($colours,array($this, 'comparatorInStockAndId'));
+        
+        return $colours;
+    }
+    
+    
+    /*
+     * sort in order of ascending id only
+     */
+    public function comparatorId($a,$b) {
+        
+        if ($a->getId() == $b->getId())
+            return 0;
+        else if ( $a->getId() < $b->getId() )         
+            return -1;
+        else 
+            return 1; 
+    }
+    
+    /*
+     * sort in order of descending inStock and then ascending id 
+     */
+    public function comparatorInStockAndId($a,$b) {
+        
+        if ($a->getId() == $b->getId())
+            return 0;
+        else if ($a->getInStock() > $b->getInStock())
+            return -1;
+        else if ($a->getInStock() < $b->getInStock())
+            return 1;
+        else if ($a->getInStock() == $b->getInStock())
+            if ( $a->getId() < $b->getId() )         
+                return -1;
+            else 
+                return 1; 
+    }
 }

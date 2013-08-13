@@ -35,38 +35,71 @@
                     <p>Elmet Curtains</p>
                 </div>
 
-                <div id="item_headings" style="border-bottom:1px solid #e5e5e5; font-family:Arial, Helvetica, sans-serif; font-size:12px; padding-top:10px; padding-bottom:3px; margin-bottom:15px;">
-                    <div id="order_item" style="float:left; width:305px; margin-right:20px;"><strong>Item</strong></div>
-                    <div id="order_dropattraction" style="float:left; width:100px; margin-right:20px;">
-                        <strong>Drop Alteration</strong>
-                    </div>
-                    <div id="order_quantity" style="float:left; width:60px; margin-right:15px;"><strong>Quantity</strong></div>
-                    <div style="clear:both;"></div>
-                </div>
-
-                {% for orderItem in trackingDetail.order.orderItems %}
-                   <div id="item_headings" style ="border-bottom:1px solid #e5e5e5; font-family:Arial, Helvetica, sans-serif; font-size:12px; padding-bottom:3px; margin-bottom:15px;">
-                       <div id="order_item" style="float:left; width:305px; margin-right:20px;">
-                           <div class="item_img" style="float:left; margin-right:10px; padding-bottom:10px;">
-                               <img src="{{webroot}}{{orderItem.itemFilepath}}" width="47" height="61" alt=""/>  
-                           </div>
-                           <div class="item_details" style="float:left;"><strong>{{orderItem.name}}</strong><br/>
-                               {{orderItem.size}} {{orderItem.description}}<br/>
-                               {{orderItem.colour}}<br/>
-                       </div>
-                   </div>
-                   <div id="order_dropattraction" style="float:left; width:100px; margin-right:20px;">
-                      {% if (orderItem.dropAlteration == null) %}
-                        n/a
-                      {% else %}
-                         {{orderItem.dropAlteration}}
-                      {% endif %}
-                   </div>
-                   <div id="order_quantity" style="float:left; width:60px; margin-right:15px;">
-                       {{orderItem.quantity}}
-                   </div>
-                   <div style="clear:both;"></div>
-                {% endfor %}
+                <table style="font-family:Arial, Helvetica, sans-serif; font-size:12px;text-align: left;vertical-align: top">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;text-align: left; padding:5px">Design</th>
+                            <th style="width: 75px;text-align: left; padding:5px">&nbsp;</th>
+                            <th style="width: 50px;text-align: left; padding:5px">Colour</th>
+                            <th style="width: 50px;text-align: left; padding:5px">Item</th>
+                            <th style="width: 75px;text-align: left; padding:5px">Tape/Eyelet</th>
+                            <th style="width: 75px;text-align: left; padding:5px">Size</th>
+                            <th style="width: 100px;text-align: left; padding:5px">Drop Alteration</th>
+                            <th style="width: 50px;text-align: left; padding:5px">Quantity</th>
+                        </tr>
+                   </thead>
+                   <tbody>
+                       {% for item in trackingDetail.order.orderItems %}
+                           <tr>
+                                <td style="vertical-align: top; padding:5px"><img src="{{webroot}}{{item.itemFilepath}}" width="47" height="61" alt=""/></td>
+                                <td style="vertical-align: top; padding:5px">{{item.name|replace({'Ready-made (Jacquard) Curtains':"",'with Eyelets':""})}}</td>
+                                <td style="vertical-align: top; padding:5px">{{item.colour}}</td>
+                                <td style="vertical-align: top; padding:5px">{{item.productType}}</td>
+                                <td style="vertical-align: top; padding:5px">
+                                    {% if item.productType == 'Curtain'%}
+                                        {% if 'Eyelets' in item.name %}
+                                            Eyelet
+                                        {% else %}
+                                            Tape
+                                        {% endif %}
+                                    {% else %}
+                                    N/A
+                                    {% endif %}
+                                <td style="vertical-align: top; padding:5px">{{item.size}}</td>
+                                <td style="vertical-align: top; padding:5px">
+                                    {% if item.dropAlteration == "" %}
+                                        N/A
+                                    {% else %}
+                                        {{item.dropAlteration}}
+                                    {% endif %}
+                                </td>
+                                <td style="vertical-align: top; padding:5px">
+                                    
+                                    {% if (item.productType == 'Fabric')%}
+                                        {{item.fabricQuantity}}
+                                    {% else %}
+                                        {{item.quantity}}
+                                    {% endif %}
+                                    
+                                    {% if ((item.productType == 'Curtain') or (item.productType == 'Tieback'))%}
+                                        {% if (item.quantity > 1) %}
+                                            &nbsp;pairs
+                                        {% else %}
+                                            &nbsp;pair
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if (item.productType == 'Fabric')%}
+                                        {% if ((item.fabricQuantity - 1)|abs < 0.0001) %}
+                                            &nbsp;metre
+                                        {% else %}
+                                            &nbsp;metres
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                   </tbody>
+                </table>
             </div>
         </div> 
     </body>

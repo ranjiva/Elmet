@@ -70,10 +70,10 @@
             } else {
                 if ($orderItem->getProductType() == "Fabric") {
                     
-                    if (abs($orderItem->getQuantity() - 1) < 0.0001) {
-                        echo "<div class=\"order_quantity\">".$orderItem->getQuantity()." metre<br/></div>\n";
+                    if (abs($orderItem->getFabricQuantity() - 1) < 0.0001) {
+                        echo "<div class=\"order_quantity\">".$orderItem->getFabricQuantity()." metre<br/></div>\n";
                     } else {
-                        echo "<div class=\"order_quantity\">".$orderItem->getQuantity()." metres<br/></div>\n";
+                        echo "<div class=\"order_quantity\">".$orderItem->getFabricQuantity()." metres<br/></div>\n";
                     }
                 }    
                 else {

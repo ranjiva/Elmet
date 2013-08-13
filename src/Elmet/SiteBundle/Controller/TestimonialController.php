@@ -7,27 +7,13 @@ use Elmet\SiteBundle\Entity\Testimonial;
 use Symfony\Component\HttpFoundation\Response;
 
 class TestimonialController extends BaseController
-{
-    /** * @codeCoverageIgnore */
-    public function createAction()
-    {
-          $testimonial = new Testimonial();
-          
-          $testimonial->setCustomerDetails("Ranjiva Prasad");
-          $testimonial->setFeatured('1');
-          $testimonial->setTestimonial("Great Job!");
-          
-          $em = $this->getDoctrine()->getEntityManager();
-          $em->persist($testimonial);
-          $em->flush();
-          
-          return new Response('Created testimonial id '.$testimonial->getId());
-    }
-    
+{ 
     public function fetchAction()
     {
-        $repository = $this->getDoctrine()->getRepository('ElmetSiteBundle:Testimonial');
-        $testimonials = $repository->findAll();        
+        $em = $this->getDoctrine()->getEntityManager();
+        $query = $em->createQuery('SELECT t FROM ElmetSiteBundle:Testimonial t ORDER BY t.id DESC');
+        
+        $testimonials = $query->getResult(); 
         
         return $this->render('ElmetSiteBundle:Testimonial:index.html.php',array('testimonials' => $testimonials,'featured' => $this->getFeaturedTestimonials(),'numBasketItems' => $this->getNumBasketItems()));
            

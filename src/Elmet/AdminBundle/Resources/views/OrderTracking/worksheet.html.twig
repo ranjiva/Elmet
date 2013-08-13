@@ -66,7 +66,13 @@
                                                     {{item.dropAlteration}}
                                                 {% endif %}
                                             </td>
-                                            <td>{{item.quantity}}</td>
+                                            <td>
+                                                {% if (item.productType == 'Fabric')%}
+                                                    {{item.fabricQuantity}}
+                                                {% else %}
+                                                    {{item.quantity}}
+                                                {% endif %}
+                                            </td>
                                         </tr>
                                     {% set j = j + 1 %}
                                     {% endfor %}

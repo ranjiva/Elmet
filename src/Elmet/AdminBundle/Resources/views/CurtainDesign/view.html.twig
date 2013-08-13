@@ -108,13 +108,13 @@
                  <td>
                      <select name="eyelets" id="eyelets" disabled="true">
 
-                         {% if (curtainDesign.lined == 1) %}
+                         {% if (curtainDesign.eyeletsAvailable == 1) %}
                              <option value="1" selected="true">Y</option>
                          {% else %}
                              <option value="1">Y</option>
                          {% endif %}
 
-                         {% if (curtainDesign.lined == 0) %}
+                         {% if (curtainDesign.eyeletsAvailable == 0) %}
                              <option value="0" selected="true">N</option>
                          {% else %}
                              <option value="0">N</option>
@@ -211,7 +211,7 @@
                              <tbody>
 
                                 {%set i = 1 %}
-                                {% for curtainColour in curtainDesign.curtainColours %}
+                                {% for curtainColour in curtainDesign.sortedCurtainColoursById %}
                                 <tr class="{{ cycle(['odd', 'even'], i) }}">
                                     <td>
                                        {{curtainColour.name}}
