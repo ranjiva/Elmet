@@ -55,7 +55,7 @@ class PayPalControllerTest extends WebTestCase
         $orderItem->setPrice("5.0");
         $orderItem->setCurtainColour($curtainColour); 
         $orderItem->setProductType("Fabric");
-        $orderItem->setQuantity(2.0);
+        $orderItem->setFabricQuantity(2.0);
         $orderItem->setSize("140");
         $orderItem->setSubtotal(10.0);
         $orderItem->setOrder($order);

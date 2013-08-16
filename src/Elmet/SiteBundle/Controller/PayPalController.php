@@ -341,7 +341,7 @@ class PayPalController extends BaseController
                     
                     $meterageUsed  = $curtainMeterage->getMeterage() * $orderItem->getQuantity();
                 } else {
-                    $meterageUsed = $orderItem->getQuantity();
+                    $meterageUsed = $orderItem->getFabricQuantity();
                 }
                 
                 $stockAvailable = $curtainColour->getAvailableStock() - $meterageUsed;
