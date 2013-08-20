@@ -18,6 +18,10 @@ ElmetSiteBundle_curtains_select:
     pattern:  /curtains/select/{urlName}/{colour}
     defaults: { _controller: ElmetSiteBundle:Curtains:select }
 
+ElmetSiteBundle_curtains_select_legacy:
+    pattern:  /curtains/designs/{urlName}/{colour}/
+    defaults: { _controller: ElmetSiteBundle:Curtains:select }
+
 ElmetSiteBundle_curtains_closeup:
     pattern:  /curtains/closeup/{urlName}/{colour}
     defaults: { _controller: ElmetSiteBundle:Curtains:closeup }
@@ -26,6 +30,9 @@ ElmetSiteBundle_curtains:
     pattern:  /curtains
     defaults: { _controller: ElmetSiteBundle:Curtains:index }
 
+ElmetSiteBundle_curtains_legacy:
+    pattern:  /curtains/
+    defaults: { _controller: ElmetSiteBundle:Curtains:index }
 
 ElmetSiteBundle_contact:
     pattern:  /contact
@@ -50,7 +57,11 @@ ElmetSiteBundle_order_create:
 ElmetSiteBundle_order_view:
     pattern:  /order/view
     defaults: { _controller: ElmetSiteBundle:Order:view }
-    
+
+ElmetSiteBundle_order_view_legacy:
+    pattern:  /order/order_form/
+    defaults: { _controller: ElmetSiteBundle:Order:view }
+
 ElmetSiteBundle_order_empty:
     pattern:  /order/empty
     defaults: { _controller: ElmetSiteBundle:Order:empty }
@@ -85,6 +96,10 @@ ElmetSiteBundle_order_thankyou:
     
 ElmetSiteBundle_custservices:
     pattern:  /customerservices
+    defaults: { _controller: ElmetSiteBundle:CustServices:index }
+
+ElmetSiteBundle_custservices_legacy:
+    pattern:  /pages/customer-services
     defaults: { _controller: ElmetSiteBundle:CustServices:index }
 
 ElmetSiteBundle_custservices_delivery:
@@ -127,12 +142,24 @@ ElmetSiteBundle_landing_page_1:
     pattern:  /p/p175
     defaults: { _controller: ElmetSiteBundle:LandingPage:index }
 
+ElmetSiteBundle_landing_page_1_legacy:
+    pattern:  /p/p175/
+    defaults: { _controller: ElmetSiteBundle:LandingPage:index }
+
 ElmetSiteBundle_landing_page_2:
     pattern:  /p/p734
     defaults: { _controller: ElmetSiteBundle:LandingPage:index }
 
+ElmetSiteBundle_landing_page_2_legacy:
+    pattern:  /p/p734/
+    defaults: { _controller: ElmetSiteBundle:LandingPage:index }
+
 ElmetSiteBundle_landing_page_bay:
     pattern:  /p/p832
+    defaults: { _controller: ElmetSiteBundle:LandingPage:bay }
+
+ElmetSiteBundle_landing_page_bay_legacy:
+    pattern:  /p/p832/
     defaults: { _controller: ElmetSiteBundle:LandingPage:bay }
     
 ElmetSiteBundle_paypal_ipn_process:
