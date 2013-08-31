@@ -166,6 +166,10 @@ ElmetSiteBundle_paypal_ipn_process:
     pattern:  /paypal_ipn/process
     defaults: { _controller: ElmetSiteBundle:PayPal:process }     
 
+ElmetSiteBundle_paypal_ipn_process_legacy:
+    pattern:  /paypal_ipn/process/
+    defaults: { _controller: ElmetSiteBundle:PayPal:process }
+
 ElmetSiteBundle_paypal_ipn_send:
     pattern:  /paypal_ipn/send
     defaults: { _controller: ElmetSiteBundle:PayPal:send }

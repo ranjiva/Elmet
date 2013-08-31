@@ -6,6 +6,27 @@
     $(document).ready(function(){
         
 	 tooltip(".description","tooltip",15,-15);
+         
+         $('.drop').each(function() {
+            var elem = $(this);
+
+            // Save current value of element
+            elem.data('oldVal', elem.val());
+
+            // Look for changes in the value
+            elem.bind("propertychange keyup input paste", function(event){
+            
+            var pos = elem.attr("name").indexOf('_');
+            var id = elem.attr("name").substr(pos+1);
+            
+            // If value has changed...
+            if (elem.data('oldVal') != elem.val()) {    
+                $("div[id='message_" + id + "']").show();
+            } else {
+                $("div[id='message_" + id + "']").hide();
+            }
+   });
+ });
     });
 </script>
 
@@ -84,8 +105,9 @@
             
             if ($orderItem->getProductType() == "Curtain")
             {
-                echo "<input type=\"number\" min=\"0.0\" step=\"any\" name=\"item_".$i."\" value=\"".$orderItem->getDropAlteration()."\"><img src=\"/img/information.png\" class=\"description\" title=\"<p>Please enter in inches, the length of drop to which you want the curtain shortened and then click the update button.</p>\">\n";
+                echo "<input type=\"number\" min=\"0.0\" step=\"any\" class=\"drop\" name=\"item_".$i."\" value=\"".$orderItem->getDropAlteration()."\"><img src=\"/img/information.png\" class=\"description\" title=\"<p>Please enter in inches, the length of drop to which you want the curtain shortened and then click the update button.</p>\">\n";
                 echo "<div>&nbsp;&nbsp;Inches</div>\n";
+                echo "<div id=\"message_".$i."\" style=\"color:red;display:none\">Please press update to confirm change</div>\n";
             }
             else
                 echo "<div class=\"blank-drop-alteration\">&nbsp;</div>\n";

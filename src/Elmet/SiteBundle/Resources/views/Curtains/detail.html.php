@@ -14,10 +14,27 @@
         if (window.focus) {imageWindow.focus()}
     }
 
+    var inStock = <?php echo "".$curtainColour->getInStock()?>;
+    var design = <?php echo "'".$curtainDesign->getName()."'"?>;
+    var colour = <?php echo "'".$curtainColour->getName()."'"?>;
+    
     $(document).ready(function(){
         
 	 tooltip(".description","tooltip",15,-15);
+                  
+         $("form").submit(function(e){
+             
+             if (inStock == 0) {
+                 
+                 e.preventDefault();
+                 alert("We are sorry but "+colour+" "+design+" are out of stock. Please choose another colour or design");
+             }
+         });
     });
+
+    
+
+    
 
 </script>
 
@@ -417,13 +434,11 @@
 ?>
 
 <div class="addtobasket">
-  <div class="submit"><input type="submit" class="add-to-basket" value="Add to Basket" /></div></form></div>
+  <div class="submit"><input type="submit" class="add-to-basket" value="Add to Basket" /></div></form></div></div>
 
-<br /><br /><br />
 		<p><strong>Please Note:</strong> All errors and omissions exempt</p>
 
 		<br/>
 
 		<p><a HREF="/curtains">Back to Curtain Range</a></p>
-
 </div>        
