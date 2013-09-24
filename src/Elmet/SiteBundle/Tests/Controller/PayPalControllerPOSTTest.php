@@ -86,7 +86,9 @@ class PayPalControllerPOSTTest extends WebTestCase
         
         $req = $this->getReq($this->order,"Completed","TXN".$this->order->getId());
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);

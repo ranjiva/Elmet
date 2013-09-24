@@ -102,7 +102,9 @@ class PayPalControllerTest extends WebTestCase
         
         $req = $this->getReq($this->order,"Completed","TXN".$this->order->getId());
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+                
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);
@@ -178,7 +180,9 @@ class PayPalControllerTest extends WebTestCase
         
         $req = $this->getReq($this->order,"Pending","TXN".$this->order->getId());
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);
@@ -220,7 +224,9 @@ class PayPalControllerTest extends WebTestCase
                 
         $req = $this->getReq($this->order,"Completed","TXN".$this->order->getId());
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);
@@ -269,7 +275,9 @@ class PayPalControllerTest extends WebTestCase
          
         $req = $this->getReq($this->order,"Completed","TXN".$this->order->getId());
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);
@@ -324,7 +332,9 @@ class PayPalControllerTest extends WebTestCase
          
         $req = $this->getReq($this->order,"Completed","TXN".$this->order->getId());
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);
@@ -382,7 +392,9 @@ class PayPalControllerTest extends WebTestCase
         
         $req = $this->getReq($this->order,"Completed","TXN".$this->order->getId());
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);
@@ -408,7 +420,9 @@ class PayPalControllerTest extends WebTestCase
         
         $req = $this->getReq($this->order,"Refunded","TXNR".$this->order->getId());
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);
@@ -458,7 +472,9 @@ class PayPalControllerTest extends WebTestCase
         
         $req = $this->getReq($this->order,"Completed","TXN".$this->order->getId());
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);
@@ -484,7 +500,9 @@ class PayPalControllerTest extends WebTestCase
         
         $req = $this->getReq($this->order,"Reversed","TXNR".$this->order->getId());
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);
@@ -534,7 +552,9 @@ class PayPalControllerTest extends WebTestCase
         
         $req = $this->getReq($this->order,"Completed","TXN".$this->order->getId());
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);
@@ -562,7 +582,9 @@ class PayPalControllerTest extends WebTestCase
         
         $req = $this->getReq($this->order,"Reversed","TXNR".$this->order->getId());
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);
@@ -588,7 +610,9 @@ class PayPalControllerTest extends WebTestCase
         
         $req = $this->getReq($this->order,"Canceled_Reversal","TXNR".$this->order->getId());
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);
@@ -638,7 +662,9 @@ class PayPalControllerTest extends WebTestCase
         
         $req = $this->getReq($this->order,"Completed","TXN".$this->order->getId());
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);
@@ -666,7 +692,9 @@ class PayPalControllerTest extends WebTestCase
         
         $req = $this->getReq($this->order,"Reversed","TXNR".$this->order->getId());
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);
@@ -709,7 +737,9 @@ class PayPalControllerTest extends WebTestCase
         
         $req = $this->getReq($this->order,"Canceled_Reversal","TXNR".$this->order->getId());
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);
@@ -744,7 +774,9 @@ class PayPalControllerTest extends WebTestCase
         
         $req = $this->getReq($this->order,"Completed","TXN".$this->order->getId());
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);
@@ -788,7 +820,9 @@ class PayPalControllerTest extends WebTestCase
                 
         $req = $this->getReq($this->order,"Completed","TXN".$this->order->getId());
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);
@@ -814,7 +848,9 @@ class PayPalControllerTest extends WebTestCase
         
         $req = str_replace("mc_gross=116.75","mc_gross=99.00",$req);
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);
@@ -854,7 +890,9 @@ class PayPalControllerTest extends WebTestCase
         
         $req = str_replace("mc_currency=GBP","mc_currency=USD",$req);
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);
@@ -894,7 +932,9 @@ class PayPalControllerTest extends WebTestCase
         
         $req = str_replace("custom=".$this->order->getId(),"custom=9999b",$req);
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);
@@ -934,7 +974,9 @@ class PayPalControllerTest extends WebTestCase
         
         $req = str_replace("receiver_email=".urlencode(static::$kernel->getContainer()->getParameter('paypal_business')),"receiver_email=".urlencode("ranjiva@yahoo.com"),$req);
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);
@@ -974,7 +1016,9 @@ class PayPalControllerTest extends WebTestCase
         
         $req = str_replace("item_name=".urlencode(static::$kernel->getContainer()->getParameter('paypal_item_name')),"item_name=".urlencode("Bedding"),$req);
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);
@@ -1012,7 +1056,9 @@ class PayPalControllerTest extends WebTestCase
                 
         $req = $this->getReq($this->order,"Declined","TXN".$this->order->getId());
         
-        $file = "web/paypal_test.txt";
+        $web_dir = static::$kernel->getContainer()->getParameter('web_dir');
+        $file = $web_dir."/paypal_test.txt";
+        
         $fh = fopen($file, 'w');
         fwrite($fh, $req);
         fclose($fh);

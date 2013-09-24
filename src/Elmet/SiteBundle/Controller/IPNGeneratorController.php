@@ -149,7 +149,8 @@ class IPNGeneratorController extends Controller
             fclose($fh);
         } else {
             
-            $file = "paypal_test.txt";
+            $web_dir = $this->container->getParameter('web_dir');
+            $file = $web_dir."/paypal_test.txt";
             $fh = fopen($file, 'r');
             $req = fread($fh, filesize($file));
             fclose($fh);
