@@ -51,6 +51,7 @@ class CurtainDesignControllerTest extends WebTestCase
         $curtainColour->setSwatchFilepath("loretta/lorretta_cream_t.jpg");
         $curtainColour->setBuynow(1);
         $curtainColour->setInStock(1);
+        $curtainColour->setOnOffer(0);
         $curtainColour->setCurtainDesign($this->curtainDesign);
         $this->curtainDesign->addCurtainColour($curtainColour);
         
@@ -61,6 +62,7 @@ class CurtainDesignControllerTest extends WebTestCase
         $secondCurtainColour->setSwatchFilepath("loretta/lorretta_blue_t.jpg");
         $secondCurtainColour->setBuynow(1);
         $secondCurtainColour->setInStock(1);
+        $secondCurtainColour->setOnOffer(0);
         $secondCurtainColour->setCurtainDesign($this->curtainDesign);
         $this->curtainDesign->addCurtainColour($secondCurtainColour);
         

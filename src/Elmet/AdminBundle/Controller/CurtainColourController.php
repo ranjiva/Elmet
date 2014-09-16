@@ -68,6 +68,12 @@ class CurtainColourController extends Controller
             $curtainColour->setAvailableStock($availableStock);
         }
         
+        $curtainColour->setOnOffer($this->getRequest()->get('onoffer'));
+        
+        if ($this->getRequest()->get('onoffer') == 1)
+            $curtainColour->setDiscountPercentage($this->getRequest()->get('discount'));
+        else
+            $curtainColour->setDiscountPercentage(0);
         $em = $this->getDoctrine()->getEntityManager();
         $em->merge($curtainColour);
         $em->flush();
@@ -126,6 +132,13 @@ class CurtainColourController extends Controller
         } else {
             $curtainColour->setAvailableStock($availableStock);
         }
+        
+        $curtainColour->setOnOffer($this->getRequest()->get('onoffer'));
+        
+        if ($this->getRequest()->get('onoffer') == 1)
+            $curtainColour->setDiscountPercentage($this->getRequest()->get('discount'));
+        else
+            $curtainColour->setDiscountPercentage(0);
         
         $em = $this->getDoctrine()->getEntityManager();
         $em->persist($curtainColour);

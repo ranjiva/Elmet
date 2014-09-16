@@ -92,6 +92,35 @@
                  </td>
                  <td id="error_available" class="error" style="display: none; width: 100px">Available stock should be numeric</td>
              </tr>
+             <tr>
+                <td>
+                     <label for="onoffer">On Offer:</label>
+                 </td>
+                 <td>
+                     <select name="onoffer" id="onoffer" disabled="true">
+
+                         {% if (curtainColour.onOffer == 1) %}
+                             <option value="1" selected="true">Y</option>
+                         {% else %}
+                             <option value="1">Y</option>
+                         {% endif %}
+
+                         {% if (curtainColour.onOffer == 0) %}
+                             <option value="0" selected="true">N</option>
+                         {% else %}
+                             <option value="0">N</option>
+                         {% endif %}
+
+                     </select> 
+                 </td>
+             </tr>
+             <tr>
+                 <td><label for="discount">Discount Percentage:</label>
+                 <td>
+                     <input type="text" id="discount" name="discount" readonly="readonly" value="{{curtainColour.discountPercentage}}"/>
+                 </td>
+                 <td id="error_discount" class="error" style="display: none; width: 100px">Discount should be numeric and greater than 0</td>
+             </tr>
          </table>
          <br/><input id="submit" name="submit" class="submitAll" type="submit" value="Save" style="display:none"/>
     </form>

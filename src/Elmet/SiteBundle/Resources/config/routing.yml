@@ -129,7 +129,15 @@ ElmetSiteBundle_custservices_colours:
 ElmetSiteBundle_offers:
     pattern:  /offers
     defaults: { _controller: ElmetSiteBundle:Offers:index }
-    
+
+ElmetSiteBundle_offers_select:
+    pattern:  /offers/select/{urlName}/{colour}
+    defaults: { _controller: ElmetSiteBundle:Offers:select }
+
+ElmetSiteBundle_offers_page:
+    pattern:  /offers/page/{number}
+    defaults: { _controller: ElmetSiteBundle:Offers:change }
+
 ElmetSiteBundle_beddings:
     pattern:  /beddings
     defaults: { _controller: ElmetSiteBundle:Beddings:index }

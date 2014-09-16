@@ -58,6 +58,18 @@ class CurtainColour
      */
      protected $available_stock;
      
+     /**
+     * @ORM\Column(type="smallint")
+     */
+     protected $on_offer;
+     
+     /**
+     * @ORM\Column(type="smallint")
+     */
+     protected $discount_percentage;
+     
+     
+     
     /**
      * Get id
      *
@@ -237,5 +249,45 @@ class CurtainColour
     public function getAvailableStock()
     {
         return $this->available_stock;
+    }
+
+    /**
+     * Set on_offer
+     *
+     * @param smallint $onOffer
+     */
+    public function setOnOffer($onOffer)
+    {
+        $this->on_offer = $onOffer;
+    }
+
+    /**
+     * Get on_offer
+     *
+     * @return smallint 
+     */
+    public function getOnOffer()
+    {
+        return $this->on_offer;
+    }
+
+    /**
+     * Set discount_percentage
+     *
+     * @param smallint $discountPercentage
+     */
+    public function setDiscountPercentage($discountPercentage)
+    {
+        $this->discount_percentage = $discountPercentage;
+    }
+
+    /**
+     * Get discount_percentage
+     *
+     * @return smallint 
+     */
+    public function getDiscountPercentage()
+    {
+        return $this->discount_percentage;
     }
 }

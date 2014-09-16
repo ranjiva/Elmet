@@ -55,13 +55,14 @@
 
 	<div id="material">
 
+          <?php
+            echo "<p id=\"out-of-stock\">".$curtainColour->getName()." On Offer - You Save ".$curtainColour->getDiscountPercentage()."%";     
+            
+            $discount = 1.0 - $curtainColour->getDiscountPercentage() / 100;
+            ?>
 	  
 	  <h3>Material</h3>
-          <?php
-                if ($curtainColour->getInStock() == 0) {
-                    echo "<p id=\"out-of-stock\">Currently Out of Stock</p>";
-                } 
-          ?>
+          
 	  <p><?php echo $curtainDesign->getMaterials() ?></p>
 	</div>
 	<div id="curtain-info">
@@ -114,6 +115,7 @@
                         if (($colour->getOnOffer() == 1) && ($colour->getInStock() == 1)) {
                             echo "<p id=\"out-of-stock\">".$colour->getDiscountPercentage()."% Off</p>";
                         }
+                        
                         echo "</td>";                
                     }
                    ?>
@@ -142,7 +144,7 @@
                   
                     foreach($curtainPriceBand->getCurtainPelmets() as $curtainPelmet) {
                         echo "<div class=\"accessory-item\">\n";
-                        echo "<p><strong>".$curtainPelmet->getSize()."\"</strong> (".$curtainDesign->getFinish().") £".$curtainPelmet->getPrice()." each</p>\n";
+                        echo "<p><strong>".$curtainPelmet->getSize()."\"</strong> (".$curtainDesign->getFinish().") <del>£".$curtainPelmet->getPrice()."</del> <b>£".number_format(round($curtainPelmet->getPrice()*$discount,2),2)."</b> each</p>\n";
                         echo "<div class=\"input text\">\n";
                         echo "<input name=\"pelmet_".$i."\" type=\"text\" value=\"0\"/>\n";
                         echo "</div>\n";
@@ -168,7 +170,7 @@
                         if ($curtainTieBack->getType() == 'HomeWindow') {
                             
                             echo "<div class=\"accessory-item\">\n";
-                            echo "<p><strong>".$curtainTieBack->getSize()."\"</strong> (".$curtainDesign->getFinish().") £".$curtainTieBack->getPrice()." per pair</p>\n";
+                            echo "<p><strong>".$curtainTieBack->getSize()."\"</strong> (".$curtainDesign->getFinish().") <del>£".$curtainTieBack->getPrice()."</del> <b>£".number_format(round($curtainTieBack->getPrice() * $discount,2),2)."</b> per pair</p>\n";
                             echo "<div class=\"input text\">\n";
                             echo "<input name=\"home_tieback_".$i."\" type=\"text\" value=\"0\"/>\n";
                             echo "</div>\n";
@@ -194,7 +196,7 @@
                     foreach($curtainPriceBand->getCushionCovers() as $cushionCover) {
                               
                             echo "<div class=\"accessory-item\">\n";
-                            echo "<p><strong>".$cushionCover->getSize()."</strong> (".$curtainDesign->getCushionFinish().") £".$cushionCover->getPrice()." each</p>\n";
+                            echo "<p><strong>".$cushionCover->getSize()."</strong> (".$curtainDesign->getCushionFinish().") <del>£".$cushionCover->getPrice()."</del> <b>£".number_format(round($cushionCover->getPrice()*$discount,2),2)."</b> each</p>\n";
                             echo "<div class=\"input text\">\n";
                             echo "<input name=\"cushion_".$i."\" type=\"text\" value=\"0\"/>\n";
                             echo "</div>\n";
@@ -234,7 +236,7 @@
                           </tr>
                           <tr>
                             <td class="accessory-heading">Price per Metre</td>
-                            <td class="accessory-value">£<?php echo $curtainPriceBand->getCurtainFabrics()->first()->getPricePerMetre()?></td>
+                            <td class="accessory-value"><del>£<?php echo $curtainPriceBand->getCurtainFabrics()->first()->getPricePerMetre()?></del> <b>£<?php echo number_format(round($curtainPriceBand->getCurtainFabrics()->first()->getPricePerMetre()*$discount,2),2)?></b></td>
                           </tr>
                           <tr>
                             <td class="accessory-heading">Total</td>
@@ -276,12 +278,12 @@
 
 		<tr bgcolor="#f3f3f3">
 		  <th class="table_hd1"><strong>Width&nbsp;x&nbsp;Drop</strong></th>
-		  <th class="table_hd2"><strong>3"&nbsp;Tape (pair)</strong></th>
+		  <th class="table_hd2"><strong>3"&nbsp;Tape (per pair)</strong></th>
 		  <th class="table_hd3"><strong>Quantity</strong></th>
                   
                   <?php
                     if ($curtainDesign->getEyeletsAvailable() == 1) {
-                        echo "<th class=\"table_hd2\"><strong>Eyelets (pair)<strong></th>\n";
+                        echo "<th class=\"table_hd2\"><strong>Eyelets (per pair)<strong></th>\n";
                         echo "<th class=\"table_hd3\"><strong>Quantity<strong></th>\n";
                     }
                   ?>   
@@ -306,14 +308,14 @@
                             
                             echo "<tr>\n";
                             echo "<td title=\"".$description."\" class=\"description\"><strong>".$curtainPrice->getSize()."</strong></td>\n";
-                            echo "<td>£".$curtainPrice->getPrice()." per pair</td>\n";
+                            echo "<td><del>£".$curtainPrice->getPrice()."</del> <b>£".number_format(round($curtainPrice->getPrice()*$discount,2),2)."</b></td>\n";
                             echo "<td align=\"center\"><div class=\"input text\"><input name=\"home_tape_curtain_".$i."\" type=\"text\" value=\"0\"/></div></td>\n";
                             
                             if ($curtainDesign->getEyeletsAvailable() == 1) {
                             
                                 $price = $curtainPrice->getPrice() + $curtainPrice->getCurtainEyeletPriceBand()->getPrice();
                                 
-                                echo "<td>£".$price." per pair</td>\n";
+                                echo "<td><del>£".$price."</del> <b>£".number_format(round($price*$discount,2),2)."</b></td>\n";
                                 echo "<td align=\"center\"><div class=\"input text\"><input name=\"home_eyelet_curtain_".$i."\" type=\"text\" value=\"0\"/></div></td>\n";
                                 
                             }
@@ -347,7 +349,7 @@
            if ($curtainTieBack->getType() == 'CaravanWindow') {
                             
                echo "<div class=\"accessory-item\">\n";
-               echo "<p><strong>".$curtainTieBack->getSize()."\"</strong> (Plain) £".$curtainTieBack->getPrice()." per pair</p>\n";
+               echo "<p><strong>".$curtainTieBack->getSize()."\"</strong> (Plain) <del>£".$curtainTieBack->getPrice()."</del> <b>£".number_format(round($curtainTieBack->getPrice()*$discount,2),2)."</b> per pair</p>\n";
                echo "<div class=\"input text\">\n";
                echo "<input name=\"caravan_tieback_".$i."\" type=\"text\" value=\"0\"/>\n";
                echo "</div>\n";
@@ -379,7 +381,7 @@
                 
                 echo "<tr>\n";
                 echo "<td><strong>".$curtainPrice->getSize()."</strong></td>\n";
-                echo "<td>£".$curtainPrice->getPrice()." per pair</td>\n";
+                echo "<td><del>£".$curtainPrice->getPrice()."</del> <b>£".number_format(round($curtainPrice->getPrice()*$discount,2),2)."</b></td>\n";
                 echo "<td align=\"center\"><div class=\"input text\"><input name=\"caravan_window_curtain_".$i."\" type=\"text\" value=\"0\"/></div></td>\n";
                 echo "</tr>\n";
                 
@@ -417,7 +419,7 @@
                 
                 echo "<tr>\n";
                 echo "<td><strong>".$curtainPrice->getSize()."</strong></td>\n";
-                echo "<td>£".$curtainPrice->getPrice()." each</td>\n";
+                echo "<td><del>£".$curtainPrice->getPrice()."</del> <b>£".number_format(round($curtainPrice->getPrice()*$discount,2),2)."</b></td>\n";
                 echo "<td align=\"center\"><div class=\"input text\"><input name=\"caravan_door_curtain_".$i."\" type=\"text\" value=\"0\"/></div></td>\n";
                 echo "</tr>\n";
                 

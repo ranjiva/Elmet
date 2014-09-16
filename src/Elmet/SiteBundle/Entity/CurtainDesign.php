@@ -379,7 +379,38 @@ class CurtainDesign
         return $colours;
     }
     
-    
+    public function getCurtainColoursOnOffer() {
+        
+        $allColours = $this->curtain_colours->toArray();
+        $colours = array();
+        
+        foreach($allColours as $colour) {
+            if (($colour->getOnOffer() == 1) && ($colour->getInStock() == 1)) {
+                $colours[] = $colour;
+            }
+        }
+        
+        return $colours;
+    }
+     
+    public function getMaxDiscount() {
+        
+        $allColours = $this->curtain_colours->toArray();
+        $max = -1000;
+        
+        foreach($allColours as $colour) {
+            if (($colour->getOnOffer() == 1) && ($colour->getInStock() == 1)) {
+                
+                if($colour->getDiscountPercentage() > $max) {
+                    $max = $colour->getDiscountPercentage();
+                }
+                
+            }
+        }
+        
+        return $max;
+        
+    }
     /*
      * sort in order of ascending id only
      */

@@ -52,6 +52,7 @@ class CurtainStockControllerTest extends WebTestCase
         $curtainColour->setBuynow(1);
         $curtainColour->setInStock(1);
         $curtainColour->setAvailableStock(99.99);
+        $curtainColour->setOnOffer(0);
         $curtainColour->setCurtainDesign($this->curtainDesign);
         $this->curtainDesign->addCurtainColour($curtainColour);
         
@@ -63,6 +64,7 @@ class CurtainStockControllerTest extends WebTestCase
         $secondCurtainColour->setBuynow(1);
         $secondCurtainColour->setInStock(1);
         $secondCurtainColour->setAvailableStock(88.88);
+        $secondCurtainColour->setOnOffer(0);
         $secondCurtainColour->setCurtainDesign($this->curtainDesign);
         $this->curtainDesign->addCurtainColour($secondCurtainColour);
         

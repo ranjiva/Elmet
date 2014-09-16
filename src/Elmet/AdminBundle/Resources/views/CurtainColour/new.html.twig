@@ -66,11 +66,27 @@
                  </td>
              </tr>
              <tr>
-                 <td><label for="stock">Available Stock:</label>
+                 <td><label for="stock">Available Stock:</label></td>
                  <td>
                      <input type="text" id="stock" name="stock"/>
                  </td>
                  <td id="error_available" class="error" style="display: none; width: 100px">Available stock should be numeric</td>
+             </tr>
+             <tr>
+                <td><label for="onoffer">On Offer:</label></td>
+                 <td>
+                     <select name="onoffer" id="onoffer">
+                         <option value="1">Y</option>
+                         <option value="0">N</option>
+                     </select> 
+                 </td>
+             </tr>
+             <tr>
+                 <td><label for="discount">Discount Percentage:</label>
+                 <td>
+                     <input type="text" id="discount" name="discount"/>
+                 </td>
+                 <td id="error_discount" class="error" style="display: none; width: 100px">Discount should be numeric and greater than 0</td>
              </tr>
          </table>
          <br/><input id="submit" name="submit" class="submitAll" type="submit" value="Save"/>

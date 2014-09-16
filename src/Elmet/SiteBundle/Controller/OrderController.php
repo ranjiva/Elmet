@@ -107,6 +107,7 @@ class OrderController extends BaseController {
         
         $order = $this->getOrder();
         $orderItems = $order->getOrderItems();
+        $discount = 1 - $curtainColour->getDiscountPercentage() / 100;
         
         //add curtains first
         
@@ -132,16 +133,27 @@ class OrderController extends BaseController {
                     
                     $orderItem = new OrderItem();
                     
-                    $orderItem->setColour($curtainColour->getName());       
-                    $orderItem->setDescription("Ready-made Curtains (pair)"); 
+                    $orderItem->setColour($curtainColour->getName());
+                    
+                    if($curtainPrice->getType() == 'CaravanDoor') {
+                        $orderItem->setDescription("Ready-made Curtains");
+                    } else {
+                        $orderItem->setDescription("Ready-made Curtains (pair)");
+                    }
                     $orderItem->setItemFilepath("/img/products/".$curtainColour->getThumbnailFilepath());
                     $orderItem->setName($curtainDesign->getName());
-                    $orderItem->setPrice($curtainPrice->getPrice());
-                    $orderItem->setCurtainColour($curtainColour); 
+                    
+                    if ($curtainColour->getOnOffer() == 0) {
+                        $price = $curtainPrice->getPrice();
+                    } else {
+                        $price = number_format(round($curtainPrice->getPrice() * $discount,2),2);
+                    }
+                    $orderItem->setPrice($price);
+                    $orderItem->setCurtainColour($curtainColour);
                     $orderItem->setProductType("Curtain");
                     $orderItem->setQuantity($quantity);
                     $orderItem->setSize($curtainPrice->getSize());
-                    $orderItem->setSubtotal($quantity * $curtainPrice->getPrice());
+                    $orderItem->setSubtotal($quantity * $price);
                     $orderItem->setOrder($order);
                     $orderItem->setProductCategoryId($curtainColour->getId());
                     
@@ -152,6 +164,10 @@ class OrderController extends BaseController {
 
                 $price = $curtainPrice->getPrice() + $curtainPrice->getCurtainEyeletPriceBand()->getPrice();
 
+                if ($curtainColour->getOnOffer() == 1) {
+                    $price = number_format(round($price * $discount,2),2);
+                }
+                
                 $orderItem = new OrderItem();
 
                 $orderItem->setColour($curtainColour->getName());       
@@ -193,12 +209,18 @@ class OrderController extends BaseController {
                     $orderItem->setDescription("Pelmet"); 
                     $orderItem->setItemFilepath("/img/products/".$curtainColour->getThumbnailFilepath());
                     $orderItem->setName($curtainDesign->getName());
-                    $orderItem->setPrice($curtainPelmet->getPrice());
+                    
+                    if ($curtainColour->getOnOffer() == 0) {
+                        $price = $curtainPelmet->getPrice();
+                    } else {
+                        $price = number_format(round($curtainPelmet->getPrice() * $discount,2),2);
+                    }
+                    $orderItem->setPrice($price);
                     $orderItem->setCurtainColour($curtainColour); 
                     $orderItem->setProductType("Pelmet");
                     $orderItem->setQuantity($quantity);
                     $orderItem->setSize($curtainPelmet->getSize());
-                    $orderItem->setSubtotal($quantity * $curtainPelmet->getPrice());
+                    $orderItem->setSubtotal($quantity * $price);
                     $orderItem->setOrder($order);
                     $orderItem->setProductCategoryId($curtainColour->getId());
                     
@@ -222,12 +244,18 @@ class OrderController extends BaseController {
                     $orderItem->setDescription("Cushion Cover"); 
                     $orderItem->setItemFilepath("/img/products/".$curtainColour->getThumbnailFilepath());
                     $orderItem->setName($curtainDesign->getName());
-                    $orderItem->setPrice($cushionCover->getPrice());
+                    
+                    if ($curtainColour->getOnOffer() == 0) {
+                        $price = $cushionCover->getPrice();
+                    } else {
+                        $price = number_format(round($cushionCover->getPrice() * $discount,2),2);
+                    }
+                    $orderItem->setPrice($price);
                     $orderItem->setCurtainColour($curtainColour); 
                     $orderItem->setProductType("Cushion Cover");
                     $orderItem->setQuantity($quantity);
                     $orderItem->setSize($cushionCover->getSize());
-                    $orderItem->setSubtotal($quantity * $cushionCover->getPrice());
+                    $orderItem->setSubtotal($quantity * $price);
                     $orderItem->setOrder($order);
                     $orderItem->setProductCategoryId($curtainColour->getId());
                     
@@ -248,12 +276,18 @@ class OrderController extends BaseController {
             $orderItem->setDescription("Fabric Only"); 
             $orderItem->setItemFilepath("/img/products/".$curtainColour->getThumbnailFilepath());
             $orderItem->setName($curtainDesign->getName());
-            $orderItem->setPrice($curtainFabric->getPricePerMetre());
+            
+            if ($curtainColour->getOnOffer() == 0) {
+                $price = $curtainFabric->getPricePerMetre();
+            } else {
+                $price = number_format(round($curtainFabric->getPricePerMetre() * $discount,2),2);
+            }
+            $orderItem->setPrice($price);
             $orderItem->setCurtainColour($curtainColour); 
             $orderItem->setProductType("Fabric");
             $orderItem->setFabricQuantity($quantity);
             $orderItem->setSize($curtainDesign->getFabricWidth());
-            $orderItem->setSubtotal($quantity * $curtainFabric->getPricePerMetre());
+            $orderItem->setSubtotal($quantity * $price);
             $orderItem->setOrder($order);
             $orderItem->setProductCategoryId($curtainColour->getId());
 
@@ -277,14 +311,20 @@ class OrderController extends BaseController {
 
                 $orderItem->setColour($curtainColour->getName());       
                 $orderItem->setDescription("Tieback (pair)"); 
-                $orderItem->setItemFilepath("/img/products/".$curtainColour->getThumbnailFilepath());
+                $orderItem->setItemFilepath("/img/products/".$curtainColour->getThumbnailFilepath());   
                 $orderItem->setName($curtainDesign->getName());
-                $orderItem->setPrice($curtainTieBack->getPrice());
+                
+                if ($curtainColour->getOnOffer() == 0) {
+                    $price = $curtainTieBack->getPrice();
+                } else {
+                    $price = number_format(round($curtainTieBack->getPrice() * $discount,2),2);
+                }
+                $orderItem->setPrice($price);
                 $orderItem->setCurtainColour($curtainColour); 
                 $orderItem->setProductType("Tieback");
                 $orderItem->setQuantity($quantity);
                 $orderItem->setSize($curtainTieBack->getSize());
-                $orderItem->setSubtotal($quantity * $curtainTieBack->getPrice());
+                $orderItem->setSubtotal($quantity * $price);
                 $orderItem->setOrder($order);
                 $orderItem->setProductCategoryId($curtainColour->getId());
 
@@ -298,7 +338,6 @@ class OrderController extends BaseController {
             } 
         
         }
-        
         
         $order->updateOrderTotal();
         
