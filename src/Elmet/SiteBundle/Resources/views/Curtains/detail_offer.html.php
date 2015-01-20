@@ -41,7 +41,15 @@
 <h1>Curtains</h1>
 
 <a name="product"></a>
-<p class="sublink"><a HREF="/curtains">Back to Curtain Range</a></p>
+
+<p class="sublink">
+    <?php
+        if ($origin == "MAIN_DISPLAY")
+            echo "<a HREF=\"/curtains\">Back to Curtain Range</a>";
+        elseif ($origin == "OFFER_DISPLAY")
+            echo "<a HREF=\"/offers\">Back to Curtain Offers</a>";
+    ?>
+</p>
 <h2><?php echo $curtainDesign->getName() ?></h2>
 
 <div id="content-top">
@@ -56,7 +64,7 @@
 	<div id="material">
 
           <?php
-            echo "<p id=\"out-of-stock\">".$curtainColour->getName()." On Offer - You Save ".$curtainColour->getDiscountPercentage()."%";     
+            echo "<p id=\"out-of-stock\">".$curtainColour->getName()." On Sale - You Save ".$curtainColour->getDiscountPercentage()."%";     
             
             $discount = 1.0 - $curtainColour->getDiscountPercentage() / 100;
             ?>
@@ -101,7 +109,7 @@
 		<h3>Colours</h3>
 		<table><tr style="vertical-align:top">
                    <?php
-                    foreach ($curtainDesign->getSortedCurtainColoursByIdInStock() as $colour) {
+                    foreach ($allColours as $colour) {
                         
                         echo "<td><p><strong>".$colour->getName()."</strong></p>";
                         echo "<a href=\"/curtains/select/".$curtainDesign->getUrlName()."/".$colour->getName()."\">";

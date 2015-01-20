@@ -176,7 +176,7 @@
                      <label for="new">New:</label>
                  </td>
                  <td>
-                     <select name="new" id="eyelets" disabled="true">
+                     <select name="new" id="new" disabled="true">
 
                          {% if (curtainDesign.new == 1) %}
                              <option value="1" selected="true">Y</option>
@@ -192,6 +192,57 @@
 
                      </select> 
                  </td>
+             </tr>
+             <tr>
+                <td>
+                     <label for="special">Special Purchase:</label>
+                 </td>
+                 <td>
+                     <select name="special" id="special" disabled="true">
+
+                         {% if (curtainDesign.specialPurchase == 1) %}
+                             <option value="1" selected="true">Y</option>
+                         {% else %}
+                             <option value="1">Y</option>
+                         {% endif %}
+
+                         {% if (curtainDesign.specialPurchase == 0) %}
+                             <option value="0" selected="true">N</option>
+                         {% else %}
+                             <option value="0">N</option>
+                         {% endif %}
+
+                     </select> 
+                 </td>
+             </tr>
+             <tr>
+                <td>
+                     <label for="display">Display:</label>
+                 </td>
+                 <td>
+                     <select name="display" id="display" disabled="true">
+
+                         {% if (curtainDesign.display == 1) %}
+                             <option value="1" selected="true">Y</option>
+                         {% else %}
+                             <option value="1">Y</option>
+                         {% endif %}
+
+                         {% if (curtainDesign.display == 0) %}
+                             <option value="0" selected="true">N</option>
+                         {% else %}
+                             <option value="0">N</option>
+                         {% endif %}
+
+                     </select> 
+                 </td>
+             </tr>
+             <tr>
+                 <td><label for="position">Display Position:</label>
+                 <td>
+                     <input type="text" id="position" name="position" value="{{curtainDesign.position}}" readonly="readonly"/>
+                 </td>
+                 <td id="error_position" class="error" style="display: none; width: 100px">Display Position should not be empty or should be a number</td>
              </tr>
              <tr>
                  <td>
@@ -218,7 +269,14 @@
                                     </td>
                                     <td id="new_colour" class="edit" style="display:none"><a href="/admin/curtaincolour/new/{{curtainDesign.id}}">new</a></td>
                                     <td class="edit"><a href="/admin/curtaincolour/view/{{curtainColour.id}}">view</a></td>
-                                    <td id="remove_colour" style="display:none"><a href="/admin/curtaincolour/remove/{{curtainColour.id}}">remove</a></td>
+                                    
+                                    {% if(doNotRemove) %}
+                                        {% if(doNotRemoveColourId != curtainColour.id) %}
+                                            <td id="remove_colour" style="display:none"><a href="/admin/curtaincolour/remove/{{curtainColour.id}}">remove</a></td>
+                                        {% endif %}
+                                    {% else %}
+                                        <td id="remove_colour" style="display:none"><a href="/admin/curtaincolour/remove/{{curtainColour.id}}">remove</a></td>
+                                    {% endif %}
                                 </tr>
                                 {%set i = i + 1 %}    
                                 {% endfor %}

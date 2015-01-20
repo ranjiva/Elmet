@@ -16,7 +16,7 @@ class OffersController extends BaseController
     public function changeAction($number)
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $query = $em->createQuery('SELECT DISTINCT cd FROM ElmetSiteBundle:CurtainDesign cd JOIN cd.curtain_colours cc WHERE cc.on_offer = 1 and cc.in_stock = 1 ORDER BY cd.new DESC');
+        $query = $em->createQuery('SELECT DISTINCT cd FROM ElmetSiteBundle:CurtainDesign cd JOIN cd.curtain_colours cc WHERE (cc.on_offer = 1 and cc.in_stock = 1 and cc.display = 1) or cd.special_purchase = 1 ORDER BY cd.new DESC');
         $curtaindesigns = $query->getResult(); 
         
         if (count($curtaindesigns) == 0) {
@@ -77,8 +77,19 @@ class OffersController extends BaseController
         $query->setParameter('id',$curtainPriceBand->getId());
         $curtainPrices = $query->getResult(); 
         
-        return $this->render('ElmetSiteBundle:Offers:offer_details.html.php',array('curtainDesign' => $curtainDesign, 'curtainPrices' => $curtainPrices , 'curtainPriceBand' => $curtainPriceBand, 'curtainColour' => $curtainColour, 'caravanWindowAvailable' => $caravanCurtainExists, 'caravanDoorAvailable' => $caravanDoorCurtainExists, 'featured' => $this->getFeaturedTestimonials(),'numBasketItems' => $this->getNumBasketItems()));
-          
+        if ($curtainDesign->getSpecialPurchase() == 1) {
+            $allColours = $curtainDesign->getOnDisplayCurtainColoursSortedByInStockAndPosition();
+        } else {
+            $allColours = $curtainDesign->getCurtainColoursOnOffer();
+        }
+        
+        $origin = "OFFER_DISPLAY";
+        
+        if (($curtainColour->getOnOffer() == 0) || ($curtainColour->getInStock() == 0)) {
+            return $this->render('ElmetSiteBundle:Curtains:detail.html.php',array('curtainDesign' => $curtainDesign, 'allColours' => $allColours, 'curtainPrices' => $curtainPrices , 'curtainPriceBand' => $curtainPriceBand, 'curtainColour' => $curtainColour, 'caravanWindowAvailable' => $caravanCurtainExists, 'caravanDoorAvailable' => $caravanDoorCurtainExists, 'featured' => $this->getFeaturedTestimonials(),'numBasketItems' => $this->getNumBasketItems(),'origin' => $origin));
+        } else {
+            return $this->render('ElmetSiteBundle:Curtains:detail_offer.html.php',array('curtainDesign' => $curtainDesign, 'allColours' => $allColours, 'curtainPrices' => $curtainPrices , 'curtainPriceBand' => $curtainPriceBand, 'curtainColour' => $curtainColour, 'caravanWindowAvailable' => $caravanCurtainExists, 'caravanDoorAvailable' => $caravanDoorCurtainExists, 'featured' => $this->getFeaturedTestimonials(),'numBasketItems' => $this->getNumBasketItems(), 'origin' => $origin));
+        }  
     }
 }
 

@@ -41,7 +41,14 @@
 <h1>Curtains</h1>
 
 <a name="product"></a>
-<p class="sublink"><a HREF="/curtains">Back to Curtain Range</a></p>
+<p class="sublink">
+    <?php
+        if ($origin == "MAIN_DISPLAY")
+            echo "<a HREF=\"/curtains\">Back to Curtain Range</a>";
+        elseif ($origin == "OFFER_DISPLAY")
+            echo "<a HREF=\"/offers\">Back to Curtain Offers</a>";
+    ?>
+</p>
 <h2><?php echo $curtainDesign->getName() ?></h2>
 
 <div id="content-top">
@@ -100,7 +107,7 @@
 		<h3>Colours</h3>
 		<table><tr style="vertical-align:top">
                    <?php
-                    foreach ($curtainDesign->getSortedCurtainColoursByIdInStock() as $colour) {
+                    foreach ($allColours as $colour) {
                         
                         echo "<td><p><strong>".$colour->getName()."</strong></p>";
                         echo "<a href=\"/curtains/select/".$curtainDesign->getUrlName()."/".$colour->getName()."\">";

@@ -43,6 +43,9 @@ class CurtainStockControllerTest extends WebTestCase
         $this->curtainDesign->setNew(1);
         $this->curtainDesign->setPatternRepeatLength(8.00);
         $this->curtainDesign->setTapeSize("3\"");
+        $this->curtainDesign->setPosition("0");
+        $this->curtainDesign->setDisplay("1");
+        $this->curtainDesign->setSpecialPurchase("0");
         
         $curtainColour = new CurtainColour();
         $curtainColour->setName("Cream");
@@ -53,6 +56,8 @@ class CurtainStockControllerTest extends WebTestCase
         $curtainColour->setInStock(1);
         $curtainColour->setAvailableStock(99.99);
         $curtainColour->setOnOffer(0);
+        $curtainColour->setDisplay(1);
+        $curtainColour->setPosition(1);
         $curtainColour->setCurtainDesign($this->curtainDesign);
         $this->curtainDesign->addCurtainColour($curtainColour);
         
@@ -65,6 +70,8 @@ class CurtainStockControllerTest extends WebTestCase
         $secondCurtainColour->setInStock(1);
         $secondCurtainColour->setAvailableStock(88.88);
         $secondCurtainColour->setOnOffer(0);
+        $secondCurtainColour->setDisplay(1);
+        $secondCurtainColour->setPosition(1);
         $secondCurtainColour->setCurtainDesign($this->curtainDesign);
         $this->curtainDesign->addCurtainColour($secondCurtainColour);
         

@@ -74,6 +74,21 @@ class CurtainDesign
      protected $new;
      
      /**
+     * @ORM\Column(type="smallint")
+     */
+     protected $position;
+     
+     /**
+     * @ORM\Column(type="smallint")
+     */
+     protected $display;
+     
+     /**
+     * @ORM\Column(type="smallint")
+     */
+     protected $special_purchase;
+     
+     /**
       * @ORM\ManyToOne(targetEntity="CurtainPriceBand", inversedBy="curtain_designs")
       * @ORM\JoinColumn(name="CurtainPriceband_id", referencedColumnName="id")
       */
@@ -322,6 +337,67 @@ class CurtainDesign
     }
 
     /**
+     * Set position
+     *
+     * @param string $position
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+    }
+
+    /**
+     * Get position
+     *
+     * @return string 
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+    
+    /**
+     * Set display
+     *
+     * @param string $display
+     */
+    public function setDisplay($display)
+    {
+        $this->display = $display;
+    }
+
+    /**
+     * Get display
+     *
+     * @return string 
+     */
+    public function getDisplay()
+    {
+        return $this->display;
+    }
+    
+    /**
+     * Set special_purchase
+     *
+     * @param string $special_purchase
+     */
+    public function setSpecialPurchase($special_purchase)
+    {
+        $this->special_purchase = $special_purchase;
+    }
+
+    /**
+     * Get special_purchase
+     *
+     * @return string 
+     */
+    public function getSpecialPurchase()
+    {
+        return $this->special_purchase;
+    }
+    
+    
+    /**
      * Get curtain_colours
      *
      * @return Doctrine\Common\Collections\Collection 
@@ -379,13 +455,60 @@ class CurtainDesign
         return $colours;
     }
     
+    public function getOnDisplayCurtainColoursSortedByIdInStock() {
+        
+        $allColours = $this->curtain_colours->toArray();
+        $colours = array();
+        
+        foreach($allColours as $colour) {
+            if ($colour->getDisplay() == 1) {
+                $colours[] = $colour;
+            }
+        }
+        
+        uasort($colours,array($this, 'comparatorInStockAndId'));
+        
+        return $colours;
+    }
+    
+    public function getOnDisplayCurtainColoursSortedByInStockAndPosition() {
+        
+        $allColours = $this->curtain_colours->toArray();
+        $colours = array();
+        
+        foreach($allColours as $colour) {
+            if ($colour->getDisplay() == 1) {
+                $colours[] = $colour;
+            }
+        }
+        
+        uasort($colours,array($this, 'comparatorInStockAndPosition'));
+        
+        return $colours;
+    }
+    
+    
     public function getCurtainColoursOnOffer() {
         
         $allColours = $this->curtain_colours->toArray();
         $colours = array();
         
         foreach($allColours as $colour) {
-            if (($colour->getOnOffer() == 1) && ($colour->getInStock() == 1)) {
+            if (($colour->getOnOffer() == 1) && ($colour->getInStock() == 1) && ($colour->getDisplay() == 1)) {
+                $colours[] = $colour;
+            }
+        }
+        
+        return $colours;
+    }
+    
+    public function getCurtainColoursOnDisplay() {
+        
+        $allColours = $this->curtain_colours->toArray();
+        $colours = array();
+        
+        foreach($allColours as $colour) {
+            if ($colour->getDisplay() == 1) {
                 $colours[] = $colour;
             }
         }
@@ -399,7 +522,7 @@ class CurtainDesign
         $max = -1000;
         
         foreach($allColours as $colour) {
-            if (($colour->getOnOffer() == 1) && ($colour->getInStock() == 1)) {
+            if (($colour->getOnOffer() == 1) && ($colour->getInStock() == 1) && ($colour->getDisplay() == 1) ) {
                 
                 if($colour->getDiscountPercentage() > $max) {
                     $max = $colour->getDiscountPercentage();
@@ -441,4 +564,23 @@ class CurtainDesign
             else 
                 return 1; 
     }
+    
+    /*
+     * sort in order of descending inStock and then ascending position 
+     */
+    public function comparatorInStockAndPosition($a,$b) {
+        
+        if ($a->getId() == $b->getId())
+            return 0;
+        else if ($a->getInStock() > $b->getInStock())
+            return -1;
+        else if ($a->getInStock() < $b->getInStock())
+            return 1;
+        else if ($a->getInStock() == $b->getInStock())
+            if ( $a->getPosition() < $b->getPosition() )         
+                return -1;
+            else 
+                return 1; 
+    }
+    
 }

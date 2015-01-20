@@ -43,6 +43,9 @@ class CurtainDesignControllerTest extends WebTestCase
         $this->curtainDesign->setNew(1);
         $this->curtainDesign->setPatternRepeatLength(8.00);
         $this->curtainDesign->setTapeSize("3\"");
+        $this->curtainDesign->setPosition(2);
+        $this->curtainDesign->setDisplay(0);
+        $this->curtainDesign->setSpecialPurchase(0);
         
         $curtainColour = new CurtainColour();
         $curtainColour->setName("Cream");
@@ -52,6 +55,8 @@ class CurtainDesignControllerTest extends WebTestCase
         $curtainColour->setBuynow(1);
         $curtainColour->setInStock(1);
         $curtainColour->setOnOffer(0);
+        $curtainColour->setDisplay(1);
+        $curtainColour->setPosition(1);
         $curtainColour->setCurtainDesign($this->curtainDesign);
         $this->curtainDesign->addCurtainColour($curtainColour);
         
@@ -63,6 +68,8 @@ class CurtainDesignControllerTest extends WebTestCase
         $secondCurtainColour->setBuynow(1);
         $secondCurtainColour->setInStock(1);
         $secondCurtainColour->setOnOffer(0);
+        $secondCurtainColour->setDisplay(0);
+        $secondCurtainColour->setPosition(0);
         $secondCurtainColour->setCurtainDesign($this->curtainDesign);
         $this->curtainDesign->addCurtainColour($secondCurtainColour);
         
@@ -105,10 +112,13 @@ class CurtainDesignControllerTest extends WebTestCase
         $this->assertTrue($viewCrawler->filter('select[name="lined"]')->children()->filter('option[value="1"]')->attr('selected') == 'true');
         $this->assertTrue($viewCrawler->filter('select[name="eyelets"]')->children()->filter('option[value="1"]')->attr('selected') == 'true');
         $this->assertTrue($viewCrawler->filter('input[name="fabricwidth"]')->attr('value') == '140');
+        $this->assertTrue($viewCrawler->filter('input[name="position"]')->attr('value') == '2');
         $this->assertTrue($viewCrawler->filter('input[name="patternrepeatlength"]')->attr('value') == '8.00');
         $this->assertTrue($viewCrawler->filter('select[name="curtainfinish"]')->children()->filter('option[value="Fringed"]')->attr('selected') == 'true');
         $this->assertTrue($viewCrawler->filter('select[name="cushionfinish"]')->children()->filter('option[value="Corded"]')->attr('selected') == 'true');
         $this->assertTrue($viewCrawler->filter('select[name="new"]')->children()->filter('option[value="1"]')->attr('selected') == 'true');
+        $this->assertTrue($viewCrawler->filter('select[name="display"]')->children()->filter('option[value="0"]')->attr('selected') == 'true');
+        $this->assertTrue($viewCrawler->filter('select[name="special"]')->children()->filter('option[value="0"]')->attr('selected') == 'true');
         $this->assertTrue($viewCrawler->filter('select[name="tapesize"]')->children()->filter('option:contains("3\"")')->attr('selected') == 'true');
         $this->assertTrue($viewCrawler->filter('td')
                                       ->reduce(function ($node, $i) {
@@ -122,6 +132,20 @@ class CurtainDesignControllerTest extends WebTestCase
                                                         return false;
                                                     }
                                                 })->count() == 1);
+        
+        $curtainColours = $this->curtainDesign->getCurtainColours();                                      
+                                                
+        $firstCurtainColourId = $curtainColours[0]->getId();
+        $secondCurtainColourId = $curtainColours[1]->getId();
+        
+        $this->assertTrue($viewCrawler->filter('a[href="/admin/curtaincolour/remove/'.$firstCurtainColourId.'"]')->count() == 0);
+        $this->assertTrue($viewCrawler->filter('a[href="/admin/curtaincolour/remove/'.$secondCurtainColourId.'"]')
+                                      ->reduce(function ($node, $i) {
+                                                    if (trim(preg_replace('/\s\s+/', '', $node->nodeValue)) != 'remove') {
+                                                        return false;
+                                                    }
+                                                })->count() == 1);
+                                                
     }
         
     public function testRemove() {
@@ -161,6 +185,9 @@ class CurtainDesignControllerTest extends WebTestCase
         $form['curtainfinish']->select('Straight');
         $form['cushionfinish']->select('Self-piped');
         $form['new']->select('0');
+        $form['position'] = 3;
+        $form['special']->select('1');
+        $form['display']->select('1');
         
         $updateCrawler = $client->submit($form);
                 
@@ -171,10 +198,13 @@ class CurtainDesignControllerTest extends WebTestCase
         $this->assertTrue($updateCrawler->filter('select[name="lined"]')->children()->filter('option[value="0"]')->attr('selected') == 'true');
         $this->assertTrue($updateCrawler->filter('select[name="eyelets"]')->children()->filter('option[value="0"]')->attr('selected') == 'true');
         $this->assertTrue($updateCrawler->filter('input[name="fabricwidth"]')->attr('value') == '120');
+        $this->assertTrue($updateCrawler->filter('input[name="position"]')->attr('value') == '3');
         $this->assertTrue($updateCrawler->filter('input[name="patternrepeatlength"]')->attr('value') == '10.00');
         $this->assertTrue($updateCrawler->filter('select[name="curtainfinish"]')->children()->filter('option[value="Straight"]')->attr('selected') == 'true');
         $this->assertTrue($updateCrawler->filter('select[name="cushionfinish"]')->children()->filter('option[value="Self-piped"]')->attr('selected') == 'true');
         $this->assertTrue($updateCrawler->filter('select[name="new"]')->children()->filter('option[value="0"]')->attr('selected') == 'true');
+        $this->assertTrue($updateCrawler->filter('select[name="display"]')->children()->filter('option[value="1"]')->attr('selected') == 'true');
+        $this->assertTrue($updateCrawler->filter('select[name="special"]')->children()->filter('option[value="1"]')->attr('selected') == 'true');
         $this->assertTrue($updateCrawler->filter('select[name="tapesize"]')->children()->filter('option:contains("3\"")')->attr('selected') == 'true');
         $this->assertTrue($updateCrawler->filter('td')
                                       ->reduce(function ($node, $i) {
@@ -216,6 +246,9 @@ class CurtainDesignControllerTest extends WebTestCase
         $form['cushionfinish']->select('Self-piped');
         $form['new']->select('0');
         $form['tapesize']->select("3\"");
+        $form['position'] = 3;
+        $form['special']->select('1');
+        $form['display']->select('1');
         
         $updateCrawler = $client->submit($form);
                 
@@ -226,10 +259,13 @@ class CurtainDesignControllerTest extends WebTestCase
         $this->assertTrue($updateCrawler->filter('select[name="lined"]')->children()->filter('option[value="0"]')->attr('selected') == 'true');
         $this->assertTrue($updateCrawler->filter('select[name="eyelets"]')->children()->filter('option[value="0"]')->attr('selected') == 'true');
         $this->assertTrue($updateCrawler->filter('input[name="fabricwidth"]')->attr('value') == '120');
+        $this->assertTrue($updateCrawler->filter('input[name="position"]')->attr('value') == '3');
         $this->assertTrue($updateCrawler->filter('input[name="patternrepeatlength"]')->attr('value') == '10.00');
         $this->assertTrue($updateCrawler->filter('select[name="curtainfinish"]')->children()->filter('option[value="Straight"]')->attr('selected') == 'true');
         $this->assertTrue($updateCrawler->filter('select[name="cushionfinish"]')->children()->filter('option[value="Self-piped"]')->attr('selected') == 'true');
         $this->assertTrue($updateCrawler->filter('select[name="new"]')->children()->filter('option[value="0"]')->attr('selected') == 'true');
+        $this->assertTrue($updateCrawler->filter('select[name="display"]')->children()->filter('option[value="1"]')->attr('selected') == 'true');
+        $this->assertTrue($updateCrawler->filter('select[name="special"]')->children()->filter('option[value="1"]')->attr('selected') == 'true');
         $this->assertTrue($updateCrawler->filter('select[name="tapesize"]')->children()->filter('option:contains("3\"")')->attr('selected') == 'true');
                
         $curtainPrice = $this->repository->findOneBy(array('url_name' => 'jeanetta'));

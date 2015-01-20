@@ -131,11 +131,40 @@
                      <label for="new">New:</label>
                  </td>
                  <td>
-                     <select name="new" id="eyelets">
+                     <select name="new" id="new">
                         <option value="1" selected="true">Y</option>
                         <option value="0">N</option>                             
                      </select> 
                  </td>
+             </tr>
+             <tr>
+                <td>
+                     <label for="special">Special Purchase:</label>
+                 </td>
+                 <td>
+                     <select name="special" id="special">
+                        <option value="1">Y</option>
+                        <option value="0" selected="true">N</option>                             
+                     </select> 
+                 </td>
+             </tr>
+             <tr>
+                <td>
+                     <label for="display">Display:</label>
+                 </td>
+                 <td>
+                     <select name="display" id="display">
+                        <option value="1" selected="true">Y</option>
+                        <option value="0">N</option>                             
+                     </select> 
+                 </td>
+             </tr>
+             <tr>
+                 <td><label for="position">Display Position:</label>
+                 <td>
+                     <input type="text" id="position" name="position" value="0"/>
+                 </td>
+                 <td id="error_position" class="error" style="display: none; width: 100px">Display Position should not be empty or should be a number</td>
              </tr>
          </table>
          <br/><input id="submit" name="submit" class="submitAll" type="submit" value="Save"/>

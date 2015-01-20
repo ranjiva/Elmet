@@ -4,10 +4,12 @@
                 $("input[id='display']").removeAttr('readonly');
                 $("input[id='thumbnail']").removeAttr('readonly');
                 $("input[id='stock']").removeAttr('readonly');
-                $("input[id='swatch']").removeAttr('readonly');                
+                $("input[id='swatch']").removeAttr('readonly');
+                $("input[id='position']").removeAttr('readonly');
                 $("select[id='instock']").removeAttr('disabled');
                 $("select[id='buynow']").removeAttr('disabled');
                 $("select[id='onoffer']").removeAttr('disabled');
+                $("select[id='onDisplay']").removeAttr('disabled');
                 $("span[id='undoEdit']").show();
                 $("span[id='edit']").hide();
                 $("input[id='submit']").show();
@@ -23,9 +25,11 @@
                 $("input[id='thumbnail']").attr('readonly', 'true');
                 $("input[id='swatch']").attr('readonly', 'true');
                 $("input[id='stock']").attr('readonly', 'true');
+                $("input[id='position']").attr('readonly', 'true');
                 $("select[id='instock']").attr('disabled', 'true');
                 $("select[id='buynow']").attr('disabled', 'true');
                 $("select[id='onoffer']").attr('disabled', 'true');
+                $("select[id='onDisplay']").attr('disabled', 'true');
                 $("input[id='discount']").attr('readonly','true');
                 $("span[id='undoEdit']").hide();
                 $("span[id='edit']").show();
@@ -74,7 +78,15 @@
                         }
                         
                     }
-                            
+                    
+                    var position = $("input[id='position']").val();
+                    
+                    if ((position == "") || (isNaN(position) == true)) {
+                        
+                        $("td[id='error_position']").show();
+                        error = true;
+                    }
+                    
                     if (error == true) {
                     
                         e.preventDefault();

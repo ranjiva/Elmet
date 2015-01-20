@@ -10,7 +10,7 @@
      </span>
 {% endblock %}
 {% block body %}
-     <form method="post" action="/admin/curtaincolour/create" enctype="multipart/form-data" style="width: 550px" class="inputform">
+    <form method="post" action="/admin/curtaincolour/create" enctype="multipart/form-data" style="width: 550px" class="inputform">
          <input type="hidden" name="id" value="{{curtainDesign.id}}"/>
 
          <table style="width: 500px">
@@ -71,6 +71,31 @@
                      <input type="text" id="stock" name="stock"/>
                  </td>
                  <td id="error_available" class="error" style="display: none; width: 100px">Available stock should be numeric</td>
+             </tr>
+             <tr>
+                <td>
+                     <label for="OnDisplay">Display:</label>
+                 </td>
+                 <td>
+                     {% if (firstColour) %}
+                         <select name="onDisplay" id="onDisplayFixed" disabled="true">
+                         <option value="1" selected="true">Y</option>
+                         <option value="0">N</option>
+                     {% else %}
+                         <select name="onDisplay" id="onDisplay">
+                         <option value="1">Y</option>
+                         <option value="0">N</option>                
+                     {% endif %}
+
+                     </select> 
+                 </td>
+             </tr>
+             <tr>
+                 <td><label for="position">Display Position:</label>
+                 <td>
+                     <input type="text" id="position" name="position"/>
+                 </td>
+                 <td id="error_position" class="error" style="display: none; width: 100px">Position should be numeric</td>
              </tr>
              <tr>
                 <td><label for="onoffer">On Offer:</label></td>

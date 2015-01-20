@@ -68,7 +68,15 @@ class CurtainColour
      */
      protected $discount_percentage;
      
+     /**
+     * @ORM\Column(type="smallint")
+     */
+     protected $display;
      
+     /**
+     * @ORM\Column(type="smallint")
+     */
+     protected $position;
      
     /**
      * Get id
@@ -289,5 +297,45 @@ class CurtainColour
     public function getDiscountPercentage()
     {
         return $this->discount_percentage;
+    }
+    
+    /**
+     * Set display
+     *
+     * @param smallint $display
+     */
+    public function setDisplay($display)
+    {
+        $this->display = $display;
+    }
+
+    /**
+     * Get display
+     *
+     * @return smallint 
+     */
+    public function getDisplay()
+    {
+        return $this->display;
+    }
+    
+    /**
+     * Set position
+     *
+     * @param smallint $position
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+    }
+
+    /**
+     * Get position
+     *
+     * @return smallint 
+     */
+    public function getPosition()
+    {
+        return $this->position;
     }
 }

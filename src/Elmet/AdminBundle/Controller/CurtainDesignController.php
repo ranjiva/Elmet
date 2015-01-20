@@ -34,6 +34,16 @@ class CurtainDesignController extends Controller
              $urlNames[] = $design->getUrlName();
          }
          
+         $curtainColoursOnDisplay = $curtainDesign->getCurtainColoursOnDisplay();
+         
+         if (count($curtainColoursOnDisplay) == 1) {
+             $doNotRemove = TRUE;
+             $doNotRemoveColourId = $curtainColoursOnDisplay[0]->getId();
+         } else {
+             $doNotRemove = FALSE;
+             $doNotRemoveColourId = 0; 
+         }
+         
          $cushionFinishes = array(new CushionFinish("Corded"), new CushionFinish("Self-piped"));
          $curtainFinishes = array(new CurtainFinish("Fringed"), new CurtainFinish("Straight"));
          $tapeSizes = array(new TapeSize("3\""));
@@ -41,7 +51,7 @@ class CurtainDesignController extends Controller
          $curtainPriceBandRepository = $this->getDoctrine()->getRepository('ElmetSiteBundle:CurtainPriceBand');
          $curtainPriceBands = $curtainPriceBandRepository->findAll();
          
-         return $this->render('ElmetAdminBundle:CurtainDesign:view.html.twig', array('curtainDesign' => $curtainDesign,  'cushionFinishes' => $cushionFinishes, 'curtainFinishes' => $curtainFinishes, 'tapeSizes' => $tapeSizes, 'curtainPriceBands' => $curtainPriceBands, 'urlNames' => $urlNames));
+         return $this->render('ElmetAdminBundle:CurtainDesign:view.html.twig', array('curtainDesign' => $curtainDesign,  'cushionFinishes' => $cushionFinishes, 'curtainFinishes' => $curtainFinishes, 'tapeSizes' => $tapeSizes, 'curtainPriceBands' => $curtainPriceBands, 'urlNames' => $urlNames, 'doNotRemove' => $doNotRemove, 'doNotRemoveColourId' => $doNotRemoveColourId));
     }
     
     public function newAction()
@@ -87,6 +97,9 @@ class CurtainDesignController extends Controller
         $curtainDesign->setPatternRepeatLength($this->getRequest()->get('patternrepeatlength'));
         $curtainDesign->setTapeSize($this->getRequest()->get('tapesize'));
         $curtainDesign->setUrlName($this->getRequest()->get('shortname'));
+        $curtainDesign->setPosition($this->getRequest()->get('position'));
+        $curtainDesign->setDisplay($this->getRequest()->get('display'));
+        $curtainDesign->setSpecialPurchase($this->getRequest()->get('special'));
         
         $em = $this->getDoctrine()->getEntityManager();
         $em->merge($curtainDesign);
@@ -114,6 +127,9 @@ class CurtainDesignController extends Controller
         $curtainDesign->setPatternRepeatLength($this->getRequest()->get('patternrepeatlength'));
         $curtainDesign->setTapeSize($this->getRequest()->get('tapesize'));
         $curtainDesign->setUrlName($this->getRequest()->get('shortname'));
+        $curtainDesign->setPosition($this->getRequest()->get('position'));
+        $curtainDesign->setDisplay($this->getRequest()->get('display'));
+        $curtainDesign->setSpecialPurchase($this->getRequest()->get('special'));
 
         $em = $this->getDoctrine()->getEntityManager();
         $em->persist($curtainDesign);

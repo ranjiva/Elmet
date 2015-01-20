@@ -14,6 +14,7 @@ $(document).ready(function() {
                     $("td[id='error_shortname']").hide();
                     $("td[id='error_name']").hide();
                     $("td[id='error_materials']").hide();
+                    $("td[id='error_position']").hide();
                  
                     var error = false;
                     var fabricWidth = $("input[id='fabricwidth']").val();
@@ -60,6 +61,14 @@ $(document).ready(function() {
                         }
                     }
                     
+                    var position = $("input[id='position']").val();
+                    
+                    if ((position == "") || (isNaN(position) == true)) {
+                        
+                        $("td[id='error_position']").show();
+                        error = true;
+                    }
+                    
                     if (error == true) {
                     
                         e.preventDefault();
@@ -78,6 +87,9 @@ $(document).ready(function() {
                 $("select[id='eyelets']").removeAttr('disabled');
                 $("input[id='fabricwidth']").removeAttr('readonly');
                 $("input[id='patternrepeatlength']").removeAttr('readonly');
+                $("input[id='position']").removeAttr('readonly');
+                $("select[id='display']").removeAttr('disabled');
+                $("select[id='special']").removeAttr('disabled');
                 $("select[id='cushionfinish']").removeAttr('disabled');
                 $("select[id='curtainfinish']").removeAttr('disabled');
                 $("td[id='new_colour']").show();
@@ -99,8 +111,11 @@ $(document).ready(function() {
                 $("select[id='eyelets']").attr('disabled', 'true');
                 $("input[id='fabricwidth']").attr('readonly', 'true');
                 $("input[id='patternrepeatlength']").attr('readonly', 'true');
+                $("input[id='position']").attr('readonly', 'true');
                 $("select[id='cushionfinish']").attr('disabled', 'true');
                 $("select[id='curtainfinish']").attr('disabled', 'true');
+                $("select[id='display']").attr('disabled', 'true');
+                $("select[id='special']").attr('disabled', 'true');
                 $("select[id='new']").attr('disabled', 'true');
                 $("td[id='new_colour']").hide();
                 $("td[id='remove_colour']").hide();

@@ -9,6 +9,7 @@ class OffersControllerTest extends WebTestCase
 
     var $curtainColours;
     var $offerColours;
+    var $displayColours;
     var $em;
     
     protected function setUp() {
@@ -37,6 +38,16 @@ class OffersControllerTest extends WebTestCase
             
             foreach($this->offerColours as $colour) {
                 $colour->setOnOffer(1);
+                $this->em->merge($colour);
+            }
+                
+            $this->em->flush();
+        }
+        
+        if ($this->displayColours != null) {
+            
+            foreach($this->displayColours as $colour) {
+                $colour->setDisplay(1);
                 $this->em->merge($colour);
             }
                 
@@ -78,7 +89,7 @@ class OffersControllerTest extends WebTestCase
     
     public function testNoOffers() {
         
-        $query = $this->em->createQuery("SELECT cc FROM ElmetSiteBundle:CurtainColour cc JOIN cc.curtain_design cd WHERE cc.on_offer = 1 and cd.url_name = 'angelina' or cd.url_name = 'concerto' or cd.url_name = 'daisy_chain'");
+        $query = $this->em->createQuery("SELECT cc FROM ElmetSiteBundle:CurtainColour cc JOIN cc.curtain_design cd WHERE cc.on_offer = 1 and (cd.url_name = 'angelina' or cd.url_name = 'concerto' or cd.url_name = 'daisy_chain')");
         $colours = $query->getResult(); 
         
         foreach($colours as $colour) {
@@ -97,6 +108,58 @@ class OffersControllerTest extends WebTestCase
         
         $this->assertTrue($crawler->filter('p:contains("Please check back soon")')->count() == 1);
 
+    }
+    
+    public function testNoOffersOnDisplay() {
+        
+        $query = $this->em->createQuery("SELECT cc FROM ElmetSiteBundle:CurtainColour cc JOIN cc.curtain_design cd WHERE cc.on_offer = 1 and (cd.url_name = 'angelina' or cd.url_name = 'concerto' or cd.url_name = 'daisy_chain')");
+        $colours = $query->getResult(); 
+        
+        foreach($colours as $colour) {
+                        
+            $colour->setDisplay(0);
+            $this->displayColours[] = $colour;
+            
+            $this->em->merge($colour);
+        }
+        
+        $this->em->flush();
+        
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/offers');
+        
+        $this->assertTrue($crawler->filter('p:contains("Please check back soon")')->count() == 1);
+
+    }
+    
+    public function testSpecialPurchase() {
+        
+        $query = $this->em->createQuery("SELECT cd FROM ElmetSiteBundle:CurtainDesign cd WHERE cd.url_name = 'zenna'");
+        $designs = $query->getResult(); 
+        
+        foreach($designs as $design) {
+                        
+            $design->setSpecialPurchase(1);
+            $this->em->merge($design);
+        }
+        
+        $this->em->flush();
+        
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/offers');
+        
+        $this->assertTrue($crawler->filter('html:contains("Zenna")')->count() > 0);
+        
+        foreach($designs as $design) {
+                        
+            $design->setSpecialPurchase(0);
+            $this->em->merge($design);
+        }
+        
+        $this->em->flush();
+        
     }
     
     public function testIndex()
@@ -118,6 +181,45 @@ class OffersControllerTest extends WebTestCase
         
         $this->assertTrue($crawler->filter('h2:contains("Concerto Ready-made (Jacquard) Curtains")')->count() > 0);
         $this->assertTrue($crawler->filter('strong:contains("Silk")')->count() > 0);
+        
+        $crawler = $client->request('GET', '/offers/select/daisy_chain/Cream');
+        
+        $this->assertTrue($crawler->filter('h2:contains("Daisy Chain Ready-made (Jacquard) Curtains")')->count() > 0);
+        $this->assertTrue($crawler->filter('p:contains("On Sale")')->count() > 0);
+        $this->assertTrue($crawler->filter('strong:contains("Cream")')->count() > 0);
+        $this->assertTrue($crawler->filter('strong:contains("Blue")')->count() > 0);
+        $this->assertTrue($crawler->filter('strong:contains("Coffee")')->count() == 0);
+        $this->assertTrue($crawler->filter('strong:contains("Rose")')->count() == 0);
+        
+        $query = $this->em->createQuery("SELECT cd FROM ElmetSiteBundle:CurtainDesign cd WHERE cd.url_name = 'daisy_chain'");
+        $designs = $query->getResult(); 
+        
+        foreach($designs as $design) {
+                        
+            $design->setSpecialPurchase(1);
+            $this->em->merge($design);
+        }
+        
+        $this->em->flush();
+        
+        $client = static::createClient();
+        
+        $crawler = $client->request('GET', '/offers/select/daisy_chain/Rose');
+        
+        $this->assertTrue($crawler->filter('h2:contains("Daisy Chain Ready-made (Jacquard) Curtains")')->count() > 0);
+        $this->assertTrue($crawler->filter('p:contains("Currently")')->count() > 0);
+        $this->assertTrue($crawler->filter('strong:contains("Cream")')->count() > 0);
+        $this->assertTrue($crawler->filter('strong:contains("Blue")')->count() > 0);
+        $this->assertTrue($crawler->filter('strong:contains("Coffee")')->count() > 0);
+        $this->assertTrue($crawler->filter('strong:contains("Rose")')->count() > 0);
+        
+        foreach($designs as $design) {
+            $design->setSpecialPurchase(0);
+            $this->em->merge($design);
+        }
+        
+        $this->em->flush();
+        
     }
 }
 

@@ -24,19 +24,19 @@
                  <td id="error_name" class="error" style="display: none; width: 100px">Name should not be empty</td>
              </tr>
              <tr>
-                 <td><label for="name">Display Image:</label>
+                 <td><label for="display">Display Image:</label>
                  <td>
                      <input type="file" id="display" name="display" readonly="readonly"/>
                  </td>
              </tr> 
              <tr>
-                 <td><label for="name">Thumb Nail Image:</label>
+                 <td><label for="thumbnail">Thumb Nail Image:</label>
                  <td>
                      <input type="file" id="thumbnail" name="thumbnail" readonly="readonly"/>
                  </td>
              </tr>
              <tr>
-                 <td><label for="name">Swatch Image:</label>
+                 <td><label for="swatch">Swatch Image:</label>
                  <td>
                      <input type="file" id="swatch" name="swatch" readonly="readonly"/>
                  </td>
@@ -91,6 +91,42 @@
                      <input type="text" id="stock" name="stock" readonly="readonly" value="{{curtainColour.availableStock}}"/>
                  </td>
                  <td id="error_available" class="error" style="display: none; width: 100px">Available stock should be numeric</td>
+             </tr>
+             <tr>
+                <td>
+                     <label for="onDisplay">Display:</label>
+                 </td>
+                 <td>
+                     {% if (onlyColourOnDisplay) %}
+                         <select name="onDisplay" id="onDisplayFixed" disabled="true">
+                         <option value="1" selected="true">Y</option>
+                         <option value="0">N</option>
+                     {% else %}
+                         <select name="onDisplay" id="onDisplay" disabled="true">
+                         
+                         {% if (curtainColour.display == 1) %}
+                             <option value="1" selected="true">Y</option>
+                         {% else %}
+                             <option value="1">Y</option>
+                         {% endif %}
+                         
+                         {% if (curtainColour.display == 0) %}
+                            <option value="0" selected="true">N</option>
+                         {% else %}
+                            <option value="0">N</option>
+                         {% endif %}    
+                                 
+                     {% endif %}
+
+                     </select> 
+                 </td>
+             </tr>
+             <tr>
+                 <td><label for="position">Display Position:</label>
+                 <td>
+                     <input type="text" id="position" name="position" readonly="readonly" value="{{curtainColour.position}}"/>
+                 </td>
+                 <td id="error_position" class="error" style="display: none; width: 100px">Position should be numeric</td>
              </tr>
              <tr>
                 <td>

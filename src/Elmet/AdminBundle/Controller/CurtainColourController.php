@@ -12,8 +12,18 @@ class CurtainColourController extends Controller
     {
          $repository = $this->getDoctrine()->getRepository('ElmetSiteBundle:CurtainColour');
          $curtainColour = $repository->findOneById($id);
+                 
+         $curtainDesign = $curtainColour->getCurtainDesign();
          
-         return $this->render('ElmetAdminBundle:CurtainColour:view.html.twig', array('curtainColour' => $curtainColour));
+         $onlyColourOnDisplay = FALSE;
+         
+         if ($curtainColour->getDisplay() == 1) {
+             if (count($curtainDesign->getCurtainColoursOnDisplay()) == 1) {
+                 $onlyColourOnDisplay = TRUE;
+             }
+         }
+         
+         return $this->render('ElmetAdminBundle:CurtainColour:view.html.twig', array('curtainColour' => $curtainColour, 'onlyColourOnDisplay' => $onlyColourOnDisplay));
     }
     
     public function newAction($id)
@@ -21,7 +31,13 @@ class CurtainColourController extends Controller
          $repository = $this->getDoctrine()->getRepository('ElmetSiteBundle:CurtainDesign');
          $curtainDesign = $repository->findOneById($id);
         
-         return $this->render('ElmetAdminBundle:CurtainColour:new.html.twig',array('curtainDesign' => $curtainDesign));
+         if (count($curtainDesign->getCurtainColours()) == 0) {
+             $firstColour = TRUE;
+         } else {
+             $firstColour = FALSE;
+         }
+         
+         return $this->render('ElmetAdminBundle:CurtainColour:new.html.twig',array('curtainDesign' => $curtainDesign, 'firstColour' => $firstColour));
     }
     
     public function updateAction()
@@ -68,12 +84,17 @@ class CurtainColourController extends Controller
             $curtainColour->setAvailableStock($availableStock);
         }
         
+        $curtainColour->setDisplay($this->getRequest()->get('onDisplay'));
+        
         $curtainColour->setOnOffer($this->getRequest()->get('onoffer'));
         
         if ($this->getRequest()->get('onoffer') == 1)
             $curtainColour->setDiscountPercentage($this->getRequest()->get('discount'));
         else
             $curtainColour->setDiscountPercentage(0);
+        
+        $curtainColour->setPosition($this->getRequest()->get('position'));
+        
         $em = $this->getDoctrine()->getEntityManager();
         $em->merge($curtainColour);
         $em->flush();
@@ -133,12 +154,20 @@ class CurtainColourController extends Controller
             $curtainColour->setAvailableStock($availableStock);
         }
         
+        if ($this->getRequest()->get('onDisplay') == null) {
+            $curtainColour->setDisplay(1);
+        } else {   
+            $curtainColour->setDisplay($this->getRequest()->get('onDisplay'));
+        }
+        
         $curtainColour->setOnOffer($this->getRequest()->get('onoffer'));
         
         if ($this->getRequest()->get('onoffer') == 1)
             $curtainColour->setDiscountPercentage($this->getRequest()->get('discount'));
         else
             $curtainColour->setDiscountPercentage(0);
+        
+        $curtainColour->setPosition($this->getRequest()->get('position'));
         
         $em = $this->getDoctrine()->getEntityManager();
         $em->persist($curtainColour);

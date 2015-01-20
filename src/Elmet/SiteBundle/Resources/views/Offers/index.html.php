@@ -55,18 +55,40 @@
   {
       echo "<div class=\"curtain-design\">";
       
-      $curtainColours = $design->getCurtainColoursOnOffer();
-
+      if ($design->getSpecialPurchase() == 1) {
+          $curtainColours = $design->getOnDisplayCurtainColoursSortedByInStockAndPosition();
+      } else {
+          $curtainColours = $design->getCurtainColoursOnOffer();
+      }
+      
+      $curtainColoursOnOffer = $design->getCurtainColoursOnOffer();
+      
+      if (empty($curtainColoursOnOffer)) {
+          $onSale = 'N';
+      } else {
+          $onSale = 'Y';
+      }
+      
       $firstColour = reset($curtainColours);
-       
-      echo "<span class=\"sale-curtain\"></span>";
+      
+      if ($design->getSpecialPurchase() == 1) {
+        echo "<span class=\"special-curtain\"></span>";
+      } else {
+        echo "<span class=\"sale-curtain\"></span>";
+      }
       
       echo "<img class=\"window-dressing-img\" SRC=\"/img/products/".$firstColour->getThumbnailFilepath()."\"></img>";
       echo "<img class=\"swatch-img\" SRC=\"/img/products/".$firstColour->getSwatchFilepath()."\"></img>";
       
       echo "<h5 class=\"curtain-design-title\">";
       echo "<a HREF=\"/offers/select/".$design->getUrlName()."/".$firstColour->getName()."\">".$design->getName()."</a>";
-      echo "<p id=\"out-of-stock\">Up To ".$design->getMaxDiscount()."% Off</p>"; 
+      
+      if( ($design->getSpecialPurchase() == 1) && ($onSale == 'Y')) {
+          echo "<p id=\"out-of-stock\">Extra Savings. Up To ".$design->getMaxDiscount()."% Off</p>";
+      } elseif ($onSale == 'Y') {
+          echo "<p id=\"out-of-stock\">Up To ".$design->getMaxDiscount()."% Off</p>";
+      }
+       
       echo "</h5>";
       echo "</div>";
   }
