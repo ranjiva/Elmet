@@ -12,6 +12,7 @@ class CurtainColourControllerTest extends WebTestCase
     var $em;
     var $repository;
     var $secondCurtainDesign;
+    var $thirdCurtainDesign;
 
     protected function setUp() {
 
@@ -95,8 +96,41 @@ class CurtainColourControllerTest extends WebTestCase
         $this->secondCurtainDesign->setDisplay("1");
         $this->secondCurtainDesign->setSpecialPurchase("0");
         
+        $this->thirdCurtainDesign = new CurtainDesign();
+        $this->thirdCurtainDesign->setCurtainPriceBand($curtainPriceBand);
+        $this->thirdCurtainDesign->setUrlName("beanetta");
+        $this->thirdCurtainDesign->setCushionFinish("Corded");
+        $this->thirdCurtainDesign->setEyeletsAvailable(1);
+        $this->thirdCurtainDesign->setFabricWidth(140);
+        $this->thirdCurtainDesign->setFinish("Fringed");
+        $this->thirdCurtainDesign->setLined(1);
+        $this->thirdCurtainDesign->setMaterials("Polyester/Cotton");
+        $this->thirdCurtainDesign->setName("Beanetta Ready Made Curtains");
+        $this->thirdCurtainDesign->setNew(1);
+        $this->thirdCurtainDesign->setPatternRepeatLength(8.00);
+        $this->thirdCurtainDesign->setTapeSize("3\"");
+        $this->thirdCurtainDesign->setPosition("0");
+        $this->thirdCurtainDesign->setDisplay("1");
+        $this->thirdCurtainDesign->setSpecialPurchase("0");
+        
+        $thirdCurtainColour = new CurtainColour();
+        $thirdCurtainColour->setName("Cream");
+        $thirdCurtainColour->setFullFilepath("beanetta/beanetta_cream.jpg");
+        $thirdCurtainColour->setThumbnailFilepath("beanetta/beanetta_cream_detail.jpg");
+        $thirdCurtainColour->setSwatchFilepath("beanetta/beanetta_cream_t.jpg");
+        $thirdCurtainColour->setBuynow(1);
+        $thirdCurtainColour->setInStock(1);
+        $thirdCurtainColour->setOnOffer(0);
+        $thirdCurtainColour->setDisplay(1);
+        $thirdCurtainColour->setPosition(1);
+        $thirdCurtainColour->setDiscountPercentage(0);
+        $thirdCurtainColour->setAvailableStock(20.0);
+        $thirdCurtainColour->setCurtainDesign($this->thirdCurtainDesign);
+        $this->thirdCurtainDesign->addCurtainColour($thirdCurtainColour);
+        
         $this->em->persist($this->curtainDesign);
         $this->em->persist($this->secondCurtainDesign);
+        $this->em->persist($this->thirdCurtainDesign);
         $this->em->flush();
     }
     
@@ -104,6 +138,7 @@ class CurtainColourControllerTest extends WebTestCase
           
         $this->em->remove($this->curtainDesign);
         $this->em->remove($this->secondCurtainDesign);
+        $this->em->remove($this->thirdCurtainDesign);
         $this->em->flush();
     }
     
@@ -244,8 +279,89 @@ class CurtainColourControllerTest extends WebTestCase
         unlink($fileRoot.'loretta/loretta_grey_detail2.jpg');
         unlink($fileRoot.'loretta/loretta_grey_t2.jpg');
    
-    }
+    } 
+    
+    public function testEditOneColour() {
+                
+        $file_full = "beanetta_grey2.jpg";
+        $fh_full = fopen($file_full, 'w');
+        fclose($fh_full);
+        
+        $file_thumb = "beanetta_grey_t2.jpg";
+        $fh_thumb = fopen($file_thumb, 'w');
+        fclose($fh_thumb);
+        
+        $file_detail = "beanetta_grey_detail2.jpg";
+        $fh_detail = fopen($file_detail, 'w');
+        fclose($fh_detail);
+ 
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'admin',
+            'PHP_AUTH_PW'   => 'adminpass'));
 
+        $curtainColour = $this->thirdCurtainDesign->getCurtainColours()->get(0);
+        
+        $client->request('GET', 'admin/curtaincolour/view/'.$curtainColour->getId());  
+        $viewCrawler = $client->followRedirect();
+        
+        $editCrawlerNode = $viewCrawler->selectButton('Save');
+        $form = $editCrawlerNode->form();
+        
+        $form['name'] = 'Grey2'; 
+        $form['instock']->select('0');
+        $form['buynow']->select('0');
+        $form['stock'] = 35.5;
+        $form['onoffer'] = 1;
+        $form['discount'] = 10;
+        $form['position'] = 10;
+        $form['display']->upload('beanetta_grey2.jpg');
+        $form['thumbnail']->upload('beanetta_grey_t2.jpg');
+        $form['swatch']->upload('beanetta_grey_detail2.jpg');
+        
+        $updateCrawler = $client->submit($form);
+        
+        $this->assertTrue($updateCrawler->filter('td')
+                                      ->reduce(function ($node, $i) {
+                                                    if (trim(preg_replace('/\s\s+/', '', $node->nodeValue)) != 'Grey2') {
+                                                        return false;
+                                                    }
+                                                })->count() == 1);
+        
+        $client2 = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'admin',
+            'PHP_AUTH_PW'   => 'adminpass'));                                        
+                                                
+        $client2->request('GET', 'admin/curtaincolour/view/'.$curtainColour->getId());  
+        $updatedViewCrawler = $client2->followRedirect();
+        
+        $this->em->refresh($curtainColour);
+        
+        $fileRoot = static::$kernel->getContainer()->getParameter('fileroot');
+             
+        $this->assertTrue($updatedViewCrawler->filter('input[name="name"]')->attr('value') == 'Grey2');
+        $this->assertTrue($updatedViewCrawler->filter('input[name="stock"]')->attr('value') == 35.5);
+        $this->assertTrue($updatedViewCrawler->filter('select[name="buynow"]')->children()->filter('option[value="0"]')->attr('selected') == 'true');
+        $this->assertTrue($updatedViewCrawler->filter('select[name="instock"]')->children()->filter('option[value="0"]')->attr('selected') == 'true');
+        $this->assertTrue($updatedViewCrawler->filter('select[name="onoffer"]')->children()->filter('option[value="1"]')->attr('selected') == 'true');
+        $this->assertTrue($updatedViewCrawler->filter('select[name="onDisplay"]')->children()->filter('option[value="1"]')->attr('selected') == 'true');
+        $this->assertTrue($updatedViewCrawler->filter('input[name="discount"]')->attr('value') == 10);
+        $this->assertTrue($updatedViewCrawler->filter('input[name="position"]')->attr('value') == 10);
+        $this->assertTrue($curtainColour->getFullFilepath() == 'beanetta/beanetta_grey2.jpg');
+        $this->assertTrue($curtainColour->getSwatchFilepath() == 'beanetta/beanetta_grey_detail2.jpg');
+        $this->assertTrue($curtainColour->getThumbnailFilepath() == 'beanetta/beanetta_grey_t2.jpg');
+        $this->assertTrue(file_exists($fileRoot.'beanetta/beanetta_grey2.jpg'));
+        $this->assertTrue(file_exists($fileRoot.'beanetta/beanetta_grey_detail2.jpg'));
+        $this->assertTrue(file_exists($fileRoot.'beanetta/beanetta_grey_t2.jpg'));
+        
+        unlink($file_full);
+        unlink($file_thumb);
+        unlink($file_detail);
+        unlink($fileRoot.'beanetta/beanetta_grey2.jpg');
+        unlink($fileRoot.'beanetta/beanetta_grey_detail2.jpg');
+        unlink($fileRoot.'beanetta/beanetta_grey_t2.jpg');
+   
+    }
+    
     public function testNewWithOffer() {
         
         $file_full = "loretta_grey2.jpg";

@@ -84,7 +84,11 @@ class CurtainColourController extends Controller
             $curtainColour->setAvailableStock($availableStock);
         }
         
-        $curtainColour->setDisplay($this->getRequest()->get('onDisplay'));
+        if ($this->getRequest()->get('onDisplay') == null) {
+            $curtainColour->setDisplay(1);
+        } else {   
+            $curtainColour->setDisplay($this->getRequest()->get('onDisplay'));
+        }
         
         $curtainColour->setOnOffer($this->getRequest()->get('onoffer'));
         

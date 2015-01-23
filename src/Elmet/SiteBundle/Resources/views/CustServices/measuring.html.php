@@ -82,7 +82,7 @@
 <ul>
     <li>If the curtain is to be hung on a track then we recommend that the drop is measured from the very top of the track to the point where you want the bottom of the curtain to finish. This allows the curtain to obscure the track when it is hung.</li>
     <li>If the curtain is to be hung on a pole using curtain hooks then we recommend that the drop is measured from the eye at the bottom of the curtain ring to where you want the bottom of the curtain to finish. This means that the curtain pole and rings will be visible when the curtain is hung.</li>
-    <li>If the curtain is to be hung using eyelets, then we recommend that the drop is measured from the very top of the pole to where you want the bottom of the curtain to finish. Eyelets tend to lift the curtain by 1 – 1.5cm above the pole and so you may want to add this onto the drop to compensate.</li>
+    <li>If the curtain is to be hung using eyelets, then we recommend that the drop is measured from the very top of the pole to where you want the bottom of the curtain to finish.</li>
     <li>We recommend that floor length curtains finish about 1 – 1.5cm (0.5”) above the floor.</li>
     <li>Some floors are uneven and so when measuring drops for floor length curtains, we recommend that you measure the drop at 3 points, along the span of the curtain track/pole and take the smallest. This will prevent curtains from dragging on the floor.</li>
 </ul>
