@@ -225,4 +225,24 @@ ElmetAdminBundle_delivery_view_page:
 ElmetAdminBundle_delivery_update_page:
     pattern:  /delivery/update
     defaults: { _controller: ElmetAdminBundle:Delivery:update }
+
+ElmetAdminBundle_simple_order_tracking_view_page:
+    pattern:  /simpleordertracking/view
+    defaults: { _controller: ElmetAdminBundle:SimpleOrderTracking:view }
+
+ElmetAdminBundle_simple_order_tracking_email_page:
+    pattern:  /simpleordertracking/email/{id}
+    defaults: { _controller: ElmetAdminBundle:SimpleOrderTracking:email }
+
+ElmetAdminBundle_simple_order_tracking_dispatch_page:
+    pattern:  /simpleordertracking/dispatch/{id}
+    defaults: { _controller: ElmetAdminBundle:SimpleOrderTracking:dispatch }
+
+ElmetAdminBundle_simple_order_tracking_cancel_page:
+    pattern:  /simpleordertracking/cancel/{id}
+    defaults: { _controller: ElmetAdminBundle:SimpleOrderTracking:cancel }
+
+ElmetAdminBundle_simple_order_tracking_send_page:
+    pattern:  /simpleordertracking/send
+    defaults: { _controller: ElmetAdminBundle:SimpleOrderTracking:send }
     

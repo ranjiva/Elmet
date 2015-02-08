@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>Send Dispatch Email</title>
+        <script type="text/javascript" src="/js/jquery.js"></script>
+        <script type="text/javascript" src="/js/datepickr.js"></script>
+        <script type="text/javascript" src="/js/dispatch.js"></script>
+        <link href="/css/admin.css" rel="stylesheet" type="text/css" />
+        <link href="/css/datepickr.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <form method="post" action="/admin/simpleordertracking/send" style="width: 500px">
+             <input type="hidden" name="id" value="{{trackingDetail.id}}"/>
+             <table style="width: 500px">
+                 <tr>
+                     <td>Delivery Name:</td>
+                     <td>
+                         {{trackingDetail.order.deliveryName}}
+                     </td>
+                 </tr>
+                 <tr>
+                     <td>Delivery Address:</td>
+                     <td>
+                         {{trackingDetail.order.deliveryAddress}}<br/>
+                         {% if trackingDetail.order.deliveryAddress2 != null %}
+                            {{trackingDetail.order.deliveryAddress2}}<br/>
+                         {% endif %}
+                         {{trackingDetail.order.deliveryTown}}<br/>
+                         {{trackingDetail.order.deliveryPostcode}}<br/>
+                     </td>
+                 </tr> 
+                 <tr>
+                     <td>Tracking Number:</td>
+                     <td>
+                         <input type="text" name="trackingnumber" id="trackingnumber"/>
+                         <td id="error_trackingnumber" class="error" style="display: none; width: 100px">Tracking number should not be empty</td>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td>Dispatch Date:</td>
+                     <td><input type=text" name="dispatchdate" id="datepick" readonly="true"/></td>
+                 </tr>
+             </table>
+             <br/><input id="submit" name="submit" class="submitAll" type="submit" value="Send"/>
+        </form>
+    </body>
+</html>
